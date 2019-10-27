@@ -4,31 +4,31 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return "TODO: INDEX PAGE"
+    return render_template('index.html')
 
 @app.route('/about')
 def about():
-    return "TODO: ABOUT PAGE"
+    return render_template('about.html')
 
 @app.route('/benson')
 def benson():
-    return "TODO: BENSON"
+    return render_template('benson.html')
 
 @app.route('/luther')
 def luther():
-    return "TODO: LUTHER"
+    return render_template('luther.html')
 
 @app.route('/mcnulty')
 def mcnulty():
-    return "TODO: MCNULTY"
+    return render_template('mcnulty.html')
 
 @app.route('/fletcher')
 def fletcher():
-    return "TODO: FLETCHER"
+    return render_template('fletcher.html')
 
 @app.route('/kojak')
 def kojak():
-    return "TODO: KOJAK"
+    return render_template('kojak.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
