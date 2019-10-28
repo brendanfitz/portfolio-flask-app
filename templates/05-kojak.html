@@ -16,7 +16,7 @@
       So to give a little background, in the Harry Potter Universe, there is a school where students are grouped into four houses.
       Each house is associated with certain traits. A few word clouds demonstrating this courtesy of <a href="https://www.theodysseyonline.com/stephens-college-programs-harry-potter-houses">Kalynn Coy</a>.
     </p>
-    <p><img src="./kojak_files/houseClouds.PNG" alt="houseClouds"></p>
+    <p><img src="{{ url_for('static', filename='05-kojak/houseClouds.png') }}" alt="houseClouds"></p>
     <p>
       Each child is placed in their relevant house through a process where a magic hat is placed on the students head, which reads the child’s thoughts and memories as well as their own house preference, to determine which house that child should be in.
       Many people have tried to develop their own method of sorting people into houses, but most Harry Potter Sorting Hat approaches have just been glorifed Myers-Briggs, as this <a href="https://www.buzzfeed.com/lizat4826a09c6/find-our-your-true-hogwarts-house-based-on-your-me-1ebzy">Buzzfeed article</a> demonstrates.
@@ -36,10 +36,10 @@
 
     <h2 id="analysis">Analysis</h2>
     <p>My first attempt at parsing the data was through frequency of house mentions in the books.</p>
-    <p><img src="./kojak_files/frequencyByHouse.png" alt="frequencyByHouse"></p>
+    <p><img src="{{ url_for('static', filename='05-kojak/frequencyByHouse.png') }}" alt="frequencyByHouse"></p>
     <p>As expected, Gryffindor and Slytherin were the most frequently mentioned houses.
     Additionally, I ran sentiment analysis on the house mentions.</p>
-    <p><img src="./kojak_files/sentimentByHouse.png" alt="sentimentByHouse"></p>
+    <p><img src="{{ url_for('static', filename='05-kojak/sentimentByHouse.png') }}" alt="sentimentByHouse"></p>
     <p>
       After I filled by interpolation and smoothed by a rolling mean to get a general sense of how the houses were discussed throughout the book.
       Gryffindor has the highest polarity and Slytherin has the lowest, except for when the Hufflepuff cup is being discussed and at the end of book seven when a character of Hufflepuff sadly passes away.
@@ -48,13 +48,13 @@
       For my model, similiar to my Kickstarter project, I used TFIDF to find word weights.
       I then used Non-Negative Matrix Factorization to develop topics and labeled these topics into one of six categories: the four houses, muggle, or undetermined. Below is an example of a few of the topics.
     </p>
-    <p><img src="./kojak_files/houseTopics.PNG" alt="houseTopics"></p>
+    <p><img src="{{ url_for('static', filename='05-kojak/houseTopics.png') }}" alt="houseTopics"></p>
     <p>
       Finally, I designed a recommender system that took in a person’s biography and used cosine similiarity to find the most relevant topic cluster.
       This video is a demonstration of that in action (it also answers the eternal question: which house would Kanye be in?).
     </p>
 
-    <p><a href="http://www.youtube.com/watch?feature=player_embedded&amp;v=5gd_2VGFW4E" target="_blank"><img src="./kojak_files/0.jpg" alt="Sorting Hat Video" width="240" height="180" border="10"></a></p>
+    <p><a href="http://www.youtube.com/watch?feature=player_embedded&amp;v=5gd_2VGFW4E" target="_blank">Video Here</a></p>
 
     <h2 id="takeaways">Takeaways</h2>
     <ul>
@@ -68,10 +68,10 @@
     </ul>
 
     <p>Thanks for reading!</p>
-    
-  <div class="date">
-    Written on September 14, 2017
-  </div>
+
+    <div class="date">
+      Written on September 14, 2017
+    </div>
 
   </div>
 

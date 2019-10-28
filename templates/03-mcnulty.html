@@ -14,15 +14,15 @@
       Lending Club is a peer-to-peer lending marketplace.
       It offers loans instruments available in increments as low as $25.
     </p>
-    <p><img src="./mcnulty_files/lendingClubInterface.png" alt="lendingClubInterface"></p>
+    <p><img src="{{ url_for('static', filename='03-mcnulty/lendingClubInterface.png') }}" alt="lendingClubInterface"></p>
     <p>
       Lenders on the site are both individual and institutional investors.
       Credit grades for borrowers are assigned by Lending Club.
       These credit grades then determine their interest rates.
     </p>
-    <p><img src="./mcnulty_files/interestRatesByGrade.png" alt="interestRatesByGrade"></p>
+    <p><img src="{{ url_for('static', filename='03-mcnulty/interestRatesByGrade.png') }}" alt="interestRatesByGrade"></p>
     <p>As a comparison, here are is Barclays Capital’s US Corporate Bond Index, which we can use a benchmark for conservative investments.</p>
-    <p><img src="./mcnulty_files/usCorporateIndex.png" alt="usCorporateIndex"></p>
+    <p><img src="{{ url_for('static', filename='03-mcnulty/usCorporateIndex.png') }}" alt="usCorporateIndex"></p>
 
     <h2 id="the-dataset">The DataSet</h2>
     <p>
@@ -31,13 +31,13 @@
       The final data set had ~300k points.
       The loans were given for a wide variety of reasons.
     </p>
-    <p><img src="./mcnulty_files/loanTypePieChart.png" alt="loanTypePieChart"></p>
+    <p><img src="{{ url_for('static', filename='03-mcnulty/loanTypePieChart.png') }}" alt="loanTypePieChart"></p>
     <p>There are two term lengths for loans, 36 months and 60 months, with the majority being in the former category.</p>
-    <p><img src="./mcnulty_files/termHistogram.png" alt="termHistogram"></p>
+    <p><img src="{{ url_for('static', filename='03-mcnulty/termHistogram.png') }}" alt="termHistogram"></p>
     <p>Geographic distribution was across the country, but clustered around coastal areas.</p>
-    <p><img src="./mcnulty_files/loanByState.png" alt="loanByState"></p>
+    <p><img src="{{ url_for('static', filename='03-mcnulty/loanByState.png') }}" alt="loanByState"></p>
     <p>Defaults were similiarly distributed.</p>
-    <p><img src="./mcnulty_files/defaultsByState.png" alt="defaultsByState"></p>
+    <p><img src="{{ url_for('static', filename='03-mcnulty/defaultsByState.png') }}" alt="defaultsByState"></p>
 
     <h2 id="analysis">Analysis</h2>
     <p>
@@ -47,7 +47,7 @@
       For each data point classification algorithms we have four different potential outcomes as shown by the below confusion matrix from
       <a href="https://www.mathworks.com/matlabcentral/fileexchange/60900-multi-class-confusion-matrix">MathWorks.com</a>.
     </p>
-    <p><img src="./mcnulty_files/screenshot.png" alt="confusionMatrix"></p>
+    <p><img src="{{ url_for('static', filename='03-mcnulty/screenshot.png') }}" alt="confusionMatrix"></p>
     <p><strong>Precision</strong> is defined as:</p>
     <div class="highlighter-rouge">
       <div class="highlight">
@@ -69,9 +69,9 @@
       For our purposes, we will label positives as defaults and negatives as non-defaults.
       As we can see from the initial scores, logistic regression and naive bayes were giving us the best accuracy.
     </p>
-    <p><img src="./mcnulty_files/initialScores.png" alt="initialScores"></p>
+    <p><img src="{{ url_for('static', filename='03-mcnulty/initialScores.png') }}" alt="initialScores"></p>
     <p>This chart shows which features are dictating the models predictions.</p>
-    <p><img src="./mcnulty_files/featureImportance.png" alt="featureImportance"></p>
+    <p><img src="{{ url_for('static', filename='03-mcnulty/featureImportance.png') }}" alt="featureImportance"></p>
     <p>
       The problem we see is that our models are basically predicting non-defaults for all loans, as shown by the low recall.
       However, investing in a default is much more costly then not investing in a non-default, so we really want to mimimize recall.
@@ -79,13 +79,13 @@
       This way we will predict more defaults to lower our risk of a bad investment.
       After doing so here are our updated scores:
     </p>
-    <p><img src="./mcnulty_files/recallThresholdOptimization.png" alt="recallThresholdOptimization"></p>
+    <p><img src="{{ url_for('static', filename='03-mcnulty/recallThresholdOptimization.png') }}" alt="recallThresholdOptimization"></p>
     <p>
       We see that now decision trees and random forest our the best models in consideration of the highest recall scores.
       However, we can also try to balance this optimization by doing so in the context of the f1 scores.
       If we do so we get a more balanced model as shown below.
     </p>
-    <p><img src="./mcnulty_files/f1Optimization.png" alt="f1Optimization"></p>
+    <p><img src="{{ url_for('static', filename='03-mcnulty/f1Optimization.png') }}" alt="f1Optimization"></p>
 
     <h2 id="takeaways">Takeaways</h2>
     <ul>
@@ -115,7 +115,7 @@
     </ul>
 
     <p>Thanks for reading!</p>
-    
+
     <div class="date">
       Written on August  2, 2017
     </div>

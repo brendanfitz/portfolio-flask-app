@@ -37,19 +37,19 @@
       Our first step was to visualize the data to get a good idea of any patterns that might emerge.
       We found the <a href="https://matplotlib.org/basemap/">basemaps</a> module found in Matplotlib, but unfortunately, as shown below, it turned out looking more like a modern art painting than a data visualization.
     </p>
-    <p><img src="./benson_files/basemaps.png" alt="basemaps"></p>
+    <p><img src="{{ url_for('static', filename='01-benson/basemaps.png') }}" alt="basemaps"></p>
     <p>Thankfully, we then came upon the <a href="https://github.com/pbugnion/gmaps"><code class="highlighter-rouge">Gmaps</code></a> python module to visual the layout of these companies.</p>
     <p>
-      <img src="./benson_files/techCompanyNYCGeo.png" alt="NYC_Tech_Company&#39;s_Geographic_Layout"></p>
+      <img src="{{ url_for('static', filename='01-benson/techCompanyNYCGeo.png') }}" alt="NYC_Tech_Company&#39;s_Geographic_Layout"></p>
     <p>
       We then layed out a plot of the busiest subway stations in the city.
     </p>
     <p>
-      <img src="./benson_files/subwayStationNYCGeo.png" alt="NYC_Subway Stations_Geographic_Layout">
+      <img src="{{ url_for('static', filename='01-benson/subwayStationNYCGeo.png') }}" alt="NYC_Subway Stations_Geographic_Layout">
     </p>
     <p>And then overlayed the two.</p>
     <p>
-      <img src="./benson_files/techCompanySubwayStationOverlay.png" alt="NYC_Subway_Station_and_Tech_Companys_Geographic_Overlay">
+      <img src="{{ url_for('static', filename='01-benson/techCompanySubwayStationOverlay.png') }}" alt="NYC_Subway_Station_and_Tech_Companys_Geographic_Overlay">
     </p>
     <p>
       Finding that many of the busy subway stations were already around many of the tech companies in NYC, our next objective was to identify the busiest subway times.</p>
@@ -63,9 +63,9 @@
       <li><strong>Block 6</strong> - 20:00 to 02:00</li>
     </ul>
     <p>Below is a boxplot of the average proportion of entries per time block.</p>
-    <p><img src="./benson_files/subwayEntriesBoxplot.png" alt="Subway_Boxplot"></p>
+    <p><img src="{{ url_for('static', filename='01-benson/subwayEntriesBoxplot.png') }}" alt="Subway_Boxplot"></p>
     <p>Finally this resulted in our recommendation for the best stations according to the below chart.</p>
-    <p><img src="./benson_files/finalRecommendations.png" alt="Subway Boxplot"></p>
+    <p><img src="{{ url_for('static', filename='01-benson/finalRecommendations.png') }}" alt="Subway Boxplot"></p>
 
     <h2 id="takeaways">Takeaways</h2>
     <ul>
