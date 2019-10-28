@@ -1,5 +1,132 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <h1>Luther Page: TODO</h1>
+  <div class="wrapper-masthead">
+      <div class="container">
+        <header class="masthead clearfix">
+          <a href="https://bfitzpa5.github.io/" class="site-avatar"><img src="./luther_files/16431716"></a>
+
+          <div class="site-info">
+            <h1 class="site-name"><a href="https://bfitzpa5.github.io/">Brendan Fitzpatrick</a></h1>
+            <p class="site-description">Data Scientist for hire; Certificate of Quantitative Students for Finance at Columbia; Notre Dame Grad</p>
+          </div>
+
+          <nav>
+            <a href="https://bfitzpa5.github.io/">Blog</a>
+            <a href="https://bfitzpa5.github.io/about">About</a>
+          </nav>
+        </header>
+      </div>
+    </div>
+
+    <div id="main" role="main" class="container">
+      <article class="post">
+  <h1>Forecasting Films: Predicting Opening Weekend Success</h1>
+
+  <div class="entry">
+    <p>For our second project, we were tasked with building a linear regression model using information scraped from the web.
+I choose to analyze the relationship between opening weekend movie revenue and economic and political indicators.</p>
+
+<p>The buisness application of this project is that opening weekend revenue accounts for 37% of domestic total revenue.
+Being able to contextualize releases by the current economic and political situations would enable movie producers to better estimate expected returns.</p>
+
+<h2 id="dataset">DataSet</h2>
+
+<p>For this project, I first scraped 100 largest grossing domestic films from each year between 1980 and 2017 from <a href="http://www.boxofficemojo.com/">BoxOfficeMojo</a> to obtain opening weekend gross revenue.</p>
+
+<p>I then choose some commonly used economic and political indicators, adjusted for inflation using the Consumer Price Index:</p>
+
+<ul>
+  <li>Presidential Approval Rating: The American Presidency Project</li>
+  <li>Federal Voter Turnout Rate: United States Elections Project</li>
+  <li>Real US GDP: Federal Bank of St. Louis</li>
+  <li>Consumer Confidence Index:  Organisation for Economic Co-operation and Development (OECD)</li>
+  <li>Unemployment Rate: Bureau of Labor Statistics</li>
+</ul>
+
+<p>The next challenge was to determine the scale to use for each statistic, since each of these has different time frame for when it is reflected.
+To do so, I used rolling means per the below chart.</p>
+
+<p><img src="./luther_files/rollingMeans.PNG" alt="rollingMeans"></p>
+
+<h2 id="analysis">Analysis</h2>
+
+<p>After having collected the data, I ran an initial regression with all data points included.</p>
+
+<p><img src="./luther_files/firstRegressionStats.png" alt="firstRegressionStats"></p>
+
+<p>This left a pretty low R-squared of 0.047.
+When we delved deeper into the data it become apparent that there wasn’t much correlation going on between the economic and political indicators and the opening weekend revenue.</p>
+
+<p><img src="./luther_files/correlations.png" alt="correlations"></p>
+
+<p>To visualize this, below are a few plots.</p>
+
+<p><img src="./luther_files/openingGrossvsGDP.png" alt="openingGrossvsGDP"></p>
+
+<p><img src="./luther_files/openingGrossvsCCI.png" alt="openingGrossvsCCI"></p>
+
+<p><img src="./luther_files/openingGrossvsUnemployment.png" alt="openingGrossvsUnemployment"></p>
+
+<p><img src="./luther_files/openingGrossvsApproval.png" alt="openingGrossvsApproval"></p>
+
+<p><img src="./luther_files/openGrossvsVoterTurnout.png" alt="openGrossvsVoterTurnout"></p>
+
+<p>It seems that people attend the movies irregardless of the political and economic situation.
+Although this isn’t a completely suprising conclusion, it was interesting to see this reflected in the data.</p>
+
+<h2 id="further-improvements">Further Improvements</h2>
+
+<p>Since we weren’t able to find any patterns from the economic and political indicators and opening weekend gross revenue, the question arose, what is determinant of this statistic?
+To find out, I rescraped box office mojo for some additional data related to films.
+If we look at the relationship between opening weekend gross revenue and shared releases, a clearer pattern starts to emerge:</p>
+
+<p><img src="./luther_files/openGrossvsSharedReleases.png" alt="openGrossvsSharedReleases"></p>
+
+<p>Here is opening weekend gross revenue and production budget:</p>
+
+<p><img src="./luther_files/openingGrossvsProductionBudget.png" alt="openingGrossvsProductionBudget"></p>
+
+<p>And finally, opening weekend gross revenue and the widest release by number of theaters:</p>
+
+<p><img src="./luther_files/openGrossvsWidestRelease.png" alt="openGrossvsWidestRelease"></p>
+
+<p>Clearly, more traditional movie metrics are more determinant of the opening weekend gross revenue for a film.
+Using this data I designed an initial second regression as shown below.</p>
+
+<p><img src="./luther_files/secondRegression.png" alt="secondRegression"></p>
+
+<p>The R-squared from this data shows it is much more explanatory.</p>
+
+<h2 id="takeways">Takeways</h2>
+
+<ul>
+  <li>
+    <p><strong><em>Domain Knowledge</em></strong>
+Although this project wasn’t a huge success, it showed me the importance of having a strong hypthesis before starting a data science project.
+When I initial designed it, I just had a very general idea; I didn’t use any domain knowledge.
+Instead, I have realized how important it is to instead really think through whether a relationship exists.</p>
+  </li>
+  <li>
+    <p><strong><em>Budgeting Time</em></strong>
+I spent a bit too much time pulling the economic and political dataset, which left me with less time for analysis.
+A big lesson here was that you have to keep your head up and realize if gathering the data is taking too much time
+It is important to slot extra time for analysis, since there might be additional problems there you might not see coming!</p>
+  </li>
+  <li>
+    <p><strong><em>Patience</em></strong>
+Finally, a big part of this project was how humbling it was.
+Being a data scientist will definitely be hard work, and it won’t come over night.
+A lot of the initial experience will be getting through projects like this, where it’s a bit of a struggle.
+During these times, it important to use them as opportunities to learn a lot.</p>
+  </li>
+</ul>
+
+<p>Thanks for reading!</p>
+
+  </div>
+
+  <div class="date">
+    Written on July 14, 2017
+  </div>
 {% endblock %}
