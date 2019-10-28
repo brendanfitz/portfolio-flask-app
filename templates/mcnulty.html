@@ -1,140 +1,126 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <div class="wrapper-masthead">
-      <div class="container">
-        <header class="masthead clearfix">
-          <a href="https://bfitzpa5.github.io/" class="site-avatar"><img src="./mcnulty_files/16431716"></a>
+  <div class="container">
+    <h1>Cracking the Club’s Code : Predicting LendingClub Default Rates</h1>
+    <p>
+      For our third project, we were tasked with analyzing data from the web (API or scraped) using supervised learning techniques.
+      For my dataset, I choose the <a href="https://www.kaggle.com/wendykan/lending-club-loan-data">Kaggle Lending Club Loan Data</a>.
+      My objective was to design a model that predicted whether or not a borrower would default based on Lending Club’s publicly available data.
+    </p>
 
-          <div class="site-info">
-            <h1 class="site-name"><a href="https://bfitzpa5.github.io/">Brendan Fitzpatrick</a></h1>
-            <p class="site-description">Data Scientist for hire; Certificate of Quantitative Students for Finance at Columbia; Notre Dame Grad</p>
-          </div>
+    <h2 id="background">Background</h2>
+    <p>
+      Lending Club is a peer-to-peer lending marketplace.
+      It offers loans instruments available in increments as low as $25.
+    </p>
+    <p><img src="./mcnulty_files/lendingClubInterface.png" alt="lendingClubInterface"></p>
+    <p>
+      Lenders on the site are both individual and institutional investors.
+      Credit grades for borrowers are assigned by Lending Club.
+      These credit grades then determine their interest rates.
+    </p>
+    <p><img src="./mcnulty_files/interestRatesByGrade.png" alt="interestRatesByGrade"></p>
+    <p>As a comparison, here are is Barclays Capital’s US Corporate Bond Index, which we can use a benchmark for conservative investments.</p>
+    <p><img src="./mcnulty_files/usCorporateIndex.png" alt="usCorporateIndex"></p>
 
-          <nav>
-            <a href="https://bfitzpa5.github.io/">Blog</a>
-            <a href="https://bfitzpa5.github.io/about">About</a>
-          </nav>
-        </header>
+    <h2 id="the-dataset">The DataSet</h2>
+    <p>
+      The original data set included ~900k points.
+      To get a more manageable dataset, I filtered to include individual loans only, which are compliant with current lending club policy.
+      The final data set had ~300k points.
+      The loans were given for a wide variety of reasons.
+    </p>
+    <p><img src="./mcnulty_files/loanTypePieChart.png" alt="loanTypePieChart"></p>
+    <p>There are two term lengths for loans, 36 months and 60 months, with the majority being in the former category.</p>
+    <p><img src="./mcnulty_files/termHistogram.png" alt="termHistogram"></p>
+    <p>Geographic distribution was across the country, but clustered around coastal areas.</p>
+    <p><img src="./mcnulty_files/loanByState.png" alt="loanByState"></p>
+    <p>Defaults were similiarly distributed.</p>
+    <p><img src="./mcnulty_files/defaultsByState.png" alt="defaultsByState"></p>
+
+    <h2 id="analysis">Analysis</h2>
+    <p>
+      For my initial model, I initially choose to run five different classification algorithms on the cleaned data: logistic regression, naive bayes, decision tree, random forest and k-nearest neighbors.
+      I choose not to run a support vector machine as it was very costly.
+      To gauge the success of each of these algorithms, we need a few metrics.
+      For each data point classification algorithms we have four different potential outcomes as shown by the below confusion matrix from
+      <a href="https://www.mathworks.com/matlabcentral/fileexchange/60900-multi-class-confusion-matrix">MathWorks.com</a>.
+    </p>
+    <p><img src="./mcnulty_files/screenshot.png" alt="confusionMatrix"></p>
+    <p><strong>Precision</strong> is defined as:</p>
+    <div class="highlighter-rouge">
+      <div class="highlight">
+        <pre class="highlight">
+          <code>true positives / total number of positives predicted</code>
+        </pre>
       </div>
     </div>
+    <p><strong>Recall</strong> is defined as:</p>
+    <div class="highlighter-rouge">
+      <div class="highlight">
+        <pre class="highlight">
+          <code>true positives / total number of actual positives</code>
+        </pre>
+      </div>
+    </div>
+    <p>
+      <a href="https://upload.wikimedia.org/wikipedia/commons/thumb/2/26/Precisionrecall.svg/350px-Precisionrecall.svg.png">Wikipedia</a> has a nice visualization of these two value.
+      For our purposes, we will label positives as defaults and negatives as non-defaults.
+      As we can see from the initial scores, logistic regression and naive bayes were giving us the best accuracy.
+    </p>
+    <p><img src="./mcnulty_files/initialScores.png" alt="initialScores"></p>
+    <p>This chart shows which features are dictating the models predictions.</p>
+    <p><img src="./mcnulty_files/featureImportance.png" alt="featureImportance"></p>
+    <p>
+      The problem we see is that our models are basically predicting non-defaults for all loans, as shown by the low recall.
+      However, investing in a default is much more costly then not investing in a non-default, so we really want to mimimize recall.
+      To do so, we want to optimize recall by setting our threshold for positives lower.
+      This way we will predict more defaults to lower our risk of a bad investment.
+      After doing so here are our updated scores:
+    </p>
+    <p><img src="./mcnulty_files/recallThresholdOptimization.png" alt="recallThresholdOptimization"></p>
+    <p>
+      We see that now decision trees and random forest our the best models in consideration of the highest recall scores.
+      However, we can also try to balance this optimization by doing so in the context of the f1 scores.
+      If we do so we get a more balanced model as shown below.
+    </p>
+    <p><img src="./mcnulty_files/f1Optimization.png" alt="f1Optimization"></p>
 
-    <div id="main" role="main" class="container">
-      <article class="post">
-  <h1>Cracking the Club’s Code : Predicting LendingClub Default Rates</h1>
+    <h2 id="takeaways">Takeaways</h2>
+    <ul>
+      <li>
+        <p>
+          <strong><em>Knowing Your Model</em></strong>
+          A big part of this project was figuring out what to do with my classification models.
+          By spending a lot of time learning the above metrics, I was able to strategize what implementations would best serve my goals.
+        </p>
+      </li>
+      <li>
+        <p>
+          <strong><em>Having Reasonable Project Goals</em></strong>
+          As I struggled a bit with my movie regression, I realized that its important to not try to reinvent the wheel with my first few data science projects.
+          With this project, I choose a cleaner dataset, which enabled me to spend more time on my analysis.
+          Even though I didn’t make any mind blowing revelations from this data, I learned a lot about classification algorithms.
+        </p>
+      </li>
+      <li>
+        <p>
+          <strong><em>Future Improvements</em></strong>
+          This was a decent result compared to other projects but again there is still a lot to improve.
+          I hope to get a flask app up that will allow some to input a borrowers information and give back a determinantion of default or not.
+          I also hope to put together a D3 visualization of this data.
+        </p>
+      </li>
+    </ul>
 
-  <div class="entry">
-    <p>For our third project, we were tasked with analyzing data from the web (API or scraped) using supervised learning techniques.
-For my dataset, I choose the <a href="https://www.kaggle.com/wendykan/lending-club-loan-data">Kaggle Lending Club Loan Data</a>.
-My objective was to design a model that predicted whether or not a borrower would default based on Lending Club’s publicly available data.</p>
-
-<h2 id="background">Background</h2>
-
-<p>Lending Club is a peer-to-peer lending marketplace.
-It offers loans instruments available in increments as low as $25.</p>
-
-<p><img src="./mcnulty_files/lendingClubInterface.png" alt="lendingClubInterface"></p>
-
-<p>Lenders on the site are both individual and institutional investors
-Credit grades for borrowers are assigned by Lending Club.
-These credit grades then determine their interest rates.</p>
-
-<p><img src="./mcnulty_files/interestRatesByGrade.png" alt="interestRatesByGrade"></p>
-
-<p>As a comparison, here are is Barclays Capital’s US Corporate Bond Index, which we can use a benchmark for conservative investments.</p>
-
-<p><img src="./mcnulty_files/usCorporateIndex.png" alt="usCorporateIndex"></p>
-
-<h2 id="the-dataset">The DataSet</h2>
-
-<p>The original data set included ~900k points. To get a more manageable dataset, I filtered to include individual loans only, which are compliant with current lending club policy.
-The final data set had ~300k points.
-The loans were given for a wide variety of reasons.</p>
-
-<p><img src="./mcnulty_files/loanTypePieChart.png" alt="loanTypePieChart"></p>
-
-<p>There are two term lengths for loans, 36 months and 60 months, with the majority being in the former category.</p>
-
-<p><img src="./mcnulty_files/termHistogram.png" alt="termHistogram"></p>
-
-<p>Geographic distribution was across the country, but clustered around coastal areas.</p>
-
-<p><img src="./mcnulty_files/loanByState.png" alt="loanByState"></p>
-
-<p>Defaults were similiarly distributed.</p>
-
-<p><img src="./mcnulty_files/defaultsByState.png" alt="defaultsByState"></p>
-
-<h2 id="analysis">Analysis</h2>
-
-<p>For my initial, I initially choose to run five different classification algorithms on the cleaned data: logistic regression, naive bayes, decision tree, random forest and k-nearest neighbors.
-I choose not to run a support vector machine as it was very costly.
-To gauge the success of each of these algorithms, we need a few metrics.
-For each data point classification algorithms we have four different potential outcomes as shown by the below confusion matrix from <a href="https://www.mathworks.com/matlabcentral/fileexchange/60900-multi-class-confusion-matrix">MathWorks.com</a>.</p>
-
-<p><img src="./mcnulty_files/screenshot.png" alt="confusionMatrix"></p>
-
-<p><strong>Precision</strong> is defined as:</p>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>true positives / total number of positives predicted
-</code></pre></div></div>
-
-<p><strong>Recall</strong> is defined as:</p>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>true positives / total number of actual positives
-</code></pre></div></div>
-<p><a href="https://upload.wikimedia.org/wikipedia/commons/thumb/2/26/Precisionrecall.svg/350px-Precisionrecall.svg.png">Wikipedia</a> has a nice visualization of these two value.
-For our purposes, we will label positives as defaults and negatives as non-defaults.
-As we can see from the initial scores, logistic regression and naive bayes were giving us the best accuracy.</p>
-
-<p><img src="./mcnulty_files/initialScores.png" alt="initialScores"></p>
-
-<p>This chart shows which features are dictating the models predictions.</p>
-
-<p><img src="./mcnulty_files/featureImportance.png" alt="featureImportance"></p>
-
-<p>The problem we see is that our models are basically predicting non-defaults for all loans, as shown by the low recall.
-However, investing in a default is much more costly then not investing in a non-default, so we really want to mimimize recall.
-To do so, we want to optimize recall by setting our threshold for positives lower.
-This way we will predict more defaults to lower our risk of a bad investment.
-After doing so here are our updated scores:</p>
-
-<p><img src="./mcnulty_files/recallThresholdOptimization.png" alt="recallThresholdOptimization"></p>
-
-<p>We see that now decision trees and random forest our the best models in consideration of the highest recall scores.
-However, we can also try to balance this optimization by doing so in the context of the f1 scores.
-If we do so we get a more balanced model as shown below.</p>
-
-<p><img src="./mcnulty_files/f1Optimization.png" alt="f1Optimization"></p>
-
-<h2 id="takeaways">Takeaways</h2>
-
-<ul>
-  <li>
-    <p><strong><em>Knowing Your Model</em></strong>
-A big part of this project was figuring out what to do with my classification models.
-By spending a lot of time learning the above metrics, I was able to strategize what implementations would best serve my goals.</p>
-  </li>
-  <li>
-    <p><strong><em>Having Reasonable Project Goals</em></strong>
-As I struggled a bit with my movie regression, I realized that its important to not try to reinvent the wheel with my first few data science projects.
-With this project, I choose a cleaner dataset, which enabled me to spend more time on my analysis.
-Even though I didn’t make any mind blowing revelations from this data, I learned a lot about classification algorithms.</p>
-  </li>
-  <li>
-    <p><strong><em>Future Improvements</em></strong>
-This was a decent result compared to other projects but again there is still a lot to improve.
-I hope to get a flask app up that will allow some to input a borrowers information and give back a determinantion of default or not.
-I also hope to put together a D3 visualization of this data.</p>
-  </li>
-</ul>
-
-<p>Thanks for reading!</p>
+    <p>Thanks for reading!</p>
+    
+    <div class="date">
+      Written on August  2, 2017
+    </div>
 
   </div>
 
-  <div class="date">
-    Written on August  2, 2017
-  </div>
 
 {% endblock %}

@@ -1,91 +1,79 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <div class="wrapper-masthead">
-      <div class="container">
-        <header class="masthead clearfix">
-          <a href="https://bfitzpa5.github.io/" class="site-avatar"><img src="./kojak_files/16431716"></a>
+    <div class="container">
+      <h1>Magic Through Machine Learning: Recommending Hogwarts Houses using NLP Analysis</h1>
 
-          <div class="site-info">
-            <h1 class="site-name"><a href="https://bfitzpa5.github.io/">Brendan Fitzpatrick</a></h1>
-            <p class="site-description">Data Scientist for hire; Certificate of Quantitative Students for Finance at Columbia; Notre Dame Grad</p>
-          </div>
+        <p>
+          Our final project was the Passion Project, the final project where all choices belong to each individual student.
+          This was the culmination of our work at Metis.
+          We had the option of using any of the machine learning techniques we had learned at Metis for a month long project to be presented on career day.
+          Naturally, to match the gravity of the situation, I choose something extremely important: Harry Potter.
+        </p>
 
-          <nav>
-            <a href="https://bfitzpa5.github.io/">Blog</a>
-            <a href="https://bfitzpa5.github.io/about">About</a>
-          </nav>
-        </header>
-      </div>
-    </div>
+    <h2 id="background">Background</h2>
+    <p>
+      So to give a little background, in the Harry Potter Universe, there is a school where students are grouped into four houses.
+      Each house is associated with certain traits. A few word clouds demonstrating this courtesy of <a href="https://www.theodysseyonline.com/stephens-college-programs-harry-potter-houses">Kalynn Coy</a>.
+    </p>
+    <p><img src="./kojak_files/houseClouds.PNG" alt="houseClouds"></p>
+    <p>
+      Each child is placed in their relevant house through a process where a magic hat is placed on the students head, which reads the child’s thoughts and memories as well as their own house preference, to determine which house that child should be in.
+      Many people have tried to develop their own method of sorting people into houses, but most Harry Potter Sorting Hat approaches have just been glorifed Myers-Briggs, as this <a href="https://www.buzzfeed.com/lizat4826a09c6/find-our-your-true-hogwarts-house-based-on-your-me-1ebzy">Buzzfeed article</a> demonstrates.
+    </p>
 
-    <div id="main" role="main" class="container">
-      <article class="post">
-  <h1>Magic Through Machine Learning: Recommending Hogwarts Houses using NLP Analysis</h1>
+    <p>
+      However, as Myers-Briggs tests have not shown to be comprehensive evaluation, this puts us in the potentially catastophic situation where there are people being placed into the wrong house.
+      To rectify this I decided I would use machine learning to design a Hogwarts Sorting Hat Algorithm.
+    </p>
 
-  <div class="entry">
-    <p>Our final project was the Passion Project, the final project where all choices belong to each individual student.
-This was the culmination of our work at Metis.
-We had the option of using any of the machine learning techniques we had learned at Metis for a month long project to be presented on career day.
-Naturally, to match the gravity of the situation, I choose something extremely important: Harry Potter.</p>
+    <h2 id="dataset">DataSet</h2>
+    <p>
+      For this project I used all seven of the Harry Potter books.
+      Additionally, since I thought the signals for Hufflepuff and Ravenclaw might be weaker, I also used <em>Fantastic Beasts and Where to Find Them</em>, which tells a differents wizard’s story, but whose main character is a Hufflepuff.
+      For Ravenclaws we were just going to have to keep our fingers crossed.
+    </p>
 
-<h2 id="background">Background</h2>
+    <h2 id="analysis">Analysis</h2>
+    <p>My first attempt at parsing the data was through frequency of house mentions in the books.</p>
+    <p><img src="./kojak_files/frequencyByHouse.png" alt="frequencyByHouse"></p>
+    <p>As expected, Gryffindor and Slytherin were the most frequently mentioned houses.
+    Additionally, I ran sentiment analysis on the house mentions.</p>
+    <p><img src="./kojak_files/sentimentByHouse.png" alt="sentimentByHouse"></p>
+    <p>
+      After I filled by interpolation and smoothed by a rolling mean to get a general sense of how the houses were discussed throughout the book.
+      Gryffindor has the highest polarity and Slytherin has the lowest, except for when the Hufflepuff cup is being discussed and at the end of book seven when a character of Hufflepuff sadly passes away.
+    </p>
+    <p>
+      For my model, similiar to my Kickstarter project, I used TFIDF to find word weights.
+      I then used Non-Negative Matrix Factorization to develop topics and labeled these topics into one of six categories: the four houses, muggle, or undetermined. Below is an example of a few of the topics.
+    </p>
+    <p><img src="./kojak_files/houseTopics.PNG" alt="houseTopics"></p>
+    <p>
+      Finally, I designed a recommender system that took in a person’s biography and used cosine similiarity to find the most relevant topic cluster.
+      This video is a demonstration of that in action (it also answers the eternal question: which house would Kanye be in?).
+    </p>
 
-<p>So to give a little background, in the Harry Potter Universe, there is a school where students are grouped into four houses. Each house is associated with certain traits. A few word clouds demonstrating this courtesy of <a href="https://www.theodysseyonline.com/stephens-college-programs-harry-potter-houses">Kalynn Coy</a>.</p>
+    <p><a href="http://www.youtube.com/watch?feature=player_embedded&amp;v=5gd_2VGFW4E" target="_blank"><img src="./kojak_files/0.jpg" alt="Sorting Hat Video" width="240" height="180" border="10"></a></p>
 
-<p><img src="./kojak_files/houseClouds.PNG" alt="houseClouds"></p>
+    <h2 id="takeaways">Takeaways</h2>
+    <ul>
+      <li>
+        <strong><em>Future Improvements</em></strong>
+        Although this wasn’t a bad result, there is much to improve.
+        In the future, I hope to include additional JK Rowling short stories and the website Pottermore’s data to amplify Hufflepuff and Ravenclaw’s signal.
+        I also hope to incoporate character network analysis into the model and also character quotation sentiment.
+        Finally, once this is done I hope to create a flask app that takes in people tweets and assigns them to a house.
+      </li>
+    </ul>
 
-<p>Each child is placed in their relevant house through a process where a magic hat is placed on the students head, which reads the child’s thoughts and memories as well as their own house preference, to determine which house that child should be in.
-Many people have tried to develop their own method of sorting people into houses, but most Harry Potter Sorting Hat approaches have just been glorifed Myers-Briggs, as this <a href="https://www.buzzfeed.com/lizat4826a09c6/find-our-your-true-hogwarts-house-based-on-your-me-1ebzy">Buzzfeed article</a> demonstrates.</p>
-
-<p>However, as Myers-Briggs tests have not shown to be comprehensive evaluation, this puts us in the potentially catastophic situation where there are people being placed into the wrong house.
-To rectify this I decided I would use machine learning to design a Hogwarts Sorting Hat Algorithm.</p>
-
-<h2 id="dataset">DataSet</h2>
-
-<p>For this project I used all seven of the Harry Potter books. Additionally, since I thought the signals for Hufflepuff and Ravenclaw might be weaker, I also used <em>Fantastic Beasts and Where to Find Them</em>, which tells a differents wizard’s story, but whose main character is a Hufflepuff. For Ravenclaws we were just going to have to keep our fingers crossed.</p>
-
-<h2 id="analysis">Analysis</h2>
-
-<p>My first attempt at parsing the data was through frequency of house mentions in the books.</p>
-
-<p><img src="./kojak_files/frequencyByHouse.png" alt="frequencyByHouse"></p>
-
-<p>As expected, Gryffindor and Slytherin were the most frequently mentioned houses.
-Additionally, I ran sentiment analysis on the house mentions.</p>
-
-<p><img src="./kojak_files/sentimentByHouse.png" alt="sentimentByHouse"></p>
-
-<p>After I filled by interpolation and smoothed by a rolling mean to get a general sense of how the houses were discussed throughout the book.
-Gryffindor has the highest polarity and Slytherin has the lowest, except for when the Hufflepuff cup is being discussed and at the end of book seven when a character of Hufflepuff sadly passes away.</p>
-
-<p>For my model, similiar to my Kickstarter project, I used TFIDF to find word weights.
-I then used Non-Negative Matrix Factorization to develop topics and labeled these topics into one of six categories: the four houses, muggle, or undetermined.
-Below is an example of a few of the topics.</p>
-
-<p><img src="./kojak_files/houseTopics.PNG" alt="houseTopics"></p>
-
-<p>Finally, I designed a recommender system that took in a person’s biography and used cosine similiarity to find the most relevant topic cluster.
-This video is a demonstration of that in action (it also answers the eternal question: which house would Kanye be in?).</p>
-
-<p><a href="http://www.youtube.com/watch?feature=player_embedded&amp;v=5gd_2VGFW4E" target="_blank"><img src="./kojak_files/0.jpg" alt="Sorting Hat Video" width="240" height="180" border="10"></a></p>
-
-<h2 id="takeaways">Takeaways</h2>
-
-<ul>
-  <li><strong><em>Future Improvements</em></strong>
-Although this wasn’t a bad result, there is much to improve.
-In the future, I hope to include additional JK Rowling short stories and the website Pottermore’s data to amplify Hufflepuff and Ravenclaw’s signal.
-I also hope to incoporate character network analysis into the model and also character quotation sentiment.
-Finally, once this is done I hope to create a flask app that takes in people tweets and assigns them to a house.</li>
-</ul>
-
-<p>Thanks for reading!</p>
-
-  </div>
-
+    <p>Thanks for reading!</p>
+    
   <div class="date">
     Written on September 14, 2017
   </div>
+
+  </div>
+
 
 {% endblock %}

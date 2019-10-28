@@ -3,36 +3,56 @@
 {% block content %}
   <div class="container">
     <h1>Data Cleaning and Daily Commuters: Exploratory Analysis of New York Subway Traffic</h1>
-    <p>For our first project, we were asked by a hypothetical non-profit, WomenTechWomenYes, to analyze MTA subway data.
-    Their goal was to optimize the placement of our street teams, such that they could gather the most signatures, ideally from those who will attend their annual gala and contribute to our cause.</p>
+    <p>
+      For our first project, we were asked by a hypothetical non-profit, WomenTechWomenYes, to analyze MTA subway data.
+      Their goal was to optimize the placement of our street teams, such that they could gather the most signatures, ideally from those who will attend their annual gala and contribute to our cause.
+    </p>
 
     <h2 id="background">Background</h2>
-    <p>I was put on a team with <a href="https://github.com/aleksod">Alexei Demchouk</a>, <a href="https://github.com/lwcj">Jordan Leung</a> and <a href="https://github.com/reichsmarc">Marc Reich</a> to design and implmenent this project.
-    Our team took the approach that we should identify a small number of high-traffic stops and pick the right time to maximize impact at each stop.
-    Additionally, we wanted to cross-reference this stops in areas with the most tech employers, specifically choosing times that target employees leaving work.</p>
+    <p>
+      I was put on a team with <a href="https://github.com/aleksod">Alexei Demchouk</a>, <a href="https://github.com/lwcj">Jordan Leung</a> and <a href="https://github.com/reichsmarc">Marc Reich</a> to design and implmenent this project.
+      Our team took the approach that we should identify a small number of high-traffic stops and pick the right time to maximize impact at each stop.
+      Additionally, we wanted to cross-reference this stops in areas with the most tech employers, specifically choosing times that target employees leaving work.
+    </p>
 
     <h2 id="dataset">DataSet</h2>
-    <p>We gathered the subway turnstile dataset from the <a href="http://web.mta.info/developers/turnstile.html">MTA’s website</a>.
-    This data required a lot of cleaning.</p>
-    <p>About 98% of the data is in 4 hour blocks; however, there was also some turnstile data that was set in 1 hour blocks.
-    We disgarded these stations as we had more then enough data and these 1 hour blocks were typically in smaller stations.
-    We specifically zeroed in on late May/Early June, as the gala was at the beginning of the summer.
-    Additionally, there were some turnstiles with negative or zero counts.
-    We filtered these and extreme values though only including those within each station’s <a href="https://en.wikipedia.org/wiki/Interquartile_range">interquartile range</a>.</p>
-    <p>To gather areas with the most tech employees, we scraped <em>Built in NYC</em>’s “<a href="http://www.builtinnyc.com/2017/01/06/50-new-york-startups-watch-2017">50 NYC startups to watch in 2017</a>”.
-    After this, we went through the arduous process of getting the street addresses for each company and coverting those into longitude and latitude coordinates.</p>
+    <p>
+      We gathered the subway turnstile dataset from the <a href="http://web.mta.info/developers/turnstile.html">MTA’s website</a>.
+      This data required a lot of cleaning.
+    </p>
+    <p>
+      About 98% of the data is in 4 hour blocks; however, there was also some turnstile data that was set in 1 hour blocks.
+      We disgarded these stations as we had more then enough data and these 1 hour blocks were typically in smaller stations.
+      We specifically zeroed in on late May/Early June, as the gala was at the beginning of the summer.
+      Additionally, there were some turnstiles with negative or zero counts.
+      We filtered these and extreme values though only including those within each station’s <a href="https://en.wikipedia.org/wiki/Interquartile_range">interquartile range</a>.
+    </p>
+    <p>
+      To gather areas with the most tech employees, we scraped <em>Built in NYC</em>’s “<a href="http://www.builtinnyc.com/2017/01/06/50-new-york-startups-watch-2017">50 NYC startups to watch in 2017</a>”.
+      After this, we went through the arduous process of getting the street addresses for each company and coverting those into longitude and latitude coordinates.
+    </p>
 
     <h2 id="analysis">Analysis</h2>
-    <p>Our first step was to visualize the data to get a good idea of any patterns that might emerge.
-    We found the <a href="https://matplotlib.org/basemap/">basemaps</a> module found in Matplotlib, but unfortunately, as shown below, it turned out looking more like a modern art painting than a data visualization.</p>
+    <p>
+      Our first step was to visualize the data to get a good idea of any patterns that might emerge.
+      We found the <a href="https://matplotlib.org/basemap/">basemaps</a> module found in Matplotlib, but unfortunately, as shown below, it turned out looking more like a modern art painting than a data visualization.
+    </p>
     <p><img src="./benson_files/basemaps.png" alt="basemaps"></p>
     <p>Thankfully, we then came upon the <a href="https://github.com/pbugnion/gmaps"><code class="highlighter-rouge">Gmaps</code></a> python module to visual the layout of these companies.</p>
-    <p><img src="./benson_files/techCompanyNYCGeo.png" alt="NYC_Tech_Company&#39;s_Geographic_Layout"></p>
-    <p>We then layed out a plot of the busiest subway stations in the city.</p>
-    <p><img src="./benson_files/subwayStationNYCGeo.png" alt="NYC_Subway Stations_Geographic_Layout"></p>
+    <p>
+      <img src="./benson_files/techCompanyNYCGeo.png" alt="NYC_Tech_Company&#39;s_Geographic_Layout"></p>
+    <p>
+      We then layed out a plot of the busiest subway stations in the city.
+    </p>
+    <p>
+      <img src="./benson_files/subwayStationNYCGeo.png" alt="NYC_Subway Stations_Geographic_Layout">
+    </p>
     <p>And then overlayed the two.</p>
-    <p><img src="./benson_files/techCompanySubwayStationOverlay.png" alt="NYC_Subway_Station_and_Tech_Companys_Geographic_Overlay"></p>
-    <p>Finding that many of the busy subway stations were already around many of the tech companies in NYC, our next objective was to identify the busiest subway times.</p>
+    <p>
+      <img src="./benson_files/techCompanySubwayStationOverlay.png" alt="NYC_Subway_Station_and_Tech_Companys_Geographic_Overlay">
+    </p>
+    <p>
+      Finding that many of the busy subway stations were already around many of the tech companies in NYC, our next objective was to identify the busiest subway times.</p>
     <p>We filtered the subway turnstile data in six blocks:</p>
     <ul>
       <li><strong>Block 1</strong> - 00:00 to 06:00</li>
@@ -69,9 +89,10 @@
          Finally, we could create a weighted score of these ranking methods.</p>
       </li>
     </ul>
+
+    <div class="date">
+      Written on June 30, 2017
+    </div>
   </div>
 
-  <div class="date">
-    Written on June 30, 2017
-  </div>
 {% endblock %}
