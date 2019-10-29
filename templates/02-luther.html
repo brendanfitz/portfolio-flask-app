@@ -18,7 +18,8 @@
       <a href="http://www.boxofficemojo.com/">BoxOfficeMojo</a> to obtain opening weekend gross revenue.
     </p>
     <p>
-      I then choose some commonly used economic and political indicators, adjusted for inflation using the Consumer Price Index:
+      I then choose some commonly used economic and political indicators,
+      adjusting monetary measures for inflation using the Consumer Price Index (CCI):
     </p>
     <ul>
       <li>Presidential Approval Rating: The American Presidency Project</li>
@@ -31,7 +32,48 @@
       The next challenge was to determine the scale to use for each statistic, since each of these has different time frame for when it is reflected.
       To do so, I used rolling means per the below chart.
     </p>
-    <p><img src="{{ url_for('static', filename='02-luther/rollingMeans.png') }}" alt="rollingMeans"></p>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Category</th>
+          <th scope="col">Data Input Measurement</th>
+          <th scope="col">Centered Mean Adjustment</th>
+          <th scope="col">Mean Adjustment Size</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Approval Rating</td>
+          <td>3 Day</td>
+          <td>Yes</td>
+          <td>11</td>
+        </tr>
+        <tr>
+          <td>GDP</td>
+          <td>Quarterly</td>
+          <td>No</td>
+          <td>4</td>
+        </tr>
+        <tr>
+          <td>CCI</td>
+          <td>Monthly</td>
+          <td>Yes</td>
+          <td>3</td>
+        </tr>
+        <tr>
+          <td>Unemployment Rate</td>
+          <td>Quarterly</td>
+          <td>No</td>
+          <td>4</td>
+        </tr>
+        <tr>
+          <td>Voter Turnout Rate</td>
+          <td>Bi-annual</td>
+          <td>N/A</td>
+          <td>N/A</td>
+        </tr>
+      </tbody>
+    </table>
 
     <h2 id="analysis">Analysis</h2>
     <p>After having collected the data, I ran an initial regression with all data points included.</p>
