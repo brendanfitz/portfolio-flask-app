@@ -1,178 +1,166 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <div class="container" id="blog">
-    <div class="jumbotron">
-      <h1>Data Cleaning and Daily Commuters</h1>
-      <p>Exploratory Analysis of New York Subway Traffic</p>
+<p>
+  For our first project, we were asked by a hypothetical non-profit, <em>WomenTechWomenYes</em>, to analyze MTA subway data.
+  Their goal was to optimize the placement of our street teams, such that they could gather the most signatures, ideally from those who would attend their annual gala and contribute to our cause.
+</p>
+<p>
+  I was put on a team with <a href="https://github.com/aleksod">Alexei Demchouk</a>, <a href="https://github.com/lwcj">Jordan Leung</a> and <a href="https://github.com/reichsmarc">Marc Reich</a> to design and implement this project.
+  We laid out three findings we hope to achieve using this data:
+</p>
+<ol>
+  <li>Identify a small number of high-traffic stops</li>
+  <li>Determine the right time to maximize impact at each stop</li>
+  <li>Cross-reference these high-traffic stations against stations in areas with the most tech employers, specifically choosing times that target employees leaving work.</li>
+</ol>
+
+<h2 id="dataset">DataSet</h2>
+<p>
+  To obtain this data we pulled used our first API connection, the <a href="http://web.mta.info/developers/turnstile.html">MTA’s website</a>, using the below function:
+</p>
+
+<div class="monokai content-margins"><pre style="margin: 0; line-height: 125%">          <span style="color: #66d9ef">def</span> <span style="color: #a6e22e">get_data</span><span style="color: #f8f8f2">(week_nums):</span>
+        <span style="color: #f8f8f2">url</span> <span style="color: #f92672">=</span> <span style="color: #e6db74">&quot;http://web.mta.info/developers/data/nyct/turnstile/turnstile_{}.txt&quot;</span>
+        <span style="color: #f8f8f2">dfs</span> <span style="color: #f92672">=</span> <span style="color: #f8f8f2">[]</span>
+        <span style="color: #66d9ef">for</span> <span style="color: #f8f8f2">week_num</span> <span style="color: #f92672">in</span> <span style="color: #f8f8f2">week_nums:</span>
+          <span style="color: #f8f8f2">file_url</span> <span style="color: #f92672">=</span> <span style="color: #f8f8f2">url</span><span style="color: #f92672">.</span><span style="color: #f8f8f2">format(week_num)</span>
+          <span style="color: #f8f8f2">dfs</span><span style="color: #f92672">.</span><span style="color: #f8f8f2">append(pd</span><span style="color: #f92672">.</span><span style="color: #f8f8f2">read_csv(file_url))</span>
+        <span style="color: #66d9ef">return</span> <span style="color: #f8f8f2">pd</span><span style="color: #f92672">.</span><span style="color: #f8f8f2">concat(dfs)</span>
+    <span style="color: #f8f8f2">week_nums</span> <span style="color: #f92672">=</span> <span style="color: #f8f8f2">[</span><span style="color: #ae81ff">170603</span><span style="color: #f8f8f2">,</span> <span style="color: #ae81ff">170527</span><span style="color: #f8f8f2">,</span> <span style="color: #ae81ff">160604</span><span style="color: #f8f8f2">,</span> <span style="color: #ae81ff">160528</span><span style="color: #f8f8f2">,</span> <span style="color: #ae81ff">150606</span><span style="color: #f8f8f2">,</span> <span style="color: #ae81ff">150530</span><span style="color: #f8f8f2">]</span>
+    <span style="color: #f8f8f2">turnstiles_df</span> <span style="color: #f92672">=</span> <span style="color: #f8f8f2">get_data(week_nums)</span></pre></div>
+
+<p>
+  About 98% of the data is in 4 hour blocks; however, there was also some turnstile data that was set in 1 hour blocks.
+  We disgarded these stations as we had more then enough data and these 1 hour blocks were typically in smaller stations.
+  We specifically zeroed in on late May/Early June, as the gala was at the beginning of the summer.
+  Additionally, there were some turnstiles with negative or zero counts.
+  We filtered these and extreme values though only including those within each station’s <a href="https://en.wikipedia.org/wiki/Interquartile_range">interquartile range</a>.
+</p>
+<p>
+  To gather areas with the most tech employees, we scraped <em>Built in NYC</em>’s <a href="http://www.builtinnyc.com/2017/01/06/50-new-york-startups-watch-2017">50 NYC startups to watch in 2017</a>.
+  After this, we went through the arduous process of getting the street addresses for each company and coverting those into longitude and latitude coordinates.
+</p>
+
+<h2 id="analysis">Analysis</h2>
+<p>
+  Our first step was to visualize the data to get a good idea of any patterns that might emerge.
+  We found the <a href="https://matplotlib.org/basemap/">basemaps</a> module found in Matplotlib, but unfortunately, as shown below, it turned out looking more like a modern art painting than a data visualization.
+</p>
+<div class="d-flex justify-content-center content-margins">
+  <img src="{{ url_for('static', filename='01-benson/basemaps.png') }}" alt="basemaps">
+</div>
+<p>
+  Thankfully, we then came upon the <a href="https://github.com/pbugnion/gmaps"><code class="highlighter-rouge">Gmaps</code></a> python module to visual the layout of these companies.
+  We then layed out a plot of the busiest subway stations in the city and then overlayed the two,
+  with the stations in <span style="color: blue;"><strong>blue</strong></span> and the offices in <span style="color: green;"><strong>green</strong></span>.
+</p>
+<div class="container content-margins">
+  <div class="row text-center text-lg-left">
+    <div class="col-sm-4">
+      <a class="d-block mb4 h-100">
+        <img class="img-fluid img-thumbnail" src="{{ url_for('static', filename='01-benson/techCompanyNYCGeo.png') }}" alt="NYC_Tech_Company&#39;s_Geographic_Layout">
+      </a>
     </div>
-
-    <div class="container" id="blog-text">
-      <h2 id="background">Background</h2>
-      <p>
-        For our first project, we were asked by a hypothetical non-profit, <em>WomenTechWomenYes</em>, to analyze MTA subway data.
-        Their goal was to optimize the placement of our street teams, such that they could gather the most signatures, ideally from those who would attend their annual gala and contribute to our cause.
-      </p>
-      <p>
-        I was put on a team with <a href="https://github.com/aleksod">Alexei Demchouk</a>, <a href="https://github.com/lwcj">Jordan Leung</a> and <a href="https://github.com/reichsmarc">Marc Reich</a> to design and implement this project.
-        We laid out three findings we hope to achieve using this data:
-      </p>
-      <ol>
-        <li>Identify a small number of high-traffic stops</li>
-        <li>Determine the right time to maximize impact at each stop</li>
-        <li>Cross-reference these high-traffic stations against stations in areas with the most tech employers, specifically choosing times that target employees leaving work.</li>
-      </ol>
-
-
-      <h2 id="dataset">DataSet</h2>
-      <p>
-        To obtain this data we pulled used our first API connection, the <a href="http://web.mta.info/developers/turnstile.html">MTA’s website</a>, using the below function:
-      </p>
-
-      <div class="monokai content-margins"><pre style="margin: 0; line-height: 125%">          <span style="color: #66d9ef">def</span> <span style="color: #a6e22e">get_data</span><span style="color: #f8f8f2">(week_nums):</span>
-              <span style="color: #f8f8f2">url</span> <span style="color: #f92672">=</span> <span style="color: #e6db74">&quot;http://web.mta.info/developers/data/nyct/turnstile/turnstile_{}.txt&quot;</span>
-              <span style="color: #f8f8f2">dfs</span> <span style="color: #f92672">=</span> <span style="color: #f8f8f2">[]</span>
-              <span style="color: #66d9ef">for</span> <span style="color: #f8f8f2">week_num</span> <span style="color: #f92672">in</span> <span style="color: #f8f8f2">week_nums:</span>
-                <span style="color: #f8f8f2">file_url</span> <span style="color: #f92672">=</span> <span style="color: #f8f8f2">url</span><span style="color: #f92672">.</span><span style="color: #f8f8f2">format(week_num)</span>
-                <span style="color: #f8f8f2">dfs</span><span style="color: #f92672">.</span><span style="color: #f8f8f2">append(pd</span><span style="color: #f92672">.</span><span style="color: #f8f8f2">read_csv(file_url))</span>
-              <span style="color: #66d9ef">return</span> <span style="color: #f8f8f2">pd</span><span style="color: #f92672">.</span><span style="color: #f8f8f2">concat(dfs)</span>
-          <span style="color: #f8f8f2">week_nums</span> <span style="color: #f92672">=</span> <span style="color: #f8f8f2">[</span><span style="color: #ae81ff">170603</span><span style="color: #f8f8f2">,</span> <span style="color: #ae81ff">170527</span><span style="color: #f8f8f2">,</span> <span style="color: #ae81ff">160604</span><span style="color: #f8f8f2">,</span> <span style="color: #ae81ff">160528</span><span style="color: #f8f8f2">,</span> <span style="color: #ae81ff">150606</span><span style="color: #f8f8f2">,</span> <span style="color: #ae81ff">150530</span><span style="color: #f8f8f2">]</span>
-          <span style="color: #f8f8f2">turnstiles_df</span> <span style="color: #f92672">=</span> <span style="color: #f8f8f2">get_data(week_nums)</span></pre></div>
-
-      <p>
-        About 98% of the data is in 4 hour blocks; however, there was also some turnstile data that was set in 1 hour blocks.
-        We disgarded these stations as we had more then enough data and these 1 hour blocks were typically in smaller stations.
-        We specifically zeroed in on late May/Early June, as the gala was at the beginning of the summer.
-        Additionally, there were some turnstiles with negative or zero counts.
-        We filtered these and extreme values though only including those within each station’s <a href="https://en.wikipedia.org/wiki/Interquartile_range">interquartile range</a>.
-      </p>
-      <p>
-        To gather areas with the most tech employees, we scraped <em>Built in NYC</em>’s <a href="http://www.builtinnyc.com/2017/01/06/50-new-york-startups-watch-2017">50 NYC startups to watch in 2017</a>.
-        After this, we went through the arduous process of getting the street addresses for each company and coverting those into longitude and latitude coordinates.
-      </p>
-
-      <h2 id="analysis">Analysis</h2>
-      <p>
-        Our first step was to visualize the data to get a good idea of any patterns that might emerge.
-        We found the <a href="https://matplotlib.org/basemap/">basemaps</a> module found in Matplotlib, but unfortunately, as shown below, it turned out looking more like a modern art painting than a data visualization.
-      </p>
-      <div class="d-flex justify-content-center content-margins">
-        <img src="{{ url_for('static', filename='01-benson/basemaps.png') }}" alt="basemaps">
-      </div>
-      <p>
-        Thankfully, we then came upon the <a href="https://github.com/pbugnion/gmaps"><code class="highlighter-rouge">Gmaps</code></a> python module to visual the layout of these companies.
-        We then layed out a plot of the busiest subway stations in the city and then overlayed the two,
-        with the stations in <span style="color: blue;"><strong>blue</strong></span> and the offices in <span style="color: green;"><strong>green</strong></span>.
-      </p>
-      <div class="container content-margins">
-        <div class="row text-center text-lg-left">
-          <div class="col-sm-4">
-            <a class="d-block mb4 h-100">
-              <img class="img-fluid img-thumbnail" src="{{ url_for('static', filename='01-benson/techCompanyNYCGeo.png') }}" alt="NYC_Tech_Company&#39;s_Geographic_Layout">
-            </a>
-          </div>
-          <div class="col-sm-4">
-            <a class="d-block mb4 h-100">
-              <img class="img-fluid img-thumbnail" src="{{ url_for('static', filename='01-benson/subwayStationNYCGeo.png') }}" alt="NYC_Subway Stations_Geographic_Layout">
-            </a>
-          </div>
-          <div class="col-sm-4">
-            <a class="d-block mb4 h-100">
-              <img class="img-fluid img-thumbnail" src="{{ url_for('static', filename='01-benson/techCompanySubwayStationOverlay.png') }}" alt="NYC_Subway_Station_and_Tech_Companys_Geographic_Overlay">
-            </a>
-          </div>
-        </div>
-      </div>
-      <p>
-        This leads us to omit the three stations that were downtown, as most of the offices were in midtown.
-        Our next objective was to identify the busiest subway times.</p>
-      <p>We filtered the subway turnstile data in six blocks:</p>
-
-      <table class="table">
-        <thead>
-          <tr>
-            <th scope="col">Block</th>
-            <th scope="col">Start Time</th>
-            <th scope="col">End Time</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td scope="row">1</td>
-            <td>00:00</td>
-            <td>06:00</td>
-          </tr>
-          <tr>
-            <td scope="row">2</td>
-            <td>04:00</td>
-            <td>10:00</td>
-          </tr>
-          <tr>
-            <td scope="row">3</td>
-            <td>08:00</td>
-            <td>14:00</td>
-          </tr>
-          <tr>
-            <td scope="row">4</td>
-            <td>12:00</td>
-            <td>18:00</td>
-          </tr>
-          <tr>
-            <td scope="row">5</td>
-            <td>16:00</td>
-            <td>22:00</td>
-          </tr>
-          <tr>
-            <td scope="row">6</td>
-            <td>20:00</td>
-            <td>02:00</td>
-          </tr>
-        </tbody>
-      </table>
-
-      <p>Below is a boxplot of the average proportion of entries per time block.</p>
-
-      <div class="d-flex justify-content-center content-margins">
-        <img src="{{ url_for('static', filename='01-benson/subwayEntriesBoxplot.png') }}" alt="Subway_Boxplot">
-      </div>
-
-      <p>
-        Block 5, aka <em>Rush Hour</em>, won out!
-        This culminated in our recommendation for the best stations according to the below chart.
-        Penn Station, Herald Square and Grand Central's were our winners!
-      </p>
-
-      <div class="d-flex justify-content-center content-margins">
-        <img src="{{ url_for('static', filename='01-benson/finalRecommendations.png') }}" alt="Subway Boxplot">
-      </div>
-
-      <h2 id="takeaways">Takeaways</h2>
-      <ul>
-        <li>
-          <p><strong><em>Data Cleaning</em></strong>
-            This project definitely showed us that data cleaning is a large part of being a data scientist.
-            Most of our week was spent combing through the data and trying to make sure it was clean.
-            This is a good lesson to learn in terms of budgeting time for future projects.</p>
-        </li>
-        <li>
-          <p><strong><em>Working in a Team</em></strong>
-            One effective measure our team took was to split work in a strategic manner.
-            Towards the end of the project, I took a large part of the maps visualizings, Alexi and Jordan worked on the analysis, and Mark worked on the presentation.
-            This enabled us to have a fuller project once everything came together.</p>
-        </li>
-        <li>
-          <p><strong><em>Additional Improvements</em></strong>
-            We definitely would love to expand this analysis, specifically by finding other ways to rank each stop/time block combo.
-            We could do this by using a distance metric to rank by proximity to companies.
-            We could also look at different days of week.
-           Finally, we could create a weighted score of these ranking methods.</p>
-        </li>
-      </ul>
-
-      <div class="date">
-        Written on June 30, 2017
-      </div>
+    <div class="col-sm-4">
+      <a class="d-block mb4 h-100">
+        <img class="img-fluid img-thumbnail" src="{{ url_for('static', filename='01-benson/subwayStationNYCGeo.png') }}" alt="NYC_Subway Stations_Geographic_Layout">
+      </a>
+    </div>
+    <div class="col-sm-4">
+      <a class="d-block mb4 h-100">
+        <img class="img-fluid img-thumbnail" src="{{ url_for('static', filename='01-benson/techCompanySubwayStationOverlay.png') }}" alt="NYC_Subway_Station_and_Tech_Companys_Geographic_Overlay">
+      </a>
     </div>
   </div>
+</div>
+<p>
+  This leads us to omit the three stations that were downtown, as most of the offices were in midtown.
+  Our next objective was to identify the busiest subway times.</p>
+<p>We filtered the subway turnstile data in six blocks:</p>
 
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Block</th>
+      <th scope="col">Start Time</th>
+      <th scope="col">End Time</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td scope="row">1</td>
+      <td>00:00</td>
+      <td>06:00</td>
+    </tr>
+    <tr>
+      <td scope="row">2</td>
+      <td>04:00</td>
+      <td>10:00</td>
+    </tr>
+    <tr>
+      <td scope="row">3</td>
+      <td>08:00</td>
+      <td>14:00</td>
+    </tr>
+    <tr>
+      <td scope="row">4</td>
+      <td>12:00</td>
+      <td>18:00</td>
+    </tr>
+    <tr>
+      <td scope="row">5</td>
+      <td>16:00</td>
+      <td>22:00</td>
+    </tr>
+    <tr>
+      <td scope="row">6</td>
+      <td>20:00</td>
+      <td>02:00</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Below is a boxplot of the average proportion of entries per time block.</p>
+
+<div class="d-flex justify-content-center content-margins">
+  <img src="{{ url_for('static', filename='01-benson/subwayEntriesBoxplot.png') }}" alt="Subway_Boxplot">
+</div>
+
+<p>
+  Block 5, aka <em>Rush Hour</em>, won out!
+  This culminated in our recommendation for the best stations according to the below chart.
+  Penn Station, Herald Square and Grand Central's were our winners!
+</p>
+
+<div class="d-flex justify-content-center content-margins">
+  <img src="{{ url_for('static', filename='01-benson/finalRecommendations.png') }}" alt="Subway Boxplot">
+</div>
+
+<h2 id="takeaways">Takeaways</h2>
+<ul>
+  <li>
+    <p><strong><em>Data Cleaning</em></strong>
+      This project definitely showed us that data cleaning is a large part of being a data scientist.
+      Most of our week was spent combing through the data and trying to make sure it was clean.
+      This is a good lesson to learn in terms of budgeting time for future projects.</p>
+  </li>
+  <li>
+    <p><strong><em>Working in a Team</em></strong>
+      One effective measure our team took was to split work in a strategic manner.
+      Towards the end of the project, I took a large part of the maps visualizings, Alexi and Jordan worked on the analysis, and Mark worked on the presentation.
+      This enabled us to have a fuller project once everything came together.</p>
+  </li>
+  <li>
+    <p><strong><em>Additional Improvements</em></strong>
+      We definitely would love to expand this analysis, specifically by finding other ways to rank each stop/time block combo.
+      We could do this by using a distance metric to rank by proximity to companies.
+      We could also look at different days of week.
+     Finally, we could create a weighted score of these ranking methods.</p>
+  </li>
+</ul>
+
+<div class="date">
+  Written on June 30, 2017
+</div>
 {% endblock %}
