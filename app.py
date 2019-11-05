@@ -9,7 +9,9 @@ def index():
 
 @app.route('/about')
 def about():
-    return render_template('about.html')
+    name = 'About'
+    subtitle = ''
+    return render_template('about.html', title=title, subtitle=subtitle)
 
 @app.route('/blog/<name>')
 def blog(name):
