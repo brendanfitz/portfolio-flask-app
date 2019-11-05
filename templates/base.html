@@ -30,11 +30,11 @@
                 Blogs
               </a>
               <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="{{ url_for('benson') }}">Project 1 - Benson</a>
-                <a class="dropdown-item" href="{{ url_for('luther') }}">Project 2 - Luther</a>
-                <a class="dropdown-item" href="{{ url_for('mcnulty') }}">Project 3 - McNulty</a>
-                <a class="dropdown-item" href="{{ url_for('fletcher') }}">Project 4 - Fletcher</a>
-                <a class="dropdown-item" href="{{ url_for('kojak') }}">Project 5 - Kojak</a>
+                <a class="dropdown-item" href="{{ url_for('blog', name='benson') }}">Project 1 - Benson</a>
+                <a class="dropdown-item" href="{{ url_for('blog', name='luther') }}">Project 2 - Luther</a>
+                <a class="dropdown-item" href="{{ url_for('blog', name='mcnulty') }}">Project 3 - McNulty</a>
+                <a class="dropdown-item" href="{{ url_for('blog', name='fletcher') }}">Project 4 - Fletcher</a>
+                <a class="dropdown-item" href="{{ url_for('blog', name='kojak') }}">Project 5 - Kojak</a>
               </div>
             </li>
           </ul>
@@ -66,8 +66,16 @@
         </div>
       </div>
     </nav>
-    {% block content %}
+    <div class="container" id="blog">
+      <div class="jumbotron">
+        <h1>{{ title }}</h1>
+        <p>{{ subtitle }}</p>
+      </div>
+      <div class="container" id="blog-text">
+      {% block content %}
 
-    {% endblock %}
+      {% endblock %}
+      </div>
+    </div>
   </body>
 </html>
