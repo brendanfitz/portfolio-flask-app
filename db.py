@@ -10,7 +10,7 @@ blog_db = {
         'template': '02-luther.html',
     },
     'mcnulty': {
-        'title': 'Cracking the Club’s Code',
+        'title': 'Cracking the Club\'s Code',
         'subtitle': 'Predicting LendingClub Default Rates',
         'template': '03-mcnulty.html',
     },
