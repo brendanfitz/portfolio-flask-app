@@ -16,7 +16,7 @@
 
 <h2 id="analysis">Analysis</h2>
 <p>After gathering the data, I ran a word cloud as shown below.</p>
-<p><img src="{{ url_for('static', filename='04-fletcher/wordCloud.png') }}" alt="wordCloud"></p>
+<img src="{{ url_for('static', filename='04-fletcher/wordCloud.png') }}" alt="wordCloud">
 <p>We can see that games, films and music must be incoporated into a decent amount of projects.</p>
 <p>
   I then used term frequency and inverse document frequency (TFIDF), to produce a composite weight for each term in each “About” document.
@@ -27,7 +27,7 @@
   After, I personally went through these topics and labeled each.
   The distribution of topics is below.
 </p>
-<p><img src="{{ url_for('static', filename='04-fletcher/topics.png') }}" alt="topics"></p>
+<img src="{{ url_for('static', filename='04-fletcher/topics.png') }}" alt="topics" height=500 width=700>
 <p>I then did the same for the “Risks” section.</p>
 <p><img src="{{ url_for('static', filename='04-fletcher/riskCategories.png') }}" alt="riskCategories"></p>
 <p>We can see that my labels are by no means exact though and that these topics do not appear to be very determinant of any decipherable pattern.</p>
