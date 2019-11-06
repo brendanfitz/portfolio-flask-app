@@ -20,7 +20,7 @@
   To obtain this data we pulled used our first API connection, the <a href="http://web.mta.info/developers/turnstile.html">MTA’s website</a>, using the below function:
 </p>
 
-<div class="monokai content-margins"><pre style="margin: 0; line-height: 125%">          <span style="color: #66d9ef">def</span> <span style="color: #a6e22e">get_data</span><span style="color: #f8f8f2">(week_nums):</span>
+<div class="monokai content-margins"><pre style="margin: 0; line-height: 125%">    <span style="color: #66d9ef">def</span> <span style="color: #a6e22e">get_data</span><span style="color: #f8f8f2">(week_nums):</span>
         <span style="color: #f8f8f2">url</span> <span style="color: #f92672">=</span> <span style="color: #e6db74">&quot;http://web.mta.info/developers/data/nyct/turnstile/turnstile_{}.txt&quot;</span>
         <span style="color: #f8f8f2">dfs</span> <span style="color: #f92672">=</span> <span style="color: #f8f8f2">[]</span>
         <span style="color: #66d9ef">for</span> <span style="color: #f8f8f2">week_num</span> <span style="color: #f92672">in</span> <span style="color: #f8f8f2">week_nums:</span>
