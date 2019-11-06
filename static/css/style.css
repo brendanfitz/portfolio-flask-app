@@ -1,12 +1,20 @@
 body {
   padding-top: 70px;
-	font-family: lato;
-  font-size: 20px;
+	font-family: Raleway;
 }
 
+h1 {
+  font-size: 63px;
+  font-weight: 800;
+}
 
-h1 h2 {
-  font-weight: 700;
+.jumbotron p {
+  font-size: 21px;
+  font-weight: 400;
+}
+
+h2 {
+  font-weight: 800;
 }
 
 table {
@@ -20,7 +28,7 @@ p {
 
 .section-heading {
     font-size: 36px;
-    font-weight: 700;
+    font-weight: 800;
     margin-top: 60px;
 }
 

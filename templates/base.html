@@ -14,7 +14,7 @@
     <!-- Add icon library -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Lato:400,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Raleway:400,800&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
   </head>
   <body>
@@ -23,7 +23,7 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-              <a class="navbar-brand" href="{{url_for('index')}}">Brendan's Blog</a>
+              <a class="navbar-brand" href="{{url_for('index')}}">BRENDAN/FITZPATRICK</a>
             </li>
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -67,18 +67,16 @@
       </div>
     </nav>
     <div class="container" id="blog">
-      <div class="jumbotron">
-        <h1>{{ title }}</h1>
-        <p>{{ subtitle }}</p>
-      </div>
-      <div class="container" id="blog-text">
-        <div class="row justify-content-center">
-          <div class="col-lg-9 col-md-10 mx-auto">
+      {% if is_blog %}
+        <div class="jumbotron">
+          <h1>{{ title }}</h1>
+          <p>{{ subtitle }}</p>
+        </div>
+      {% endif %}
+      <div class="container">
       {% block content %}
 
       {% endblock %}
-          </div>
-        </div>
       </div>
     </div>
   </body>
