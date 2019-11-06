@@ -5,13 +5,11 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('index.html', projects=blog_db)
 
 @app.route('/about')
 def about():
-    title = 'About'
-    subtitle = ''
-    return render_template('about.html', title=title, subtitle=subtitle)
+    return render_template('about.html')
 
 @app.route('/blog/<name>')
 def blog(name):
@@ -20,7 +18,7 @@ def blog(name):
     subtitle = blog_data['subtitle']
     template = '/blogs/{}'.format(blog_data['template'])
     print(template)
-    return render_template(template, title=title, subtitle=subtitle)
+    return render_template(template, is_blog=True, title=title, subtitle=subtitle)
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=80)
+    app.run(debug=True)
