@@ -44,8 +44,10 @@ p {
 
 .monokai {
   background: #272822;
-  overflow:auto;width:auto;border:solid
-  gray;border-width:.1em .1em .1em .1em;
+  overflow: auto;
+  width: auto;
+  border: solid gray;
+  border-width:.1em .1em .1em .1em;
   padding:.2em .6em;
 }
 
