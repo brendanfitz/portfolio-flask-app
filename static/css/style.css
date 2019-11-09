@@ -60,3 +60,13 @@ p {
 .jumbotron {
 	color: #2c3e50;
 }
+
+.visuals-header {
+  text-align: center;
+}
+
+#chart-area svg {
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}

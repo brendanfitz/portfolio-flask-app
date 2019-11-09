@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <h1>ROI by Movie Genre</h1>
+  <h1 class="visuals-header">Median ROI by Movie Genre</h1>
   <div id="chart-area"></div>
   <script src="https://d3js.org/d3.v5.min.js"></script>
   <script src="{{ url_for('static', filename='js/genre_chart.js') }}"></script>
