@@ -1,14 +1,14 @@
 //Width and height of map
 var width = 960;
 var height = 500;
-
+scale = 1000;
 var lowColor = '#2abc89'
 var highColor = '#bc2a66'
 
 // D3 Projection
 var projection = d3.geoAlbersUsa()
   .translate([width / 2, height / 2]) // translate to center of screen
-  .scale([1000]); // scale things down so see entire US
+  .scale([scale]); // scale things down so see entire US
 
 // Define path generator
 var path = d3.geoPath() // path generator that will convert GeoJSON to SVG paths
@@ -21,17 +21,17 @@ var svg = d3.select("#map-chart-area")
   .attr("height", height);
 
 // Load in my states data!
-d3.csv("data/statesdata.csv", function(data) {
+d3.csv("/static/js/data/statesdata.csv", function(data) {
 	var dataArray = [];
 	for (var d = 0; d < data.length; d++) {
 		dataArray.push(parseFloat(data[d].default_rate));
 	}
 	var minVal = d3.min(dataArray)
-	var maxVal = d3.max(dataArray)
+	var maxVal = 0.35//d3.max(dataArray)
 	var ramp = d3.scaleLinear().domain([minVal,maxVal]).range([lowColor,highColor])
 
   // Load GeoJSON data and merge with states data
-  d3.json("data/us-states.json", function(json) {
+  d3.json("/static/js/data/us-states.json", function(json) {
 
     // Loop through each state data value in the .csv file
     for (var i = 0; i < data.length; i++) {
@@ -68,9 +68,9 @@ d3.csv("data/statesdata.csv", function(data) {
       .style("fill", function(d) { return ramp(d.properties.default_rate) });
 
 		// add a legend
-		var w = 140, h = 300;
+		var w = 70, h = 150;
 
-		var key = d3.select("body")
+		var key = d3.select("#map-chart-area")
 			.append("svg")
 			.attr("width", w)
 			.attr("height", h)
@@ -96,7 +96,7 @@ d3.csv("data/statesdata.csv", function(data) {
 			.attr("stop-opacity", 1);
 
 		key.append("rect")
-			.attr("width", w - 100)
+			.attr("width", w - 50)
 			.attr("height", h)
 			.style("fill", "url(#gradient)")
 			.attr("transform", "translate(0,10)");

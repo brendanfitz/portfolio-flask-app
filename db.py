@@ -8,12 +8,12 @@ blog_db = {
         'title': 'Forecasting Films',
         'subtitle': 'Predicting Opening Weekend Success',
         'template': '02-luther.html',
-        'template_visuals': 'lending_club_chloropleth.html',
     },
     'mcnulty': {
         'title': 'Cracking the Club\'s Code',
         'subtitle': 'Predicting LendingClub Default Rates',
         'template': '03-mcnulty.html',
+        'template_visuals': 'lending_club_chloropleth.html',
     },
     'fletcher': {
         'title': 'Pitch Perfecting',

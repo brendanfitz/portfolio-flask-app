@@ -2,12 +2,7 @@
 
 {% block content %}
   <h1>Lending Club Default Rate by State</h1>
-  <div class="container">
-      <div class="row">
-          <div id="map-chart-area"></div>
-          <div id="bar-chart-area"></div>
-      </div>
-  </div>
+  <div id="map-chart-area"></div>
   <script src="https://d3js.org/d3.v4.min.js"></script>
   <script src="{{ url_for('static', filename='js/lending_club_chloropleth.js') }}"></script>
 
