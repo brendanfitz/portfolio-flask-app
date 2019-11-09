@@ -27,7 +27,7 @@ g.append("text")
     .attr("transform", "rotate(-90)")
     .text("Return on Investment");
 
-d3.csv("data/genre_roi.csv").then(function(data){
+d3.csv("/static/js/data/genre_roi.csv").then(function(data){
     // console.log(data);
 
     // Clean data
