@@ -17,8 +17,13 @@ def blog(name):
     title = blog_data['title']
     subtitle = blog_data['subtitle']
     template = '/blogs/{}'.format(blog_data['template'])
-    print(template)
     return render_template(template, is_blog=True, title=title, subtitle=subtitle)
+
+@app.route('/visuals/<name>')
+def visuals(name):
+    blog_data = blog_db[name]
+    template = '/visuals/{}'.format(blog_data['template_visuals'])
+    return render_template(template)
 
 if __name__ == '__main__':
     app.run(debug=True)
