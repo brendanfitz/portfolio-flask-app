@@ -12,7 +12,7 @@ class MoviePredictorForm(FlaskForm):
     rating = SelectField(
         'Rating',
         choices=[('G', 'G'), ('PG', 'PG'), ('PG-13', 'PG-13'), ('R', 'R'),],
-        default='pg-13',
+        default='PG-13',
     )
     genre = SelectField(
         'Genre',

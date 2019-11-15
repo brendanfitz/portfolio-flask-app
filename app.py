@@ -3,7 +3,7 @@ from flask import Flask, render_template, request, redirect
 from config import Config
 from forms import MoviePredictorForm
 import pickle
-from sklearn.preprocessing import PolynomialFeatures, OneHotEncoder, normalize
+from sklearn.preprocessing import PolynomialFeatures, OneHotEncoder, StandardScaler
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.linear_model import LinearRegression, Lasso, LassoCV
 import numpy as np
@@ -26,6 +26,10 @@ filename = 'templates/models/pickles/budget_poly.pkl'
 with open(filename, 'rb') as f:
     budget_poly = pickle.load(f)
 
+filename = 'templates/models/pickles/budget_poly_scaler.pkl'
+with open(filename, 'rb') as f:
+    budget_poly_scaler = pickle.load(f)
+
 filename = 'templates/models/pickles/ohe.pkl'
 with open(filename, 'rb') as f:
     ohe = pickle.load(f)
@@ -33,6 +37,10 @@ with open(filename, 'rb') as f:
 filename = 'templates/models/pickles/cv.pkl'
 with open(filename, 'rb') as f:
     cv = pickle.load(f)
+
+filename = 'templates/models/pickles/passthroughs_scaler.pkl'
+with open(filename, 'rb') as f:
+    passthroughs_scaler = pickle.load(f)
 
 @app.route('/')
 def index():
@@ -59,13 +67,12 @@ def visuals(name):
 @app.route('/models/luther', methods=['GET', 'POST'])
 def models():
     form = MoviePredictorForm()
-    print(form.validate_on_submit())
     if request.method == 'POST':
-        print('predicting')
-        budget_df = budget_poly.transform([[form.budget.data]])
-        passthroughs_df = [
+        print(form.budget.data)
+        budget_df = budget_poly_scaler.transform(budget_poly.transform([[form.budget.data]]))
+        passthroughs_df = passthroughs_scaler.transform([
            [form.in_release_days.data, form.widest_release.data, form.runtime.data],
-        ]
+        ])
         rating_df = ohe.transform([[form.rating.data]]).toarray()
         genre_df = cv.transform([form.genre.data]).toarray()
         frames = [budget_df, passthroughs_df, rating_df, genre_df]
