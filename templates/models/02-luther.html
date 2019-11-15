@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+<form method="post">
+  {{ form.budget.label }}{{ form.budget() }}
+  {{ form.in_release_days.label }}{{ form.in_release_days }}
+  {{ form.widest_release.label }}{{ form.widest_release }}
+  {{ form.runtime.label }}{{ form.runtime }}
+  {{ form.rating.label }}{{ form.rating }}
+  {{ form.genre.label }}{{ form.genre }}
+  {{ form.submit() }}
+</form>
+
+{% if prediction %}
+<p>Your prediction ROI is {{ "{:,.2f}".format(prediction) }}</p>
+{% endif %}
+
+{% endblock %}
