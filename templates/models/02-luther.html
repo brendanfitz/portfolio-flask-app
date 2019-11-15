@@ -1,18 +1,35 @@
 {% extends "base.html" %}
 
 {% block content %}
-<form method="post">
-  {{ form.budget.label }}{{ form.budget() }}
-  {{ form.in_release_days.label }}{{ form.in_release_days }}
-  {{ form.widest_release.label }}{{ form.widest_release }}
-  {{ form.runtime.label }}{{ form.runtime }}
-  {{ form.rating.label }}{{ form.rating }}
-  {{ form.genre.label }}{{ form.genre }}
-  {{ form.submit() }}
-</form>
-
-{% if prediction %}
-<p>Your prediction ROI is {{ "{:,.2f}".format(prediction) }}</p>
-{% endif %}
+<div class="row justify-content-md-center">
+  <div class="col col-lg-6">
+    {% if prediction %}
+    <p>Your prediction ROI is {{ "{:,.2f}".format(prediction) }}</p>
+    {% else %}
+    <p>Fill out the below form with movie information for ROI prediction!</p>
+    {% endif %}
+    <form method="post">
+      <div class="form-group">
+        {{ form.budget.label }}{{ form.budget(class_="form-control") }}
+      </div>
+      <div class="form-group">
+        {{ form.in_release_days.label }}{{ form.in_release_days(class_="form-control") }}
+      </div>
+      <div class="form-group">
+        {{ form.widest_release.label }}{{ form.widest_release(class_="form-control") }}
+      </div>
+      <div class="form-group">
+        {{ form.runtime.label }}{{ form.runtime(class_="form-control") }}
+      </div>
+      <div class="form-group">
+        {{ form.rating.label }}{{ form.rating(class_="form-control") }}
+      </div>
+      <div class="form-group">
+        {{ form.genre.label }}{{ form.genre(class_="form-control") }}
+      </div>
+      {{ form.submit(class_="btn btn-primary") }}
+    </form>
+  </div>
+</div>
 
 {% endblock %}
