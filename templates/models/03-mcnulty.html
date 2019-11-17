@@ -3,7 +3,7 @@
 {% block content %}
 <div class="row justify-content-md-center">
   <div class="col col-lg-6">
-    {% if prediction is not none %}
+    {% if prediction %}
     <p>Your prediction for probability of default is {{ prediction }}</p>
     {% else %}
     <p>Fill out the below form with borrower information for loan default prediction!</p>
@@ -49,5 +49,6 @@
     </form>
   </div>
 </div>
+<br>
 
 {% endblock %}

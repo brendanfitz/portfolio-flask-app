@@ -60,7 +60,7 @@ def blog(name):
     blog_data = blog_db[name]
     title = blog_data['title']
     subtitle = blog_data['subtitle']
-    template = '/blogs/{}'.format(blog_db['template'])
+    template = '/blogs/{}'.format(blog_data['template'])
     return render_template(template, is_blog=True, title=title, subtitle=subtitle)
 
 @app.route('/visuals/<name>')
@@ -77,6 +77,8 @@ def models(name):
         form = MoviePredictorForm()
     elif name == 'mcnulty':
         form = LoanPredictorForm()
+    else:
+        form = None
     if request.method == 'POST':
         if name == 'luther':
             budget_df = budget_poly_scaler.transform(budget_poly.transform([[form.budget.data]]))
@@ -105,7 +107,6 @@ def models(name):
                 'addr_state': form.addr_state.data,
             }, index=[0])
             prediction = "{:0.1%}".format(clf.predict_proba(row)[0][1])
-            print(prediction)
         return render_template(template, form=form, prediction=prediction)
     return render_template(template, form=form)
 
