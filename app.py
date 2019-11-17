@@ -16,8 +16,8 @@ def my_tokenizer(doc):
     else:
         return doc.split(' / ')
 
-app = Flask(__name__)
-app.config.from_object(Config)
+application = Flask(__name__)
+application.config.from_object(Config)
 
 filename = 'templates/models/pickles/luther_model.pkl'
 with open(filename, 'rb') as f:
@@ -47,15 +47,15 @@ filename = 'templates/models/pickles/clf.pkl'
 with open(filename, 'rb') as f:
     clf = pickle.load(f)
 
-@app.route('/')
+@application.route('/')
 def index():
     return render_template('index.html', projects=blog_db)
 
-@app.route('/about')
+@application.route('/about')
 def about():
     return render_template('about.html')
 
-@app.route('/blog/<name>')
+@application.route('/blog/<name>')
 def blog(name):
     blog_data = blog_db[name]
     title = blog_data['title']
@@ -63,13 +63,13 @@ def blog(name):
     template = '/blogs/{}'.format(blog_data['template'])
     return render_template(template, is_blog=True, title=title, subtitle=subtitle)
 
-@app.route('/visuals/<name>')
+@application.route('/visuals/<name>')
 def visuals(name):
     blog_data = blog_db[name]
     template = '/visuals/{}'.format(blog_data['template_visuals'])
     return render_template(template)
 
-@app.route('/models/<name>', methods=['GET', 'POST'])
+@application.route('/models/<name>', methods=['GET', 'POST'])
 def models(name):
     blog_data = blog_db[name]
     template = '/models/{}'.format(blog_data['template'])
@@ -111,4 +111,4 @@ def models(name):
     return render_template(template, form=form)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    application.run('0.0.0.0')
