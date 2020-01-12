@@ -3,7 +3,6 @@ from wtforms import (
     StringField, IntegerField, SelectField, FloatField, SubmitField, validators
 )
 
-
 class MoviePredictorForm(FlaskForm):
     budget = IntegerField('Budget', default=85000000)
     in_release_days = IntegerField('In Release Days', default=273)
