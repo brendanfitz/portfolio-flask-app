@@ -2,14 +2,10 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title>Brendan Fitzpatrick's Metis Blog</title>
-    <!-- Latest compiled and minified CSS -->
+    <!-- Boostrap -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <!-- jQuery library -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <!-- Popper JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-    <!-- Latest compiled JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <!-- Add icon library -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -23,18 +19,18 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-              <a class="navbar-brand" href="{{url_for('index')}}">BRENDAN/FITZPATRICK</a>
+              <a class="navbar-brand" href="#">BRENDAN/FITZPATRICK</a>
             </li>
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Blogs
               </a>
               <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="{{ url_for('blog', name='benson') }}">Project 1 - Benson</a>
-                <a class="dropdown-item" href="{{ url_for('blog', name='luther') }}">Project 2 - Luther</a>
-                <a class="dropdown-item" href="{{ url_for('blog', name='mcnulty') }}">Project 3 - McNulty</a>
-                <a class="dropdown-item" href="{{ url_for('blog', name='fletcher') }}">Project 4 - Fletcher</a>
-                <a class="dropdown-item" href="{{ url_for('blog', name='kojak') }}">Project 5 - Kojak</a>
+                <a class="dropdown-item" href="#">Project 1 - Benson</a>
+                <a class="dropdown-item" href="#">Project 2 - Luther</a>
+                <a class="dropdown-item" href="#">Project 3 - McNulty</a>
+                <a class="dropdown-item" href="#">Project 4 - Fletcher</a>
+                <a class="dropdown-item" href="#">Project 5 - Kojak</a>
               </div>
             </li>
           </ul>
@@ -60,24 +56,16 @@
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="{{url_for('about')}}">About</a>
+              <a class="nav-link" href="#">About</a>
             </li>
           </ul>
         </div>
       </div>
     </nav>
-    <div class="container" id="blog">
-      {% if is_blog %}
-        <div class="jumbotron">
-          <h1>{{ title }}</h1>
-          <p>{{ subtitle }}</p>
-        </div>
-      {% endif %}
-      <div class="container">
+    <div class="container">
       {% block content %}
 
       {% endblock %}
-      </div>
     </div>
   </body>
 </html>
