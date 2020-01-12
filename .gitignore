@@ -2,8 +2,3 @@ __pycache__/*
 *.pyc
 venv/*
 *\.xlsx
-
-# Elastic Beanstalk Files
-.elasticbeanstalk/*
-!.elasticbeanstalk/*.cfg.yml
-!.elasticbeanstalk/*.global.yml
