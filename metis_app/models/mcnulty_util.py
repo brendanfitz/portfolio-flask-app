@@ -13,6 +13,12 @@ from matplotlib.ticker import FuncFormatter
 Preprocessing
 """
 
+def my_tokenizer(doc):
+    if doc.find(' / ') == -1:
+        return doc.split(' ')
+    else:
+        return doc.split(' / ')
+
 def features_from_excel():
     lc_dd = pd.read_excel(r'data/LCDataDictionary.xlsx')
     qstr = 'Include == 1'
