@@ -13,7 +13,6 @@ from matplotlib.ticker import FuncFormatter
 Preprocessing
 """
 
-
 def features_from_excel():
     lc_dd = pd.read_excel(r'data/LCDataDictionary.xlsx')
     qstr = 'Include == 1'
@@ -56,9 +55,9 @@ Logging models
 """
 
 def results_to_df(results):
-    col_ord = ['model_type', 'features', 'degree', 
-               'train_accuracy', 'test_accuracy', 'precision', 'recall', 'f1_score', 
-               'true_negatives', 'false_positives', 'false_negatives', 'true_positives'] 
+    col_ord = ['model_type', 'features', 'degree',
+               'train_accuracy', 'test_accuracy', 'precision', 'recall', 'f1_score',
+               'true_negatives', 'false_positives', 'false_negatives', 'true_positives']
     return (pd.DataFrame(results)
             .reindex(columns=col_ord)
             .sort_values('test_accuracy', ascending=False))
@@ -72,7 +71,7 @@ def scores_formatted(input_df):
     for gs in gross_scores:
         df[gs] = df[gs].map('{:,.0f}'.format)
     return df
-    
+
 def log_clf_model(model, model_type, X, y, features, degree=1):
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=11,
                                                         stratify=y)
@@ -126,7 +125,7 @@ class ItemSelector(BaseEstimator, TransformerMixin):
 
     def transform(self, data_dict):
         return data_dict.loc[:, self.key]
-    
+
 def poly_pipeline(features, degree):
     poly_steps = [('selector', ItemSelector(key=features)),
                   ('poly', PolynomialFeatures(degree=degree, include_bias=False))]
@@ -185,7 +184,7 @@ def plot_estimator(estimator, X, y):
                          np.linspace(y_min, y_max, 100))
     df_linspace = pd.DataFrame(np.c_[xx.ravel(), yy.ravel()], columns=X.columns.tolist())
     Z = estimator.predict(df_linspace)
-                        
+
     # Put the result into a color plot
     Z = Z.reshape(xx.shape)
     fig, ax = plt.subplots(figsize=(12,12))
