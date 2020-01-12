@@ -1,5 +1,5 @@
 from flask import render_template, request, Blueprint
-from db import blog_db
+from metis_app.blog_posts.db import blog_db
 
 blog_posts = Blueprint('blog_posts', __name__)
 

@@ -1,11 +1,12 @@
 # ml_models/views.py
 from flask import render_template, request, Blueprint
 from metis_app.ml_models.forms import MoviePredictorForm, LoanPredictorForm
+from metis_app.ml_models.db import blog_db
 
 ml_models = Blueprint('ml_models', __name__)
 
 @ml_models.route('/<name>', methods=['GET', 'POST'])
-def ml_models(name):
+def models(name):
     blog_data = blog_db[name]
     template = '/models/{}'.format(blog_data['template'])
     if name == 'luther':

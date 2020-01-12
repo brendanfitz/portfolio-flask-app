@@ -1,5 +1,6 @@
 # visuals/views.py
 from flask import render_template, request, Blueprint
+from metis_app.visuals.db import blog_db
 
 visuals = Blueprint('visuals', __name__)
 
