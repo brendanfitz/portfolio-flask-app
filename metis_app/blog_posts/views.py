@@ -7,6 +7,5 @@ blog_posts = Blueprint('blog_posts', __name__)
 def blog(name):
     blog_data = blog_db[name]
     title = blog_data['title']
-    subtitle = blog_data['subtitle']
-    template = '/{}'.format(blog_data['template']) # this must be updated!
-    return render_template(template, is_blog=True, title=title, subtitle=subtitle)
+    template = blog_data['template']
+    return render_template('api_sourcing.html', title=title)

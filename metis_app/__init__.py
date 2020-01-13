@@ -8,7 +8,7 @@ app.config.from_object(Config)
 from metis_app.core.views import core
 from metis_app.blog_posts.views import blog_posts
 #from metis_app.ml_models.views import ml_models
-from metis_app.visuals.views import visuals
+#from metis_app.visuals.views import visuals
 
 app.register_blueprint(core)
 app.register_blueprint(blog_posts, url_prefix='/blogs')
