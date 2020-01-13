@@ -1,4 +1,28 @@
 blog_db = {
+    'api_sourcing': {
+        'title': 'Sourcing Data From an API',
+        'template': 'api_sourcing.html'
+    },
+    'scraping_bs': {
+        'title': 'Web Scraping - Beautiful Soup',
+        'template': '#'
+    },
+    'regression_regularization': {
+        'title': 'Regression Regularization',
+        'template': '#'
+    },
+    'classification_model': {
+        'title': 'Classification Model',
+        'template': '#'
+    },
+    'topic_modeling': {
+        'title': 'Topic Modeling',
+        'template': '#'
+    },
+}
+
+
+metis_blog_db = {
     'benson': {
         'title': 'Data Cleaning and Daily Commuters',
         'subtitle': 'Exploratory Analysis of New York Subway Traffic',
