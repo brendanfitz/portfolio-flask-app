@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block content_hp %}
+<div class="row">
+  <div class="container col-sm-10">
+    <div class="card">
+      <h4 class="card-header">Blogs</h4>
+      <div class="card-body">
+        <ul>
+          <li><a href="{{url_for('blog_posts.blog', name='api_sourcing')}}">Source Data from an API</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+<br>
+<div class="row">
+  <div class="container col-sm-10">
+    <div class="card">
+      <h4 class="card-header">Models</h4>
+      <div class="card-body">
+        <ul>
+          <li><a href="#">Model 1</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+<br>
+<div class="row">
+  <div class="container col-sm-10">
+    <div class="card">
+      <h4 class="card-header">Visuals</h4>
+      <div class="card-body">
+        <ul>
+          <li><a href="#">Visuals 1</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
