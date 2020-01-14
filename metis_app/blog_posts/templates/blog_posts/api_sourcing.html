@@ -1,0 +1,127 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <p>
+     There are several strategies to acquired data in the wild programmatically.
+     One of the most common is through finding an API (Application Programming Interface) that allows access to an entities' database.
+  </p>
+  <p>
+     An example is the <a href="http://web.mta.info/developers/turnstile.html">MTA's Turnstile website</a>
+     The site allows you to access text files with csv data for subway turnstile traffic.
+     The url's structure<br><br>
+     <span>
+       http://web.mta.info/developers/data/nyct/turnstile/turnstile_[YYMMDD].txt"
+     </span>
+  </p>
+  <p>
+     To access multiple pages at once, we must create a function that interpolates the week starting date in the place of [YYMMDD].
+     i.e. Saturday, January 11th, 2020 = 200111.
+  </p>
+  <pre><code class="language-py">import pandas as pd
+
+def mta_data(week_numbers):
+    url = "http://web.mta.info/developers/data/nyct/turnstile/turnstile_{}.txt"
+    frames = list()
+    for week_number in week_numbers:
+        file_url = url.format(week_number)
+        df = pd.read_csv(file_url)
+        frames.append(df)
+    return pd.concat(frames)</code></pre>
+  <p>Let's access the last four weeks of data as example (as of January 13th, 2020).</p>
+  <pre><code class="language-py">week_numbers = [191221, 191228, 200104, 200111]
+df = mta_data(week_numbers)
+df.head()</code></pre>
+  <br>
+  <table class="table">
+    <thead>
+      <tr style="text-align: right;">
+        <th></th>
+        <th>C/A</th>
+        <th>UNIT</th>
+        <th>SCP</th>
+        <th>STATION</th>
+        <th>LINENAME</th>
+        <th>DIVISION</th>
+        <th>DATE</th>
+        <th>TIME</th>
+        <th>DESC</th>
+        <th>ENTRIES</th>
+        <th>EXITS</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th>0</th>
+        <td>A002</td>
+        <td>R051</td>
+        <td>02-00-00</td>
+        <td>59 ST</td>
+        <td>NQR456W</td>
+        <td>BMT</td>
+        <td>12/14/2019</td>
+        <td>03:00:00</td>
+        <td>REGULAR</td>
+        <td>7309003</td>
+        <td>2477349</td>
+      </tr>
+      <tr>
+        <th>1</th>
+        <td>A002</td>
+        <td>R051</td>
+        <td>02-00-00</td>
+        <td>59 ST</td>
+        <td>NQR456W</td>
+        <td>BMT</td>
+        <td>12/14/2019</td>
+        <td>07:00:00</td>
+        <td>REGULAR</td>
+        <td>7309008</td>
+        <td>2477362</td>
+      </tr>
+      <tr>
+        <th>2</th>
+        <td>A002</td>
+        <td>R051</td>
+        <td>02-00-00</td>
+        <td>59 ST</td>
+        <td>NQR456W</td>
+        <td>BMT</td>
+        <td>12/14/2019</td>
+        <td>11:00:00</td>
+        <td>REGULAR</td>
+        <td>7309080</td>
+        <td>2477433</td>
+      </tr>
+      <tr>
+        <th>3</th>
+        <td>A002</td>
+        <td>R051</td>
+        <td>02-00-00</td>
+        <td>59 ST</td>
+        <td>NQR456W</td>
+        <td>BMT</td>
+        <td>12/14/2019</td>
+        <td>15:00:00</td>
+        <td>REGULAR</td>
+        <td>7309289</td>
+        <td>2477498</td>
+      </tr>
+      <tr>
+        <th>4</th>
+        <td>A002</td>
+        <td>R051</td>
+        <td>02-00-00</td>
+        <td>59 ST</td>
+        <td>NQR456W</td>
+        <td>BMT</td>
+        <td>12/14/2019</td>
+        <td>19:00:00</td>
+        <td>REGULAR</td>
+        <td>7309595</td>
+        <td>2477541</td>
+      </tr>
+    </tbody>
+  </table>
+
+
+{% endblock %}
