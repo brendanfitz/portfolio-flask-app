@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+
+{% block content %}
+<p>
+  When no API is available, the best way to acquire data programmatically is through web scraping.
+  This entails searching a websites html for data across different pages.
+  The fact that most website pages are based off templates allow multiple pages to be scraped with the same logic.
+</p>
+<p>
+  An example would be scraping movie data from <a href="https://www.boxofficemojo.com/">Box Office Mojo</a>.
+  To do so, we'll use <a href="https://www.crummy.com/software/BeautifulSoup/bs4/doc/">BeautifulSoup</a>, a python packages that takes in an html page and allows you to traverse the DOM.
+  Using two functions, we'll obtain data on a movie's page for many fields.
+</p>
+<pre class="language-python"><code>import re
+import request
+import BeautifulSoup
+
+def movie_scrape(title, url, field_dict):
+    response = requests.get(base_url + url)
+    if response.status_code != 200:
+        print("HTTP Error %s: %s" (response.code, response.url))
+        return None
+    soup = BeautifulSoup(response.text, 'html5lib')
+    record = dict()
+    record['title'] = title
+    record['url'] = url
+    for col, field_name in field_dict.items():
+        record[col] = movie_val(soup, field_name)
+    record['director'] = table_list(soup, 'Director')
+    record['actors'] = table_list(soup, 'Actors')
+
+    rows = table_rows(soup, re.compile('Domestic.*Summary'))
+    record['open_wkend_gross'] = table_val(rows, 'Opening.*Weekend')
+    record['widest_release'] = (table_val(rows, 'Widest.*Release')
+                             .replace(' theaters', ''))
+    record['in_release'] = table_val(rows, 'In.*Release')
+    return record
+
+def movie_val(soup, field_name):
+    """Grab a value from boxofficemojo HTML
+    Takes a string attribute of a movie on the page and
+    returns the string in the next sibling object
+    (the value for that attribute)
+    or None if nothing is found.
+    """
+    obj = soup.find(text=re.compile(field_name))
+    if obj:
+        next_sibling = obj.findNextSibling()
+        if next_sibling:
+            return next_sibling.text
+    return None</code></pre>
+<p>
+  This returns a dictionary with the data from the site.
+  For example, the cinematic classic <em>Minions</em>...
+</p>
+<pre class="language-python"><code>url = 'https://www.boxofficemojo.com/title/tt2293640/'
+title = 'Minions'
+field_dict = {
+    'release_date': 'Release Date:',
+    'distributor': 'Distributor',
+    'rating': 'MPAA Rating',
+    'genre': 'Genre: ',
+    'runtime': 'Runtime:',
+    'budget': 'Production Budget:',
+    'domestic_total_gross': 'Domestic Total Gross'
+}
+movie_scrape(title, url, field_dict)</code></pre>
+<p>will return:</p>
+<pre class="language-python"><code>{'title': 'Minions',
+ 'url': 'https://www.boxofficemojo.com/title/tt2293640/',
+ 'release_date': 'Jul 10, 2015',
+ 'distributor': 'Universal Pictures',
+ 'rating': 'PG',
+ 'genre': 'Adventure Animation Comedy Family Sci-Fi',
+ 'runtime': '1 hr 31 min',
+ 'budget': '$74,000,000',
+ 'domestic_total_gross': '$336,045,770',
+ 'director': 'Kyle Balda, Pierre Coffin',
+ 'actors': 'Sandra Bullock, Jon Hamm, Michael Keaton, Pierre Coffin',
+ 'open_wkend_gross': '$115,718,405',
+ 'widest_release': '4,386',
+ 'in_release': '161 days'}</code></pre>
+<p>
+  *** Addendum: the site structure has changed so this won't work anymore unfortunately.
+  But, believe me, it did at one point!
+</p>
+
+{% endblock %}

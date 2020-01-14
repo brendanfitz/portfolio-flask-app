@@ -8,4 +8,4 @@ def blog(name):
     blog_data = blog_db[name]
     title = blog_data['title']
     template = blog_data['template']
-    return render_template('api_sourcing.html', title=title, blog=True)
+    return render_template(template, title=title, blog=True)

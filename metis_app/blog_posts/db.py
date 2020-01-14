@@ -3,21 +3,13 @@ blog_db = {
         'title': 'Sourcing Data From an API',
         'template': 'api_sourcing.html'
     },
-    'scraping_bs': {
+    'web_scraping_with_beautiful_soup': {
         'title': 'Web Scraping - Beautiful Soup',
-        'template': '#'
+        'template': 'web_scraping_with_beautiful_soup.html'
     },
-    'regression_regularization': {
-        'title': 'Regression Regularization',
-        'template': '#'
-    },
-    'classification_model': {
-        'title': 'Classification Model',
-        'template': '#'
-    },
-    'topic_modeling': {
-        'title': 'Topic Modeling',
-        'template': '#'
+    'nlp_classification_model': {
+        'title': 'Natural Language Processing (NLP) Classification Model',
+        'template': 'nlp_classification_model.html'
     },
 }
 
