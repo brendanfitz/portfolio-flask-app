@@ -1,7 +1,11 @@
 from flask import render_template, request, Blueprint
 from metis_app.blog_posts.db import blog_db
 
-blog_posts = Blueprint('blog_posts', __name__, template_folder='templates/blog_posts')
+kwargs = dict(
+    template_folder='templates/blog_posts',
+    static_folder='static',
+)
+blog_posts = Blueprint('blog_posts', __name__, **kwargs)
 
 @blog_posts.route('/<name>')
 def blog(name):
