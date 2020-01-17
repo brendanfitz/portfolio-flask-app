@@ -68,7 +68,11 @@
     </nav>
     <div class="container">
       {% if homepage %}
-      {% block content_hp %}{% endblock %}
+      {% block hp_content %}{% endblock %}
+      {% endif %}
+
+      {% if error_page %}
+      {% block error_content %}{% endblock %}
       {% endif %}
 
       {% if blog %}
@@ -78,7 +82,7 @@
 
       <div class="row">
         <div class="container col-md-8">
-          {% block content %}{% endblock %}
+          {% block blog_content %}{% endblock %}
         </div>
       </div>
       {% endif %}
