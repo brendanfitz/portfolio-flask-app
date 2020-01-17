@@ -7,5 +7,5 @@ blog_posts = Blueprint('blog_posts', __name__, template_folder='templates/blog_p
 def blog(name):
     blog_data = blog_db[name]
     title = blog_data['title']
-    template = blog_data['template']
+    template = '{}.html'.format(name)
     return render_template(template, title=title, blog=True)

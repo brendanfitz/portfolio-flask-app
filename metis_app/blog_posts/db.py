@@ -1,15 +1,15 @@
 blog_db = {
     'api_sourcing': {
         'title': 'Sourcing Data From an API',
-        'template': 'api_sourcing.html'
     },
     'web_scraping_with_beautiful_soup': {
         'title': 'Web Scraping - Beautiful Soup',
-        'template': 'web_scraping_with_beautiful_soup.html'
     },
     'nlp_classification_model': {
         'title': 'Natural Language Processing (NLP) Classification Model',
-        'template': 'nlp_classification_model.html'
+    },
+    'movie_data_eda': {
+        'title': 'Box Office Mojo Top 5 EDA Fun Facts',
     },
 }
 
