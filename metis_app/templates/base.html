@@ -67,15 +67,9 @@
       </div>
     </nav>
     <div class="container">
-      {% if homepage %}
-      {% block hp_content %}{% endblock %}
-      {% endif %}
-
-      {% if error_page %}
-      {% block error_content %}{% endblock %}
-      {% endif %}
-
-      {% if blog %}
+      {% if homepage %}{% block hp_content %}{% endblock %}{% endif %}
+      {% if error_page %}{% block error_content %}{% endblock %}{% endif %}
+      {% if viz_page %}{% block viz_content %}{% endblock %}{% endif %}{% if blog %}
       <div class="jumbotron">
         <h2 class="blog-post-title text-center">{{title}}</h2>
       </div>
@@ -84,8 +78,7 @@
         <div class="container col-md-8">
           {% block blog_content %}{% endblock %}
         </div>
-      </div>
-      {% endif %}
+      </div>{% endif %}
     </div>
   </body>
 </html>
