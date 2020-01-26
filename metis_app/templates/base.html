@@ -25,18 +25,6 @@
             <li class="nav-item active">
               <a class="navbar-brand" href="{{url_for('core.index')}}">BRENDAN/FITZPATRICK</a>
             </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Blogs
-              </a>
-              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="#">Project 1 - Benson</a>
-                <a class="dropdown-item" href="#">Project 2 - Luther</a>
-                <a class="dropdown-item" href="#">Project 3 - McNulty</a>
-                <a class="dropdown-item" href="#">Project 4 - Fletcher</a>
-                <a class="dropdown-item" href="#">Project 5 - Kojak</a>
-              </div>
-            </li>
           </ul>
           <ul class="navbar-nav ml-auto">
             <li class="nav-item">
@@ -69,14 +57,15 @@
     <div class="container">
       {% if homepage %}{% block hp_content %}{% endblock %}{% endif %}
       {% if error_page %}{% block error_content %}{% endblock %}{% endif %}
-      {% if viz_page %}{% block viz_content %}{% endblock %}{% endif %}{% if blog %}
-      <div class="jumbotron">
+      {% if viz_page %}{% block viz_content %}{% endblock %}{% endif %}
+      {% if blog or model %}<div class="jumbotron">
         <h2 class="blog-post-title text-center">{{title}}</h2>
       </div>
 
       <div class="row">
         <div class="container col-md-8">
-          {% block blog_content %}{% endblock %}
+          {% if blog %}{% block blog_content %}{% endblock %}{% endif %}
+          {% if model %}{% block model_content %}{% endblock %}{% endif %}
         </div>
       </div>{% endif %}
     </div>
