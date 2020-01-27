@@ -9,7 +9,7 @@ blog_db = {
         'title': 'Natural Language Processing (NLP) Classification Model',
     },
     'movie_data_eda': {
-        'title': 'Box Office Mojo Top 5 EDA Fun Facts',
+        'title': 'Box Office Mojo Top 3 EDA Fun Facts Through Boxplots',
     },
     'redshift': {
         'title': 'Redshift SQL Helper',
