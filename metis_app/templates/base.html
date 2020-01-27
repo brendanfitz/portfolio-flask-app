@@ -55,17 +55,17 @@
       </div>
     </nav>
     <div class="container">
-      {% if homepage %}{% block hp_content %}{% endblock %}{% endif %}
-      {% if error_page %}{% block error_content %}{% endblock %}{% endif %}
-      {% if viz_page %}{% block viz_content %}{% endblock %}{% endif %}
-      {% if blog or model %}<div class="jumbotron">
+      {% if homepage -%}{% block hp_content %}{% endblock %}{% endif %}
+      {% if error_page -%}{% block error_content %}{% endblock %}{% endif %}
+      {% if viz_page -%}{% block viz_content %}{% endblock %}{% endif %}
+      {% if blog or model -%}<div class="jumbotron">
         <h2 class="blog-post-title text-center">{{title}}</h2>
       </div>
 
       <div class="row">
         <div class="container col-md-8">
-          {% if blog %}{% block blog_content %}{% endblock %}{% endif %}
-          {% if model %}{% block model_content %}{% endblock %}{% endif %}
+          {% if blog -%}{% block blog_content %}{% endblock %}{% endif %}
+          {% if model -%}{% block model_content %}{% endblock %}{% endif %}
         </div>
       </div>{% endif %}
     </div>
