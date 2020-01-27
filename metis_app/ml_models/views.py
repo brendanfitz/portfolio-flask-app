@@ -2,7 +2,7 @@
 import numpy as np
 import pandas as pd
 from flask import render_template, request, Blueprint
-from metis_app.ml_models.forms import MoviePredictorForm, LoanPredictorForm
+from metis_app.ml_models.forms import MoviePredictorForm, LoanPredictorForm, KickstarterPitchOutcomeForm
 from metis_app.ml_models.pickle_imports import Pickle_Imports
 
 
@@ -40,6 +40,15 @@ def mcnulty_prediction(form):
     prediction = "{:0.1%}".format(pickles.clf.predict_proba(row)[0][1])
     return prediction
 
+def fletcher_prediction(form):
+    pitch = [form.pitch.data]
+    pitch_vectorized = pickles.kickstarter_vectorizer.transform(pitch).toarray()
+    prediction = pickles.kickstarter_model.predict(pitch_vectorized)[0]
+    if prediction == 1:
+        return "Congrats! Our model predicts your pitch will be funded!"
+    else:
+        return "Sorry, our model predicts your pitch will not be funded :("
+
 @ml_models.route('/<name>', methods=['GET', 'POST'])
 def models(name):
     template = '{}.html'.format(name)
@@ -50,6 +59,9 @@ def models(name):
     elif name == 'mcnulty':
         form = LoanPredictorForm()
         title = "Lending Club Loan Default Prediction Model"
+    elif name == 'fletcher':
+        form = KickstarterPitchOutcomeForm()
+        title = "Kickstarter Pitch Funding Outcome Prediction Model"
     else:
         form = None
 
@@ -58,6 +70,8 @@ def models(name):
             prediction = luther_prediction(form)
         elif name == 'mcnulty':
             prediction = mcnulty_prediction(form)
+        elif name == 'fletcher':
+            prediction = fletcher_prediction(form)
         return render_template(template, model=True, form=form, title=title, prediction=prediction)
 
     return render_template(template, model=True, title=title, form=form)

@@ -1,9 +1,10 @@
 import pickle
-from sklearn.preprocessing import PolynomialFeatures, OneHotEncoder, StandardScaler
-from sklearn.feature_extraction.text import CountVectorizer
-from sklearn.linear_model import LinearRegression, Lasso, LassoCV
 import numpy as np
 import pandas as pd
+from sklearn.preprocessing import PolynomialFeatures, OneHotEncoder, StandardScaler
+from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
+from sklearn.linear_model import LinearRegression, Lasso, LassoCV
+from sklearn.naive_bayes import GaussianNB
 from metis_app.ml_models import luther_util
 from metis_app.ml_models import mcnulty_util
 
@@ -40,3 +41,11 @@ class Pickle_Imports:
         filename = 'metis_app/static/pickles/clf.pkl'
         with open(filename, 'rb') as f:
             self.clf = pickle.load(f)
+
+        filename = 'metis_app/static/pickles/kickstarter_vectorizer.pkl'
+        with open(filename, 'rb') as f:
+            self.kickstarter_vectorizer = pickle.load(f)
+
+        filename = 'metis_app/static/pickles/kickstarter_model.pkl'
+        with open(filename, 'rb') as f:
+            self.kickstarter_model = pickle.load(f)

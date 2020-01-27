@@ -1,7 +1,12 @@
 from flask_wtf import FlaskForm
 from wtforms import (
-    StringField, IntegerField, SelectField, FloatField, SubmitField, validators
+    StringField, IntegerField, SelectField, FloatField, SubmitField,
+    TextAreaField, validators
 )
+
+class KickstarterPitchOutcomeForm(FlaskForm):
+    pitch = TextAreaField('Pitch')
+    submit = SubmitField("Predict")
 
 class MoviePredictorForm(FlaskForm):
     budget = IntegerField('Budget', default=85000000)
