@@ -1,9 +1,13 @@
 {% extends "base.html" %}
 
 {% block blog_content %}
+<p>
+  When analyzing data from a database, usually redshift for me, it can be an absolute pain switching from your database IDE to your python IDE.
+  To avoid this, I created a module that allows one connect to Redshift and execute a group of queries from a text file.
+  I have found this immensely helpful and hope you do too!
+</p>
 <pre class="language-py"><code>import psycopg2
 from connection_config import cc
-from aws_credentials import aws_creds
 
 class RedshiftSQLHelper:
 
@@ -19,8 +23,6 @@ class RedshiftSQLHelper:
         sql = open(self.fin, 'r').read()
         for command in sql.split(';\n'):
             command = command.strip()
-            if 'copy ' in command:
-                command = command.format(**aws_creds)
             if command != '':
                 self.commands.append(command)
 
