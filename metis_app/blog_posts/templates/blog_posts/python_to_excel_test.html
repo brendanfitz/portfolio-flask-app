@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block blog_content %}
+  <pre class="language-python"><code>import os
+  import argparse
+  import subprocess
+  import datetime as dt
+  import psycopg2
+  from connection_config import cc
+
+  def main():
+      args = parse_args()
+      f = args.filename
+      sql = open(f, 'r').read()
+
+      with psycopg2.connect(**cc) as conn:
+          df = pd.read_sql(sql, conn)
+
+      """
+      Apply transformations if necessary
+      df = df...
+      """
+
+      ts = dt.datetime.now().strftime('%Y-%m-%d.%H.%M')
+      fout = os.path.join(
+          'data',
+          'f_test_{}.xlsx'.format(ts)
+      )
+      df.to_excel(fout, index=False)
+      subprocess.run(['open', fout], check=True)
+
+  def parse_args():
+      parser = argparse.ArgumentParser()
+      parser.add_argument('filename')
+      args = parser.parse_args()
+      return args
+
+  if __name__ == '__main__':
+      main()</code></pre>
+    
+{% endblock %}
