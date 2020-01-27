@@ -7,11 +7,9 @@
       <h4 class="card-header">Blogs</h4>
       <div class="card-body">
         <ul>
-          <li><a href="{{url_for('blog_posts.blog', name='api_sourcing')}}">Source Data from an API</a></li>
-          <li><a href="{{url_for('blog_posts.blog', name='web_scraping_with_beautiful_soup')}}">Web Scraping with BeautifulSoup</a></li>
-          <li><a href="{{url_for('blog_posts.blog', name='nlp_classification_model')}}">Natural Language Processing (NLP) Classification Model</a></li>
-          <li><a href="{{url_for('blog_posts.blog', name='movie_data_eda')}}">Movie Data Fun Facts</a></li>
-          <li><a href="{{url_for('blog_posts.blog', name='redshift')}}">Redshift SQL Helper</a></li>
+          {% for blog_title, blog_data in blog_db.items() %}
+          <li><a href="{{url_for('blog_posts.blog', name=blog_title)}}">{{blog_data.title}}</a></li>
+          {% endfor %}
         </ul>
       </div>
     </div>
