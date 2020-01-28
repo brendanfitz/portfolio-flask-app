@@ -1,7 +1,18 @@
 {% extends "base.html" %}
 
 {% block blog_content %}
-  <pre class="language-python"><code>import os
+  <p>
+    Python has a lot of great IDEs and computational notebooks for viewing data;
+    however, sometimes there's no replacement for firing up excel and getting your hands dirty with the data directly.
+  </p>
+  <p>
+    One thing I've found help is using the <a href="https://docs.python.org/2/library/subprocess.html">subprocess</a>
+    module to open open the workbook for you once your process is done.
+    This is especially useful if your deliverable happens to be an excel workbook (the horror!).
+    Below is an example of a script template I use to pull data from a database, apply some transformations,
+    output the results or some diagnostics of the results to excel, and then open that excel file directly from python.
+  </p>
+  <pre class="language-python"><code>  import os
   import argparse
   import subprocess
   import datetime as dt
@@ -37,5 +48,10 @@
 
   if __name__ == '__main__':
       main()</code></pre>
-    
+  <p>
+    Hope you find this as helpful as I have!
+  </p>
+
+
+
 {% endblock %}
