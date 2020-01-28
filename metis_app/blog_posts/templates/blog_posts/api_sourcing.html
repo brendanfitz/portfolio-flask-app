@@ -2,17 +2,15 @@
 
 {% block blog_content %}
   <p>
-     There are several strategies to acquired data in the wild programmatically.
+     There are several strategies to acquire data programmatically in the wild.
      One of the most common is through finding an API (Application Programming Interface) that allows access to an entities' database.
   </p>
   <p>
      An example is the <a href="http://web.mta.info/developers/turnstile.html">MTA's Turnstile website</a>.
      The site allows you to access text files with csv data for subway turnstile traffic.
-     The url's structure<br><br>
-     <span>
-       http://web.mta.info/developers/data/nyct/turnstile/turnstile_[YYMMDD].txt"
-     </span>
+     The url's structure is:
   </p>
+  <pre class="language-py"><code>      http://web.mta.info/developers/data/nyct/turnstile/turnstile_[YYMMDD].txt</code></pre>
   <p>
      To access multiple pages at once, we must create a function that interpolates the week starting date in the place of [YYMMDD].
      i.e. Saturday, January 11th, 2020 = 200111.
