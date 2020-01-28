@@ -1,0 +1,277 @@
+{% extends "base.html" %}
+
+{% block blog_content %}
+<p>
+  In statistics, there are many different strategies for determining the best subset of predictive variables.
+  One method is forward selection.
+  Let's use this method on our Box Office Mojo dataset to find some variables predictive of ROI!
+</p>
+<pre class="language-py"><code>import os
+import pandas as pd
+import numpy as np
+import re
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+import luther_util as lu</code></pre>
+<p>
+  We'll first apply our standard movie data transformations.
+</p>
+<pre class="language-py"><code>fname = sorted([x for x in os.listdir('data')
+                if re.match('box_office_mojo_pp', x)])[-1]
+df = (pd.read_csv('data/%s' % fname)
+      .set_index('title')
+      .assign(release_date=lambda x: x.release_date.astype('datetime64'),
+              release_month=lambda x: x.release_date.dt.month,
+              release_year=lambda x: x.release_date.dt.year,
+              log_gross=lambda x: np.log(x.domestic_total_gross),
+              roi=lambda x: x.domestic_total_gross.div(x.budget) - 1)
+      .query('roi < 15')) # filter out ROI outliers</code></pre>
+<p>
+  Next let's create a list of variables we will consider that might have predictive value for movie ROI.
+</p>
+<pre class="language-py"><code>independents = [
+  'budget',
+  'domestic_total_gross',
+  'open_wkend_gross',
+  'runtime',
+  'widest_release',
+  'in_release_days',
+  ['rating[T.PG]', 'rating[T.PG-13]', 'rating[T.R]'],
+  ['release_month', 'release_year']]</code></pre>
+<p>
+  Next we will iterate through these variables and log them to a list.
+</p>
+<pre class="language-py"><code>results = list()
+for variable in independents:
+  if isinstance(variable, list):
+    X = df.loc[:, variable]
+    y = df.loc[:, 'roi']
+    lr = LinearRegression()
+    lu.log_model(results, lr, X, y, variable)
+  else:
+    X = df.loc[:, variable].values.reshape(-1, 1)
+    y = df.loc[:, 'roi']
+    for degree in range(1, 4):
+      if degree == 1:
+        lr = LinearRegression()
+        lu.log_model(results, lr, X, y, variable)
+      else:
+        lr = Pipeline([('poly', PolynomialFeatures(degree)),
+                       ('regr', LinearRegression())])
+        lu.log_model(results, lr, X, y, variable, degree)
+# Let's also add a bias model
+X = np.ones((df.shape[0], 1))
+y = df.loc[:, 'roi']
+lr = LinearRegression(fit_intercept=False)
+lu.log_model(results, lr, X, y, 'bias')
+results_df(results).head(5)</code></pre>
+<table class="table">
+  <thead>
+    <tr>
+      <th>features</th>
+      <th>degree</th>
+      <th>training_r2</th>
+      <th>test_r2</th>
+      <th>mse</th>
+      <th>rsme</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>budget</td>
+      <td>2</td>
+      <td>0.298164</td>
+      <td>0.221162</td>
+      <td>2.751055</td>
+      <td>1.658631</td>
+    </tr>
+    <tr>
+      <td>budget</td>
+      <td>3</td>
+      <td>0.162094</td>
+      <td>0.142412</td>
+      <td>3.235131</td>
+      <td>1.798647</td>
+    </tr>
+    <tr>
+      <td>budget</td>
+      <td>1</td>
+      <td>0.159838</td>
+      <td>0.107614</td>
+      <td>3.261668</td>
+      <td>1.806009</td>
+    </tr>
+    <tr>
+      <td>in_release_days</td>
+      <td>1</td>
+      <td>0.029881</td>
+      <td>-0.028430</td>
+      <td>3.764404</td>
+      <td>1.940207</td>
+    </tr>
+    <tr>
+      <td>[rating[T.PG], rating[T.PG-13], rating[T.R]]</td>
+      <td>1</td>
+      <td>0.029980</td>
+      <td>-0.044607</td>
+      <td>3.765328</td>
+      <td>1.940445</td>
+    </tr>
+  </tbody>
+</table>
+<p>
+  Using only one variable, our top model for predicting return is budget.
+  Let's add another variable and see what we get.
+</p>
+<pre class="language-py"><code>import itertools
+import functools
+import operator
+
+number_independents = 2
+
+independents = [x if isinstance(x, list) else [x] for x in independents]
+combs = list(itertools.combinations(independents, number_independents))
+variables_list = [functools.reduce(operator.iconcat, x, []) for x in combs]
+for variables in variables_list:
+    X = df.loc[:, variables]
+    y = df.loc[:, 'roi']
+    lr = LinearRegression()
+    lu.log_model(results, lr, X, y, variable)
+
+results_df(results).head(5)</code></pre>
+<table class="table">
+  <thead>
+    <tr>
+      <th>features</th>
+      <th>degree</th>
+      <th>training_r2</th>
+      <th>test_r2</th>
+      <th>mse</th>
+      <th>rsme</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>[budget, domestic_total_gross]</td>
+      <td>1</td>
+      <td>0.418192</td>
+      <td>0.352395</td>
+      <td>2.293047</td>
+      <td>1.514281</td>
+    </tr>
+    <tr>
+      <td>[budget, open_wkend_gross]</td>
+      <td>1</td>
+      <td>0.339812</td>
+      <td>0.299092</td>
+      <td>2.591965</td>
+      <td>1.609958</td>
+    </tr>
+    <tr>
+      <td>budget</td>
+      <td>2</td>
+      <td>0.298164</td>
+      <td>0.221162</td>
+      <td>2.751055</td>
+      <td>1.658631</td>
+    </tr>
+    <tr>
+      <td>[budget, in_release_days]</td>
+      <td>1</td>
+      <td>0.243988</td>
+      <td>0.128253</td>
+      <td>2.988644</td>
+      <td>1.728770</td>
+    </tr>
+    <tr>
+      <td>[budget, widest_release]</td>
+      <td>1</td>
+      <td>0.186577</td>
+      <td>0.119619</td>
+      <td>3.200082</td>
+      <td>1.788877</td>
+    </tr>
+  </tbody>
+</table>
+<p>
+  Now, instead of budget, we find that budget and domestic total gross together are the best!
+  We'll ignore the fact that we can't use domestic total gross to predict ROI for now.
+</p>
+<p>
+  Let's get wild and crazy with three variables!
+</p>
+
+<pre class="language-py"><code>number_independents = 3
+
+independents = [x if isinstance(x, list) else [x] for x in independents]
+combs = list(itertools.combinations(independents, number_independents))
+variables_list = [functools.reduce(operator.iconcat, x, []) for x in combs]
+for variables in variables_list:
+    X = df.loc[:, variables]
+    y = df.loc[:, 'roi']
+    lr = LinearRegression()
+    lu.log_model(results, lr, X, y, variable)
+
+results_df(results).head(5)</code></pre>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>features</th>
+      <th>degree</th>
+      <th>training_r2</th>
+      <th>test_r2</th>
+      <th>mse</th>
+      <th>rsme</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>[budget, domestic_total_gross, release_month, release_year]</td>
+      <td>1</td>
+      <td>0.422910</td>
+      <td>0.346552</td>
+      <td>2.281242</td>
+      <td>1.510378</td>
+    </tr>
+    <tr>
+      <td>[budget, domestic_total_gross, release_month, release_year]</td>
+      <td>1</td>
+      <td>0.422910</td>
+      <td>0.346552</td>
+      <td>2.281242</td>
+      <td>1.510378</td>
+    </tr>
+    <tr>
+      <td>[budget, domestic_total_gross, in_release_days]</td>
+      <td>1</td>
+      <td>0.422280</td>
+      <td>0.354251</td>
+      <td>2.289236</td>
+      <td>1.513022</td>
+    </tr>
+    <tr>
+      <td>[budget, domestic_total_gross, in_release_days]</td>
+      <td>1</td>
+      <td>0.422280</td>
+      <td>0.354251</td>
+      <td>2.289236</td>
+      <td>1.513022</td>
+    </tr>
+    <tr>
+      <td>[budget, domestic_total_gross]</td>
+      <td>1</td>
+      <td>0.418192</td>
+      <td>0.352395</td>
+      <td>2.293047</td>
+      <td>1.514281</td>
+    </tr>
+  </tbody>
+</table>
+<p>
+  Adding release month and year gives us our best model yet.
+</p>
+<p>
+  We'll stop here but we could imagine continuing until we've analyzed all subsets to find the best model.
+</p>
+{% endblock %}

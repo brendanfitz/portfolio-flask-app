@@ -14,4 +14,10 @@ blog_db = {
     'redshift': {
         'title': 'Redshift SQL Helper',
     },
+    'python_to_excel': {
+        'title': 'Opening Excel from Python using the Subprocess Module',
+    },
+    'forward_selection': {
+        'title': 'Forward Selection Regression Model for Predicting Movie ROI',
+    },
 }
