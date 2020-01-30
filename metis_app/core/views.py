@@ -10,4 +10,4 @@ def index():
 
 @core.route('/about')
 def about():
-    return render_template('about.html')
+    return render_template('about.html', blog=True, title="About Me, Brendan!")
