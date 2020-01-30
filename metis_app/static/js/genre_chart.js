@@ -10,6 +10,23 @@ var g = d3.select("#chart-area")
     .append("g")
         .attr("transform", "translate(" + margin.left + ", " + margin.top + ")");
 
+var formattedData;
+var xAxisGroup = g.append("g")
+    .attr("class", "x axis")
+    .attr("transform", "translate(0," + height +")")
+
+var yAxisGroup = g.append("g")
+    .attr("class", "y axis")
+
+// X Scale
+var x = d3.scaleBand()
+    .range([0, width])
+    .padding(0.2);
+
+// Y Scale
+var y = d3.scaleLinear()
+    .range([height, 0]);
+
 // X Label
 g.append("text")
     .attr("y", height + 90)
@@ -32,26 +49,41 @@ d3.csv("/static/js/data/genre_roi.csv").then(function(data){
 
     // Clean data
     data.forEach(function(d) {
-        d.roi = +d.roi;
+        d.roi_total = +d.roi_total;
+        d.roi_2018 = +d.roi_2018;
+        d.roi_2017 = +d.roi_2017;
+        d.roi_2016 = +d.roi_2016;
+        d.roi_2015 = +d.roi_2015;
+        d.roi_2014 = +d.roi_2014;
+        d.roi_2013 = +d.roi_2013;
+        d.roi_2012 = +d.roi_2012;
+        d.roi_2011 = +d.roi_2011;
+        d.roi_2010 = +d.roi_2010;
+        d.roi_2009 = +d.roi_2009;
+        d.roi_2008 = +d.roi_2008;
     });
+    formattedData = data;
 
+    update(data);
+});
+
+$("#yearSelect")
+  .on("change", function() {
+    update(formattedData);
+  })
+
+function update(data) {
+    var value = $("#yearSelect").val();
+    data.sort(function(a, b) {
+        return b[value] - a[value];
+     });
     // X Scale
-    var x = d3.scaleBand()
-        .domain(data.map(function(d){ return d.genre }))
-        .range([0, width])
-        .padding(0.2);
-
-    // Y Scale
-    var y = d3.scaleLinear()
-        .domain([0, d3.max(data, function(d) { return d.roi })])
-        .range([height, 0]);
+    x.domain(data.map(function(d){ return d.genre }));
+    y.domain([0, d3.max(data, function(d) { return d[value] })]);
 
     // X Axis
     var xAxisCall = d3.axisBottom(x);
-    g.append("g")
-        .attr("class", "x axis")
-        .attr("transform", "translate(0," + height +")")
-        .call(xAxisCall)
+    xAxisGroup.call(xAxisCall)
       .selectAll("text")
         .attr("transform", "rotate(-45)")
         .style("text-anchor", "end");
@@ -59,19 +91,25 @@ d3.csv("/static/js/data/genre_roi.csv").then(function(data){
     // Y Axis
     var yAxisCall = d3.axisLeft(y)
         .tickFormat(function(d){ return d * 100 + '%'; });
-    g.append("g")
-        .attr("class", "y axis")
-        .call(yAxisCall);
+    yAxisGroup.call(yAxisCall);
 
     // Bars
     var rects = g.selectAll("rect")
-        .data(data)
+        .data(data);
+
+    rects.exit().remove();
 
     rects.enter()
         .append("rect")
-            .attr("y", function(d){ return y(d.roi); })
+            .attr("y", function(d){ return y(d[value]); })
             .attr("x", function(d){ return x(d.genre) })
-            .attr("height", function(d){ return height - y(d.roi); })
+            .attr("height", function(d){ return height - y(d[value]); })
             .attr("width", x.bandwidth)
-            .attr("fill", "grey");
-})
+            .attr("fill", "grey")
+            // And update old elements present in new data
+            .merge(rects)
+              .attr("x", function(d){ return x(d.genre) })
+              .attr("width", x.bandwidth)
+              .attr("y", function(d){ return y(d[value]); })
+              .attr("height", function(d){ return height - y(d[value]); });
+}

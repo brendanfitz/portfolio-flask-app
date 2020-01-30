@@ -2,7 +2,29 @@
 
 {% block viz_content %}
   <h1 class="visuals-header">Median ROI by Movie Genre</h1>
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="form-group">
+        <label for="yearSelect">Select Year</label>
+        <select id="yearSelect" class="form-control">
+            <option selected value="roi_total">All (2008-2018)</option>
+            <option value="roi_2018">2018</option>
+            <option value="roi_2017">2017</option>
+            <option value="roi_2016">2016</option>
+            <option value="roi_2015">2015</option>
+            <option value="roi_2014">2014</option>
+            <option value="roi_2013">2013</option>
+            <option value="roi_2012">2012</option>
+            <option value="roi_2011">2011</option>
+            <option value="roi_2010">2010</option>
+            <option value="roi_2009">2009</option>
+            <option value="roi_2008">2008</option>
+        </select>
+      </div>
+    </div>
+  </div>
   <div id="chart-area"></div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/core.js"></script>
   <script src="https://d3js.org/d3.v5.min.js"></script>
   <script src="{{ url_for('static', filename='js/genre_chart.js') }}"></script>
 
