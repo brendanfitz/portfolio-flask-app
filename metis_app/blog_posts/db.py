@@ -20,4 +20,7 @@ blog_db = {
     'forward_selection': {
         'title': 'Forward Selection Regression Model for Predicting Movie ROI',
     },
+    'hyperparameter_tuning_with_gridsearch': {
+        'title': 'Hyperparameter Tuning with Grid Search',
+    },
 }

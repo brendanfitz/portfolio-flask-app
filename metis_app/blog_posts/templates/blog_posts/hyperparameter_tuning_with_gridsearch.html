@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+
+{% block blog_content %}
+<p>
+  Sometimes, we know what type of model we want to use (i.e. Logistic Regression) but we want to get the most out it.
+  The way we do that is tuning the model's hyperparameters (as opposed to parameters the models tunes for us).
+  While creating my <a href="{{url_for('ml_models.models', name='mcnulty')}}">Lending Club Loan Default Prediction Model</a> (I'm sure you heard of it...)
+  I used Grid Search to tune my classification models. Before we dive in, let's import the data and clean it!
+</p>
+<pre class="language-py"><code>import os
+import pandas as pd
+import numpy as np
+import re
+import itertools
+from sklearn.preprocessing import PolynomialFeatures, OneHotEncoder, StandardScaler
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.pipeline import FeatureUnion, Pipeline
+from sklearn.model_selection import train_test_split, cross_val_score, KFold, GridSearchCV
+from sklearn.linear_model import LogisticRegression
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.ensemble import RandomForestClassifier
+from sklearn import metrics
+import mcnulty_util as mcu
+
+df = mcu.mcnulty_preprocessing()</code></pre>
+<p>
+  Note that my preprocessing function (and some others for creating/logging models) was put in a utility module <a href="https://github.com/bfitzpa5/Metis_Projects/blob/master/03-mcnulty/mcnulty_util.py">here</a>.
+  Feel free to peruse if you're the adventurous type, otherwise, it's not necessary to know here.
+</p>
+<p>
+  Moving on, the parameter we'll be tuning is the <em>class_weights</em> parameter in sklearn's <a href="https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html">LogisticRegression module</a>.
+  The reason we are tuning this specific parameter is that our dataset's dependent variable is highly imbalanced.
+  "How imbalanced?", you may ask. Well, let me show you...
+</p>
+<table class="table">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Gross Count</th>
+      <th>Percentage of Total</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>207,721</td>
+      <td>78.16%</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>58,056</td>
+      <td>21.84%</td>
+    </tr>
+  </tbody>
+</table>
+<p>
+  We can see that, fortunately for us, the pretend lender, most of the loans were paid in full (i.e. 0) and did not default (i.e. 1).
+  So, now that we've identified imbalanced classes, let's get down with some <a href="https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.GridSearchCV.html">Grid Search</a> using our famous partner-in-crime, sklearn!
+</p>
+<pre class="language-py"><code>features = ['dti', 'int_rate', 'emp_length', 'home_ownership', 'purpose',
+            'delinq_2yrs','revol_bal', 'loan_amnt', 'grade', 'term']
+degree = 2
+X, y = df.loc[:, features], df.loc[:, dependent]
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=11,
+                                                    stratify=y)
+pipeline = mcu.clf_pipeline(LogisticRegression(), features, degree)
+weight_space = np.linspace(0.05, 0.95, 20)
+class_weights = [{0: x, 1: 1.0-x} for x in weight_space]
+hyperparameters = dict(clf__class_weight=class_weights)
+gs = GridSearchCV(pipeline, hyperparameters, scoring='f1', cv=5)
+gs.fit(X_train, y_train)</code></pre>
+<p>
+  After waiting about a billion hours for that to run, we can find our the ideal class weights using the below code.
+</p>
+<pre class="language-py"><code>pd.DataFrame(gs.best_params_)</code></pre>
+<table class="table">
+  <thead>
+    <tr>
+      <th></th>
+      <th>clf__class_weight</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0.239474</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0.760526</td>
+    </tr>
+  </tbody>
+</table>
+<p>
+  And, voila, we've found our best model for predicting defaults with class weights!
+</p>
+{% endblock %}
