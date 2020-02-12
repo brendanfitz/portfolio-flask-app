@@ -14,11 +14,21 @@ var projection = d3.geoAlbersUsa()
 var path = d3.geoPath() // path generator that will convert GeoJSON to SVG paths
   .projection(projection); // tell path generator to use albersUsa projection
 
+var tip = d3.tip()
+  .attr("class", "d3-tip")
+  .html(function(d) {
+    var text = "<strong>Country:</strong> <span style='color:red'>" + d.properties.name + "</span><br>";
+    text += "<strong>Default Rate:</strong> <span style='color:red'>" + d3.format('.1%')(d.properties.default_rate) + "</span><br>";
+    return text;
+  })
+
 //Create SVG element and append map to the SVG
 var svg = d3.select("#map-chart-area")
   .append("svg")
   .attr("width", width)
   .attr("height", height);
+
+svg.call(tip);
 
 // Load in my states data!
 d3.csv("/static/js/data/statesdata.csv", function(data) {
@@ -65,7 +75,9 @@ d3.csv("/static/js/data/statesdata.csv", function(data) {
       .attr("d", path)
       .style("stroke", "#fff")
       .style("stroke-width", "1")
-      .style("fill", function(d) { return ramp(d.properties.default_rate) });
+      .style("fill", function(d) { return ramp(d.properties.default_rate) })
+      .on("mouseover", tip.show)
+      .on("mouseout", tip.hide);
 
 		// add a legend
 		var w = 70, h = 150;
