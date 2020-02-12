@@ -105,7 +105,8 @@ d3.csv("/static/js/data/statesdata.csv", function(data) {
 			.range([h, 0])
 			.domain([minVal, maxVal]);
 
-		var yAxis = d3.axisRight(y);
+		var yAxis = d3.axisRight(y)
+        .tickFormat(d3.format('.0%'));
 
 		key.append("g")
 			.attr("class", "y axis")
