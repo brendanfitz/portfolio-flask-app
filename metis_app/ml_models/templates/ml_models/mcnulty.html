@@ -2,48 +2,60 @@
 
 {% block model_content %}
 <div class="row justify-content-md-center">
-  <div class="col col-lg-6">
+  <div class="col">
     {% if prediction %}
     <p>Your prediction for probability of default is {{ prediction }}</p>
     {% else %}
     <p>Fill out the below form with borrower information for loan default prediction!</p>
     {% endif %}
     <form method="post">
-      <div class="form-group">
-        {{ form.dti.label }}{{ form.dti(class_="form-control") }}
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          {{ form.loan_amnt.label }}{{ form.loan_amnt(class_="form-control") }}
+        </div>
+        <div class="form-group col-md-6">
+          {{ form.int_rate.label }}{{ form.int_rate(class_="form-control") }}
+        </div>
       </div>
-      <div class="form-group">
-        {{ form.int_rate.label }}{{ form.int_rate(class_="form-control") }}
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          {{ form.dti.label }}{{ form.dti(class_="form-control") }}
+        </div>
+        <div class="form-group col-md-6">
+          {{ form.emp_length.label }}{{ form.emp_length(class_="form-control") }}
+        </div>
       </div>
-      <div class="form-group">
-        {{ form.emp_length.label }}{{ form.emp_length(class_="form-control") }}
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          {{ form.home_ownership.label }}{{ form.home_ownership(class_="form-control") }}
+        </div>
+        <div class="form-group col-md-6">
+          {{ form.purpose.label }}{{ form.purpose(class_="form-control") }}
+        </div>
       </div>
-      <div class="form-group">
-        {{ form.home_ownership.label }}{{ form.home_ownership(class_="form-control") }}
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          {{ form.delinq_2yrs.label }}{{ form.delinq_2yrs(class_="form-control") }}
+        </div>
+        <div class="form-group col-md-6">
+          {{ form.revol_bal.label }}{{ form.revol_bal(class_="form-control") }}
+        </div>
       </div>
-      <div class="form-group">
-        {{ form.purpose.label }}{{ form.purpose(class_="form-control") }}
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          {{ form.grade.label }}{{ form.grade(class_="form-control") }}
+        </div>
+        <div class="form-group col-md-6">
+          {{ form.term.label }}{{ form.term(class_="form-control") }}
+        </div>
       </div>
-      <div class="form-group">
-        {{ form.delinq_2yrs.label }}{{ form.delinq_2yrs(class_="form-control") }}
-      </div>
-      <div class="form-group">
-        {{ form.revol_bal.label }}{{ form.revol_bal(class_="form-control") }}
-      </div>
-      <div class="form-group">
-        {{ form.loan_amnt.label }}{{ form.loan_amnt(class_="form-control") }}
-      </div>
-      <div class="form-group">
-        {{ form.grade.label }}{{ form.grade(class_="form-control") }}
-      </div>
-      <div class="form-group">
-        {{ form.term.label }}{{ form.term(class_="form-control") }}
-      </div>
-      <div class="form-group">
-        {{ form.installment.label }}{{ form.installment(class_="form-control") }}
-      </div>
-      <div class="form-group">
-        {{ form.addr_state.label }}{{ form.addr_state(class_="form-control") }}
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          {{ form.installment.label }}{{ form.installment(class_="form-control") }}
+        </div>
+        <div class="form-group col-md-6">
+          {{ form.addr_state.label }}{{ form.addr_state(class_="form-control") }}
+        </div>
       </div>
       {{ form.submit(class_="btn btn-primary") }}
     </form>

@@ -26,7 +26,7 @@ class MoviePredictorForm(FlaskForm):
     budget = IntegerField('Budget', default=85000000)
     in_release_days = IntegerField('In Release Days', default=273)
     widest_release = IntegerField('Widest Release', default=3674)
-    runtime = IntegerField('Runtime', default=107)
+    runtime = IntegerField('Runtime (minutes)', default=107)
     rating = SelectField(
         'Rating',
         choices=[('G', 'G'), ('PG', 'PG'), ('PG-13', 'PG-13'), ('R', 'R'),],
@@ -58,7 +58,7 @@ class LoanPredictorForm(FlaskForm):
         default='Debt Consolidation',
     )
     delinq_2yrs = SelectField(
-        'Has the borrow had any delinquencies in the past 2 years?',
+        'Borrower delinquencies in the past 2 years',
         choices=[(x, x) for x in range(30)],
         default=0,
     )
