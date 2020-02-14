@@ -2,11 +2,11 @@
 
 {% block model_content %}
 <div class="row justify-content-md-center">
-  <div>
+  <div class="col-sm-8">
     {% if prediction %}
-    <p>Your prediction ROI is {{ "{:,.2f}".format(prediction) }}</p>
+    <p class="text-center">The predicted ROI for this movie is <span class="font-weight-bold">{{"{:,.2f}".format(prediction)}}%</span></p>
     {% else %}
-    <p>Fill out the below form with movie information for ROI prediction!</p>
+    <p class="text-center">Fill out the below form with movie information for ROI prediction!</p>
     {% endif %}
     <form method="post">
       <div class="form-row">

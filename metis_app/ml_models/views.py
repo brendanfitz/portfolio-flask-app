@@ -44,10 +44,7 @@ def fletcher_prediction(form):
     pitch = [form.pitch.data]
     pitch_vectorized = pickles.kickstarter_vectorizer.transform(pitch).toarray()
     prediction = pickles.kickstarter_model.predict(pitch_vectorized)[0]
-    if prediction == 1:
-        return "Congrats! Our model predicts your pitch will be funded!"
-    else:
-        return "Sorry, our model predicts your pitch will not be funded :("
+    return prediction
 
 @ml_models.route('/<name>', methods=['GET', 'POST'])
 def models(name):
