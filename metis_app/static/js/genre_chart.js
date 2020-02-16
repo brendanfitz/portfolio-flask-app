@@ -90,7 +90,7 @@ function update(data) {
 
     // Y Axis
     var yAxisCall = d3.axisLeft(y)
-        .tickFormat(function(d){ return d * 100 + '%'; });
+        .tickFormat(d3.format(".0%"));
     yAxisGroup.call(yAxisCall);
 
     // Bars
