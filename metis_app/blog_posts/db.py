@@ -5,6 +5,9 @@ blog_db = {
     'web_scraping_with_beautiful_soup': {
         'title': 'Web Scraping - Beautiful Soup',
     },
+    'web_scraping_with_selenium': {
+        'title': 'Web Scraping - Selenium',
+    },
     'nlp_classification_model': {
         'title': 'Natural Language Processing (NLP) Classification Model',
     },
@@ -22,5 +25,8 @@ blog_db = {
     },
     'hyperparameter_tuning_with_gridsearch': {
         'title': 'Hyperparameter Tuning with Grid Search',
+    },
+    'extract_pos_with_textblob': {
+        'title': 'Extracting Parts-of-Speech with TextBlob',
     },
 }
