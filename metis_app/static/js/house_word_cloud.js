@@ -7,28 +7,49 @@ g = d3.select("#chart-area").append("svg")
     // appear outside of the SVG area
     .attr("transform", "translate(320,200)")
 
+var fontSizeMin = 12,
+    fontSizeMax = 48
+
+function fontSizeGenerator(min, max) {
+  return Math.random() * (max - min) + min;
+}
+
+colors = {
+  gryffindor: "#740001",
+  slytherin: "#1a472a",
+  hufflepuff: "#ecb939",
+  ravenclaw: "#0e1a40"
+}
+
 d3.json('/static/js/data/house_words.json', function(data) {
-  words = data['gryffindor'];
 
-  var frequency_lists = {};
-  var frequency_list = [];
+  frequency_lists = {};
 
-  var fontSizeMin = 12,
-      fontSizeMax = 48
-  function fontSizeGenerator(min, max) {
-    return Math.random() * (max - min) + min;
-  }
-  words.map(function(word) {
-    frequency_list.push({
-      text: word,
-      size: fontSizeGenerator(fontSizeMin, fontSizeMax)
-    });
-  })
+  for (const house in data) {
+    var frequency_list = [];
+    data[house].map(function(word) {
+      frequency_list.push({
+        text: word,
+        size: fontSizeGenerator(fontSizeMin, fontSizeMax)
+      });
+    })
+    frequency_lists[house] = frequency_list;
+  };
 
-  update(frequency_list);
+  update(frequency_lists);
 });
 
-function update(frequency_list) {
+$("#houseSelect")
+  .on("change", function() {
+    update(frequency_lists);
+  });
+
+function update(frequency_lists) {
+  var house = $('#houseSelect').val();
+  var frequency_list = frequency_lists[house];
+
+  g.selectAll("text").remove();
+
   d3.layout.cloud().size([800, 300])
     .words(frequency_list)
     .rotate(0)
@@ -40,11 +61,9 @@ function update(frequency_list) {
     var texts = g.selectAll("text")
         .data(words);
 
-    texts.exit().remove();
-
     texts.enter().append("text")
         .style("font-size", function(d) { return d.size + "px"; })
-        .style("fill", "#740001")
+        .style("fill", colors[house])
         .attr("transform", function(d) {
           return "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")";
         })
