@@ -1,6 +1,16 @@
+g = d3.select("#chart-area").append("svg")
+    .attr("width", 850)
+    .attr("height", 350)
+    .attr("class", "wordcloud")
+  .append("g")
+    // without the transform, words words would get cutoff to the left and top, they would
+    // appear outside of the SVG area
+    .attr("transform", "translate(320,200)")
+
 d3.json('/static/js/data/house_words.json', function(data) {
   words = data['gryffindor'];
 
+  var frequency_lists = {};
   var frequency_list = [];
 
   var fontSizeMin = 12,
@@ -15,6 +25,10 @@ d3.json('/static/js/data/house_words.json', function(data) {
     });
   })
 
+  update(frequency_list);
+});
+
+function update(frequency_list) {
   d3.layout.cloud().size([800, 300])
     .words(frequency_list)
     .rotate(0)
@@ -23,22 +37,17 @@ d3.json('/static/js/data/house_words.json', function(data) {
     .start();
 
   function draw(words) {
-      d3.select("#chart-area").append("svg")
-          .attr("width", 850)
-          .attr("height", 350)
-          .attr("class", "wordcloud")
-        .append("g")
-          // without the transform, words words would get cutoff to the left and top, they would
-          // appear outside of the SVG area
-          .attr("transform", "translate(320,200)")
-          .selectAll("text")
-          .data(words)
-        .enter().append("text")
-          .style("font-size", function(d) { return d.size + "px"; })
-          .style("fill", "#740001")
-          .attr("transform", function(d) {
-              return "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")";
-          })
-          .text(function(d) { return d.text; });
+    var texts = g.selectAll("text")
+        .data(words);
+
+    texts.exit().remove();
+
+    texts.enter().append("text")
+        .style("font-size", function(d) { return d.size + "px"; })
+        .style("fill", "#740001")
+        .attr("transform", function(d) {
+          return "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")";
+        })
+        .text(function(d) { return d.text; });
   }
-});
+}
