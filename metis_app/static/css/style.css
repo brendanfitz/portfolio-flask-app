@@ -63,15 +63,6 @@ p {
   display: block;
 }
 
-#logo {
-	height:50px;
-}
-
-.navbar-brand {
-	height: 60px;
-	padding: 5px 0px;
-}
-
 #reset-button, #play-button, #slider-div {
 	float: left;
 	margin-right:10px;
