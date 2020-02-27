@@ -106,7 +106,7 @@ continents.forEach(function(continent, i){
         .text(continent);
 });
 
-d3.json("data/data.json").then(function(data){
+d3.json("/static/js/data/nhl_results.json").then(function(data){
     console.log(data);
 
     // Clean data
