@@ -24,7 +24,7 @@ var formattedData;
 var tip = d3.tip().attr('class', 'd3-tip')
     .html(function(d) {
         var text = "<strong>Team:</strong> <span style='color:red;text-transform:capitalize'>" + d.team + "</span><br>";
-        text = "<strong>Game Number:</strong> <span style='color:red'>" + d.game_number + "</span><br>";
+        text += "<strong>Game Number:</strong> <span style='color:red'>" + d.game_number + "</span><br>";
         text += "<strong>Points:</strong> <span style='color:red'>" + d.points + "</span><br>";
         return text;
     });
@@ -146,11 +146,12 @@ function update(data) {
         .duration(100);
 
     var team = $("#team-select").val();
+    console.log(team);
 
     var data = data.filter(function(d){
         if (team == "all") { return true; }
         else {
-            return d.team == team;
+            return team.includes(d.team);
         }
     })
 
@@ -181,6 +182,5 @@ function update(data) {
     // Update the time label
     timeLabel.text(+(time))
     $("#game_number")[0].innerHTML = +(time)
-
     $("#game-slider").slider("value", +(time))
 }
