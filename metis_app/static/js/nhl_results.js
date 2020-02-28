@@ -16,15 +16,23 @@ var g = d3.select("#chart-area")
         .attr("transform", "translate(" + margin.left +
             ", " + margin.top + ")");
 
-var time = 1;
+var time = 0;
 var interval;
 var formattedData;
+var maxTime;
+var formatDate = d3.timeFormat("%Y-%m-%d")
+var baseDate = new Date("2019-10-2");
+function addDays(date, days) {
+  const copy = new Date(Number(date))
+  copy.setDate(date.getDate() + days)
+  return copy
+}
 
 // Tooltip
 var tip = d3.tip().attr('class', 'd3-tip')
     .html(function(d) {
         var text = "<strong>Team:</strong> <span style='color:red;text-transform:capitalize'>" + d.team + "</span><br>";
-        text += "<strong>Game Number:</strong> <span style='color:red'>" + d.game_number + "</span><br>";
+        text += "<strong>Game Number:</strong> <span style='color:red'>" + d.games_played + "</span><br>";
         text += "<strong>Points:</strong> <span style='color:red'>" + d.points + "</span><br>";
         return text;
     });
@@ -38,12 +46,16 @@ var y = d3.scaleLinear()
     .range([height, 0])
     .domain([0, 100]);
 
-d3.csv("/static/js/data/nhl_team_colors.csv").then(function(data){
-  teamColors = {};
+d3.csv("/static/js/data/nhl_team_data.csv").then(function(data){
+  teamData = {};
   data.forEach((item, i) => {
-    console.log(teamColors);
-    teamColors[item['team']] = item['color'];
+    teamData[item['team']] = {
+      color: item['color'],
+      conference: item['conference'],
+      division: item['division']
+    };
   });
+  console.log(teamData);
 })
 
 // Labels
@@ -63,7 +75,7 @@ var yLabel = g.append("text")
 var timeLabel = g.append("text")
     .attr("y", height -10)
     .attr("x", width - 40)
-    .attr("font-size", "40px")
+    .attr("font-size", "18px")
     .attr("opacity", "0.4")
     .attr("text-anchor", "middle")
     .text("1");
@@ -84,19 +96,20 @@ g.append("g")
     .call(yAxisCall);
 
 d3.json("/static/js/data/nhl_results.json").then(function(data){
+    maxTime = data.length;
     // Clean data
-    formattedData = data.map(function(game_number){
-        return game_number["teams"].filter(function(team){
+    formattedData = data.map(function(date){
+        return date["teams"].filter(function(team){
             return team.points;
         }).map(function(team){
-            team.game_number = +team.game_number;
+            team.games_played = +team.games_played;
             team.points = +team.points;
             return team;
         })
     });
 
     // First run of the visualization
-    update(formattedData[0]);
+    update(formattedData[maxTime - 1]);
 
 })
 
@@ -105,7 +118,7 @@ $("#play-button")
         var button = $(this);
         if (button.text() == "Play"){
             button.text("Pause");
-            interval = setInterval(step, 250);
+            interval = setInterval(step, 150);
         }
         else {
             button.text("Play");
@@ -119,14 +132,24 @@ $("#reset-button")
         update(formattedData[0]);
     })
 
+$("#conference-select")
+    .on("change", function(){
+        update(formattedData[time]);
+    })
+
+$("#division-select")
+    .on("change", function(){
+        update(formattedData[time]);
+    })
+
 $("#team-select")
     .on("change", function(){
         update(formattedData[time]);
     })
 
-$("#game-slider").slider({
-    max: 82,
-    min: 1,
+$("#date-slider").slider({
+    max: maxTime,
+    min: 0,
     step: 1,
     slide: function(event, ui){
         time = ui.value;
@@ -136,7 +159,7 @@ $("#game-slider").slider({
 
 function step(){
     // At the end of our data, loop back
-    time = (time < 82) ? time+1 : 1;
+    time = (time < maxTime - 1) ? time+1 : 0;
     update(formattedData[time]);
 }
 
@@ -145,15 +168,30 @@ function update(data) {
     var t = d3.transition()
         .duration(100);
 
+    var conference = $("#conference-select").val();
+    var division = $("#division-select").val();
     var team = $("#team-select").val();
-    console.log(team);
+
+    var data = data.filter(function(d){
+        if (conference == "all") { return true; }
+        else {
+            return conference == teamData[d.team]['conference'];
+        }
+    });
+
+    var data = data.filter(function(d){
+        if (division == "all") { return true; }
+        else {
+            return division == teamData[d.team]['division'];
+        }
+    });
 
     var data = data.filter(function(d){
         if (team == "all") { return true; }
         else {
             return team.includes(d.team);
         }
-    })
+    });
 
     // JOIN new data with old elements.
     var circles = g.selectAll("circle").data(data, function(d){
@@ -169,18 +207,18 @@ function update(data) {
     circles.enter()
         .append("circle")
         .attr("class", "enter")
-        .attr("fill", function(d) { return teamColors[d.team]; })
+        .attr("fill", function(d) { return teamData[d.team]['color']; })
         .on("mouseover", tip.show)
         .on("mouseout", tip.hide)
         .merge(circles)
         .transition(t)
             .attr("cy", function(d){ return y(d.points); })
-            .attr("cx", function(d){ return x(d.game_number) })
+            .attr("cx", function(d){ return x(d.games_played) })
             .attr("r", 8)
             .attr("opacity", 0.3);
 
     // Update the time label
-    timeLabel.text(+(time))
-    $("#game_number")[0].innerHTML = +(time)
-    $("#game-slider").slider("value", +(time))
+    timeLabel.text(formatDate(addDays(baseDate, time)));
+    $("#game_date")[0].innerHTML = formatDate(addDays(baseDate, time));
+    $("#date-slider").slider("value", +(time))
 }
