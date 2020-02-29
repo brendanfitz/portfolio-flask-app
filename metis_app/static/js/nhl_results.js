@@ -16,7 +16,7 @@ var g = d3.select("#chart-area")
         .attr("transform", "translate(" + margin.left +
             ", " + margin.top + ")");
 
-var time = 0;
+var time;
 var interval;
 var formattedData;
 var maxTime;
@@ -31,9 +31,11 @@ function addDays(date, days) {
 // Tooltip
 var tip = d3.tip().attr('class', 'd3-tip')
     .html(function(d) {
-        var text = "<strong>Team:</strong> <span style='color:red;text-transform:capitalize'>" + d.team + "</span><br>";
-        text += "<strong>Game Number:</strong> <span style='color:red'>" + d.games_played + "</span><br>";
-        text += "<strong>Points:</strong> <span style='color:red'>" + d.points + "</span><br>";
+        var text = "<strong>Team:</strong> <span style='color:aqua;text-transform:capitalize'>";
+        text += "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+        text += d.team + "</span><br>";
+        text += "<strong>Game Number:</strong> <span style='color:aqua'>" + "&nbsp;&nbsp;&nbsp;" + d.games_played + "</span><br>";
+        text += "<strong>Points:</strong>      <span style='color:aqua'>" + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + d.points + "</span><br>";
         return text;
     });
 g.call(tip);
@@ -105,10 +107,11 @@ d3.json("/api/nhl_results").then(function(data){
             team.points = +team.points;
             return team;
         })
-    });
+    })
 
     // First run of the visualization
-    update(formattedData[maxTime - 1]);
+    time = maxTime - 1;
+    update(formattedData[time]);
 
 })
 
@@ -147,16 +150,21 @@ $("#team-select")
     })
 
 function dateCalc()   {
+    seasonEnd = new Date("2020-4-4");
     date1 = new Date();
+    // check for end of season
+    if (date1 > seasonEnd) {
+      date1 = seasonEnd;
+    }
     date2 = baseDate;
     const diffTime = Math.abs(date2 - date1);
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-    return diffDays - 3;
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) - 1;
+    return diffDays;
 }
 
 $("#date-slider").slider({
-    max:  dateCalc(),
     min: 0,
+    max:  dateCalc(),
     step: 1,
     slide: function(event, ui){
         time = ui.value;
