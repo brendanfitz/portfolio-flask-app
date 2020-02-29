@@ -55,7 +55,6 @@ d3.csv("/static/js/data/nhl_team_data.csv").then(function(data){
       division: item['division']
     };
   });
-  console.log(teamData);
 })
 
 // Labels
@@ -147,8 +146,16 @@ $("#team-select")
         update(formattedData[time]);
     })
 
+function dateCalc()   {
+    date1 = new Date();
+    date2 = baseDate;
+    const diffTime = Math.abs(date2 - date1);
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    return diffDays - 3;
+}
+
 $("#date-slider").slider({
-    max: maxTime,
+    max:  dateCalc(),
     min: 0,
     step: 1,
     slide: function(event, ui){
@@ -220,5 +227,6 @@ function update(data) {
     // Update the time label
     timeLabel.text(formatDate(addDays(baseDate, time)));
     $("#game_date")[0].innerHTML = formatDate(addDays(baseDate, time));
+    //$("#game_date")[0].innerHTML = +(time);
     $("#date-slider").slider("value", +(time))
 }
