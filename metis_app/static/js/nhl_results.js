@@ -218,7 +218,7 @@ function update(data) {
         .on("mouseover", tip.show)
         .on("mouseout", tip.hide)
         .merge(circles)
-        .transition(t)
+//        .transition(t)
             .attr("cy", function(d){ return y(d.points); })
             .attr("cx", function(d){ return x(d.games_played) })
             .attr("r", 8)
