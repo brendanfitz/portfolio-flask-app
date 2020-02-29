@@ -94,7 +94,7 @@ g.append("g")
     .attr("class", "y axis")
     .call(yAxisCall);
 
-d3.json("/static/js/data/nhl_results.json").then(function(data){
+d3.json("/api/nhl_results").then(function(data){
     maxTime = data.length;
     // Clean data
     formattedData = data.map(function(date){

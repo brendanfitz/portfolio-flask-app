@@ -5,7 +5,6 @@ Created on Wed Feb 26 15:23:27 2020
 @author: BFitzpatrick
 """
 
-import os
 import json
 import numpy as np
 import pandas as pd
@@ -13,15 +12,15 @@ import requests
 import datetime as dt
 from bs4 import BeautifulSoup
 
-def main():
+def nhl_scrape():
     url = 'https://www.hockey-reference.com/leagues/NHL_2020_games.html'
     response = requests.get(url)
-    
-    soup = BeautifulSoup(response.content, 'html.parser')
-    
+
+    soup = BeautifulSoup(response.text, 'html.parser')
+
     table = str(soup.find('table', {'id': 'games'}))
     df = pd.read_html(table)[0]
-     
+
     colmap = {
         'Date': 'date',
         'Visitor': 'away_team',
@@ -41,25 +40,16 @@ def main():
         .assign(home_win=lambda x: (x.home_goals > x.away_goals),
                 away_win=lambda x: (x.home_goals < x.away_goals))
     )
-        
-    df_teams = create_df_teams(df)
-    
-    df_full = create_df_full(df_teams)
-    
-    records = df_full_to_records(df_full)
-        
-    ds = dt.datetime.today().strftime('%y%m%d')
-    teams_fout = os.path.join(
-        'data',
-        f"nhl_results_{ds}.json",
-    )
-    with open(teams_fout, 'w') as f:
-        json.dump(records, f, indent=4)
-       
-    print("NHL Point Data Scrape Successful!"
-          f"\nSee files located at {teams_fout}")
 
-   
+    df_teams = create_df_teams(df)
+
+    df_full = create_df_full(df_teams)
+
+    records = df_full_to_records(df_full)
+
+    return json.dumps(records)
+
+
 def points_calc(win, extra_time):
     extra_time_loss = ~win & ~extra_time.isnull()
     loss_points = np.where(extra_time_loss, 1, 0)
@@ -75,7 +65,7 @@ def filter_unplayed_games(input_df):
 def create_df_teams(df):
     home_cols = ['home_team', 'home_win', 'extra_time']
     away_cols = ['away_team', 'away_win', 'extra_time']
-    
+
     frames = list()
     for cols in [home_cols, away_cols]:
         df_team = (df.loc[:, cols]
@@ -88,7 +78,7 @@ def create_df_teams(df):
             .set_index('team', append=True)
         )
         frames.append(df_team)
-    
+
     df_teams = (pd.concat(frames)
         .assign(points=lambda x: points_calc(x.win, x.extra_time))
         .sort_values(by=['team', 'date'])
@@ -106,7 +96,7 @@ def create_index_from_interpolation(df_teams):
     index = pd.MultiIndex.from_product(iterables, names=['date', 'team'])
     return index
 
-def create_df_full(df_teams):    
+def create_df_full(df_teams):
     index = create_index_from_interpolation(df_teams)
     df_teams_temp = (df_teams
         .reset_index(level=0)
@@ -127,6 +117,3 @@ def df_full_to_records(df_full):
         }
         records.append(record)
     return records
-
-if __name__ == '__main__':
-    main()
