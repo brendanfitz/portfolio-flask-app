@@ -46,7 +46,7 @@ def nhl_scrape():
     df_full = create_df_full(df_teams)
 
     records = df_full_to_records(df_full)
-
+    
     return json.dumps(records)
 
 

@@ -2,3 +2,4 @@ __pycache__/*
 *.pyc
 venv/*
 *\.xlsx
+metis_app/api/static/api/data/nhl_results_*.json
