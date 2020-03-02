@@ -5,6 +5,7 @@ Created on Wed Feb 26 15:23:27 2020
 @author: BFitzpatrick
 """
 
+import os
 import json
 import numpy as np
 import pandas as pd
@@ -44,6 +45,12 @@ def nhl_scrape():
     df_teams = create_df_teams(df)
 
     df_full = create_df_full(df_teams)
+    
+    df_wildcard = create_df_wildcard(df_full)
+    
+    df_full = (df_full.join(df_wildcard)
+        .assign(wildcard=lambda x: x.wildcard.fillna('No'))
+    )
 
     records = df_full_to_records(df_full)
     
@@ -117,3 +124,34 @@ def df_full_to_records(df_full):
         }
         records.append(record)
     return records
+
+def create_df_wildcard(df_full):
+    df = df_full.copy()
+    team_data_filename = os.path.join(
+        'metis_app',
+        'static',
+        'js',
+        'data',
+        'nhl_team_data.csv'
+    )
+    team_data = pd.read_csv(team_data_filename).set_index('team')
+    df = df.join(team_data.drop('color', axis=1), how='left', on='team')
+    df = df.sort_values(by=['date', 'division', 'points'], ascending=[True, True, False])
+    
+    df['division_rank'] = (df.sort_values(by=['date', 'division', 'points'], ascending=[True, True, False])
+     .groupby(['date', 'division']).points.rank(method='first', ascending=False)
+    )
+    
+    mask = df.division_rank > 3
+    df_wildcard = df.loc[mask, ].copy()
+    df_wildcard = df_wildcard.sort_values(by=['date', 'conference', 'points'], ascending=[True, True, False])
+    df_wildcard['conference_rank'] = (df_wildcard.sort_values(by=['date', 'conference', 'points'], ascending=[True, True, False])
+     .groupby(['date', 'conference']).points.rank(method='first', ascending=False)
+    )
+    
+    mask = df_wildcard.conference_rank == 2
+    df_wildcard = (df_wildcard.loc[mask, ]
+     .drop(['games_played', 'division', 'division_rank', 'conference_rank', 'points'], axis=1)
+     .rename(columns={'conference': 'wildcard'})
+    )
+    return df_wildcard
