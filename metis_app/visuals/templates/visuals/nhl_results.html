@@ -6,11 +6,16 @@
 <div class="container">
     <div class="row">
         <div class="col-md-5">
-            <button id="play-button" class="btn btn-primary">Play</button>
-            <button id="reset-button" class="btn btn-primary">Reset</button>
-            <div id="slider-div">
-                <label>Date: <span id="game_date"></span></label>
-                <div id="date-slider"></div>
+            <div class="row">
+              <button id="play-button" class="btn btn-primary">Play</button>
+              <button id="reset-button" class="btn btn-primary">Reset</button>
+              <button id="current-button" class="btn btn-primary">Current</button>
+            </div>
+            <div class="row">
+              <div id="slider-div">
+                  <label>Date: <span id="game_date"></span></label>
+                  <div id="date-slider"></div>
+              </div>
             </div>
         </div>
         <div class="col-md-2">
@@ -67,6 +72,21 @@
                 <option value="Washington Capitals">Washington Capitals</option>
                 <option value="Winnipeg Jets">Winnipeg Jets</option>
             </select>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+          <strong>Conference Wildcard Reference Lines:</strong>
+        </div>
+        <div class="col-md-2 custom-control custom-checkbox">
+          <input type="checkbox" class="custom-control-input" id="eastern-conference-wildcard-ref" checked>
+          <label class="custom-control-label" for="eastern-conference-wildcard-ref">Eastern</label>
+        </div>
+        <div class="col-md-2 custom-control custom-checkbox">
+          <input type="checkbox" class="custom-control-input" id="western-conference-wildcard-ref">
+          <label class="custom-control-label" for="western-conference-wildcard-ref">Western</label>
+        </div>
+        <div class="col-md-4">
         </div>
     </div>
     <div class="row">

@@ -17,6 +17,7 @@ var g = d3.select("#chart-area")
             ", " + margin.top + ")");
 
 var time;
+var teamData = {};
 var interval;
 var formattedData;
 var maxTime;
@@ -49,7 +50,6 @@ var y = d3.scaleLinear()
     .domain([0, 100]);
 
 d3.csv("/static/js/data/nhl_team_data.csv").then(function(data){
-  teamData = {};
   data.forEach((item, i) => {
     teamData[item['team']] = {
       color: item['color'],
@@ -130,8 +130,14 @@ $("#play-button")
 
 $("#reset-button")
     .on("click", function(){
-        time = 1;
-        update(formattedData[0]);
+        time = 0;
+        update(formattedData[time]);
+    })
+
+$("#current-button")
+    .on("click", function(){
+        time = maxTime - 1;
+        update(formattedData[time]);
     })
 
 $("#conference-select")
@@ -145,6 +151,16 @@ $("#division-select")
     })
 
 $("#team-select")
+    .on("change", function(){
+        update(formattedData[time]);
+    })
+
+$("#eastern-conference-wildcard-ref")
+    .on("change", function(){
+        update(formattedData[time]);
+    })
+
+$("#western-conference-wildcard-ref")
     .on("change", function(){
         update(formattedData[time]);
     })
@@ -183,9 +199,19 @@ function update(data) {
     var t = d3.transition()
         .duration(100);
 
+    // wildcard calcs
+    var wildcard_bound_east = data.filter(function(d) {
+      return d.wildcard == 'eastern';
+    })[0].points;
+    var wildcard_bound_west = data.filter(function(d) {
+      return d.wildcard == 'western';
+    })[0].points;
+
     var conference = $("#conference-select").val();
     var division = $("#division-select").val();
     var team = $("#team-select").val();
+    var east_wildcard = $("#eastern-conference-wildcard-ref").is(":checked");
+    var west_wildcard = $("#western-conference-wildcard-ref").is(":checked");
 
     var data = data.filter(function(d){
         if (conference == "all") { return true; }
@@ -226,11 +252,32 @@ function update(data) {
         .on("mouseover", tip.show)
         .on("mouseout", tip.hide)
         .merge(circles)
-//        .transition(t)
+        //.transition(t)
             .attr("cy", function(d){ return y(d.points); })
             .attr("cx", function(d){ return x(d.games_played) })
             .attr("r", 8)
             .attr("opacity", 0.3);
+
+    // wildcard lines
+    g.selectAll('line').remove();
+
+    if (east_wildcard) {
+        g.append('line')
+            .attr('x1', x(0))
+            .attr('y1', y(wildcard_bound_east))
+            .attr('x2', x(82))
+            .attr('y2', y(wildcard_bound_east))
+            .attr('class', 'eastern-conference-wildcard');
+    }
+
+    if (west_wildcard) {
+        g.append('line')
+            .attr('x1', x(0))
+            .attr('y1', y(wildcard_bound_west))
+            .attr('x2', x(82))
+            .attr('y2', y(wildcard_bound_west))
+            .attr('class', 'western-conference-wildcard');
+    }
 
     // Update the time label
     timeLabel.text(formatDate(addDays(baseDate, time)));

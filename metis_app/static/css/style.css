@@ -63,7 +63,7 @@ p {
   display: block;
 }
 
-#reset-button, #play-button, #slider-div {
+#reset-button, #play-button, #slider-div, #current-button {
 	float: left;
 	margin-right:10px;
 }
@@ -73,7 +73,7 @@ p {
 	margin-left:10px;
 }
 
-#reset-button, #play-button {
+#reset-button, #play-button, #current-button {
 	margin-top: 5px;
 	margin-bottom:10px;
 }
@@ -82,4 +82,18 @@ p {
 	width: 150px;
 	float:right;
 	margin-top:5px;
+}
+
+.eastern-conference-wildcard {
+  opacity: 0.3;
+  stroke: #BE0D2E;
+  stroke-width: 0.5px;
+  stroke-dasharray: 5 5;
+}
+
+.western-conference-wildcard {
+  opacity: 0.3;
+  stroke: #003F7F;
+  stroke-width: 0.5px;
+  stroke-dasharray: 5 5;
 }
