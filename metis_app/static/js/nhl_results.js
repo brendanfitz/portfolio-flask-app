@@ -235,28 +235,29 @@ function update(data) {
     });
 
     // JOIN new data with old elements.
-    var circles = g.selectAll("circle").data(data, function(d){
+    var logos = g.selectAll(".logos").data(data, function(d){
         return d.team;
     });
 
     // EXIT old elements not present in new data.
-    circles.exit()
+    logos.exit()
         .attr("class", "exit")
         .remove();
 
     // ENTER new elements present in new data.
-    circles.enter()
-        .append("circle")
-        .attr("class", "enter")
-        .attr("fill", function(d) { return teamData[d.team]['color']; })
+    logos.enter()
+        .append("image")
+        .attr("class", "logos enter")
         .on("mouseover", tip.show)
         .on("mouseout", tip.hide)
-        .merge(circles)
+        .attr("xlink:href", function(d) { return '/static/img/NHL-Logos/' + d.team + '.png' } )
+        .attr("width", 25)
+        .attr("height", 25)
+        .attr("opacity", 0.7)
+        .merge(logos)
         //.transition(t)
-            .attr("cy", function(d){ return y(d.points); })
-            .attr("cx", function(d){ return x(d.games_played) })
-            .attr("r", 8)
-            .attr("opacity", 0.3);
+            .attr("x", function(d){ return x(d.games_played) })
+            .attr("y", function(d){ return y(d.points) });
 
     // wildcard lines
     g.selectAll('line').remove();
