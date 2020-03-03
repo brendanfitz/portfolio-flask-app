@@ -14,7 +14,6 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/d3-tip.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.5.0/themes/prism.min.css"/>
-    <link rel="shortcut icon" href="#">
     {% if viz_page %}
     <link rel="stylesheet" href="{{ url_for('static', filename='css/jquery-ui.min.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/jquery-ui.structure.min.css') }}">
@@ -22,6 +21,8 @@
     <!-- D3 Tooltip CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/d3-tip.css') }}">
     {% endif %}
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="{{ url_for('static', filename='img/redhead-favicon.jpg')}}">
   </head>
   <body>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/prism.min.js"></script>
