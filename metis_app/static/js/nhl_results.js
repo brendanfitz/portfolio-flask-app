@@ -33,10 +33,10 @@ function addDays(date, days) {
 var tip = d3.tip().attr('class', 'd3-tip')
     .html(function(d) {
         var text = "<strong>Team:</strong> <span style='color:aqua;text-transform:capitalize'>";
-        text += "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+        text += "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
         text += d.team + "</span><br>";
-        text += "<strong>Game Number:</strong> <span style='color:aqua'>" + "&nbsp;&nbsp;&nbsp;" + d.games_played + "</span><br>";
-        text += "<strong>Points:</strong>      <span style='color:aqua'>" + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + d.points + "</span><br>";
+        text += "<strong>Game #:</strong> <span style='color:aqua'>" + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + d.games_played + "</span><br>";
+        text += "<strong>Points:</strong>      <span style='color:aqua'>" + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + d.points + "</span><br>";
         return text;
     });
 g.call(tip);
