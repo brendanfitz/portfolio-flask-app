@@ -3,23 +3,22 @@
   <head>
     <meta charset="utf-8">
     <!-- Boostrap -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
     <!-- Add icon library -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/fontawesome.min.css') }}">
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Raleway:400,800&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/d3-tip.css') }}">
+    <!-- Synatx Highlighting -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.5.0/themes/prism.min.css"/>
     {% if viz_page %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/d3-tip.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/jquery-ui.min.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/jquery-ui.structure.min.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/jquery-ui.theme.min.css') }}">
-    <!-- D3 Tooltip CSS -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/d3-tip.css') }}">
     {% endif %}
     <!-- Favicon -->
     <link rel="shortcut icon" href="{{ url_for('static', filename='img/redhead-favicon.jpg')}}">
