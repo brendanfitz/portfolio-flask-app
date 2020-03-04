@@ -1,8 +1,10 @@
 # api/views.py
 from flask import render_template, request, Blueprint
 from metis_app.api.nhl_game_results_scrape import nhl_scrape
+from flask import jsonify
 import datetime as dt
 import os
+from metis_app.api.yield_curve import get_yield_curve
 
 api = Blueprint('api', __name__)
 
@@ -31,4 +33,9 @@ def nhl_results():
             with open(filename, 'w') as f:
                 f.write(json)
 
+    return json
+
+@api.route('yield_curve/<year>')
+def yield_curve(year):
+    json = get_yield_curve(year)
     return json
