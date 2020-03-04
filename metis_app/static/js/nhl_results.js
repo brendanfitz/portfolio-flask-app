@@ -109,7 +109,6 @@ d3.json("/api/nhl_results").then(function(data){
         })
     })
 
-    console.log(formattedData);
     // First run of the visualization
     time = maxTime - 1;
     update(formattedData[time]);
