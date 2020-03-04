@@ -6,7 +6,6 @@ Created on Wed Feb 26 15:23:27 2020
 """
 
 import os
-import json
 import numpy as np
 import pandas as pd
 import requests
@@ -55,7 +54,7 @@ def nhl_scrape():
 
     records = df_full_to_records(df_full)
     
-    return json.dumps(records)
+    return records
 
 
 def points_calc(win, extra_time):

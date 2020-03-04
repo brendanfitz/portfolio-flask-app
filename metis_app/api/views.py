@@ -1,10 +1,12 @@
 # api/views.py
 from flask import render_template, request, Blueprint
+from flask.json import jsonify
 from metis_app.api.nhl_game_results_scrape import nhl_scrape
 from flask import jsonify
 import datetime as dt
 import os
 from metis_app.api.yield_curve import get_yield_curve
+import json
 
 api = Blueprint('api', __name__)
 
@@ -16,26 +18,27 @@ def nhl_results():
     if dt.date.today() > season_end:
         filename = os.path.join(basedir, f"nhl_results_{season_end}.json")
         with open(season_end, 'r') as f:
-            json = f.read()
+            data = json.load(f)
     else:
         today = dt.datetime.today().strftime('%Y%m%d')
         filename = os.path.join(basedir, f"nhl_results_{today}.json")
 
         if os.path.isfile(filename):
             with open(filename, 'r') as f:
-                json = f.read()
+                print(filename)
+                data = json.load(f)
         else:
             if not os.path.isdir(basedir):
                 os.makedirs(basedir)
 
-            json = nhl_scrape()
+            data = nhl_scrape()
 
             with open(filename, 'w') as f:
-                f.write(json)
+                json.dump(data, f)
 
-    return json
+    return jsonify(data)
 
 @api.route('yield_curve/<year>')
 def yield_curve(year):
-    json = get_yield_curve(year)
-    return json
+    data = get_yield_curve(year)
+    return jsonify(data)

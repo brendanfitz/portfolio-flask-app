@@ -5,8 +5,6 @@ import requests
 import urllib.parse as p
 import xml.etree.ElementTree as ET
 import pandas as pd
-import json
-
 
 def get_yield_curve(year):
     url = create_url(year)
@@ -14,11 +12,11 @@ def get_yield_curve(year):
     response = requests.get(url)
     xml = response.content
     root = ET.fromstring(xml)
-    
+
     ns = {'ns': 'http://www.w3.org/2005/Atom',
-          'm': 'http://schemas.microsoft.com/ado/2007/08/dataservices/metadata', 
+          'm': 'http://schemas.microsoft.com/ado/2007/08/dataservices/metadata',
           'd': 'http://schemas.microsoft.com/ado/2007/08/dataservices'}
-    
+
     data = list()
     for entry in root.findall('ns:entry', ns):
         content = (entry.find('ns:content', ns)
@@ -28,8 +26,8 @@ def get_yield_curve(year):
         for child in content:
             row[child.tag.replace('{' + ns['d'] + '}', '')] = child.text
         data.append(row)
-    
-    return json.dumps(data)
+
+    return data
 
 
 def create_url(year):
