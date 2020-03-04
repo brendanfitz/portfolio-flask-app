@@ -109,6 +109,7 @@ d3.json("/api/nhl_results").then(function(data){
         })
     })
 
+    console.log(formattedData);
     // First run of the visualization
     time = maxTime - 1;
     update(formattedData[time]);
@@ -146,6 +147,11 @@ $("#conference-select")
     })
 
 $("#division-select")
+    .on("change", function(){
+        update(formattedData[time]);
+    })
+
+$("#wildcard-select")
     .on("change", function(){
         update(formattedData[time]);
     })
@@ -210,6 +216,7 @@ function update(data) {
     var conference = $("#conference-select").val();
     var division = $("#division-select").val();
     var team = $("#team-select").val();
+    var wildcard_race = $("#wildcard-select").val();
     var east_wildcard = $("#eastern-conference-wildcard-ref").is(":checked");
     var west_wildcard = $("#western-conference-wildcard-ref").is(":checked");
 
@@ -224,6 +231,15 @@ function update(data) {
         if (division == "all") { return true; }
         else {
             return division == teamData[d.team]['division'];
+        }
+    });
+
+    var data = data.filter(function(d){
+        if (wildcard_race == "all") { return true; }
+        else {
+            var rank_bool = d.division_rank > 3;
+            var conf_bool = d.conference == wildcard_race;
+            return (rank_bool && conf_bool);
         }
     });
 

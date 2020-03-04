@@ -5,7 +5,7 @@
 <h1 class="visuals-header">NHL Playoff Race Dashboard</h1>
 <div class="container">
     <div class="row">
-        <div class="col-md-5">
+        <div class="col-md-3">
             <div class="row">
               <button id="play-button" class="btn btn-primary">Play</button>
               <button id="reset-button" class="btn btn-primary">Reset</button>
@@ -34,6 +34,16 @@
                 <option value="atlantic">Atlantic</option>
                 <option value="central">Central</option>
                 <option value="pacific">Pacific</option>
+                <option value="wildcard-east">Eastern Conference Wildcard</option>
+                <option value="wildcard-west">Western Conference Wildcard</option>
+            </select>
+        </div>
+        <div class="col-md-2">
+            <label>Wildcard Race</label>
+            <select id="wildcard-select" class="form-control">
+                <option selected value="all">All</option>
+                <option value="eastern">Eastern</option>
+                <option value="western">Western</option>
             </select>
         </div>
         <div class="col-md-3">

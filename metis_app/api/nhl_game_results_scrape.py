@@ -50,6 +50,7 @@ def nhl_scrape():
     
     df_full = (df_full.join(df_wildcard)
         .assign(wildcard=lambda x: x.wildcard.fillna('No'))
+        .pipe(add_wild_contender)
     )
 
     records = df_full_to_records(df_full)
@@ -155,3 +156,24 @@ def create_df_wildcard(df_full):
      .rename(columns={'conference': 'wildcard'})
     )
     return df_wildcard
+
+def add_wild_contender(df_full):
+    df = df_full.copy()
+    
+    team_data_filename = os.path.join(
+        'metis_app',
+        'static',
+        'js',
+        'data',
+        'nhl_team_data.csv'
+    )
+    team_data = pd.read_csv(team_data_filename).set_index('team')
+    df = df.join(team_data.drop('color', axis=1), how='left', on='team')
+    
+    by = ['date', 'division', 'points']
+    ascending = [True, True, False]
+    df['division_rank'] = (df.sort_values(by=by, ascending=ascending)
+     .groupby(['date', 'division']).points.rank(method='first', ascending=False)
+    )
+    
+    return df
