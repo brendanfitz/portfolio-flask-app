@@ -37,10 +37,9 @@
       <h4 class="card-header">Visuals <em>(D3.js)</em></h4>
       <div class="card-body">
         <ul>
-          <li><a href="{{url_for('visuals.visual', name='nhl_playoff_race_dashboard')}}">NHL Playoff Race Dashboard</a></li>
-          <li><a href="{{url_for('visuals.visual', name='genre_chart')}}">Median ROI by Movie Genre</a></li>
-          <li><a href="{{url_for('visuals.visual', name='house_word_cloud')}}">Hogwarts House Word Clouds</a></li>
-          <li><a href="{{url_for('visuals.visual', name='chloropleth')}}">Lending Club Default Rate by State</a></li>
+          {% for visual_title, visual_data in visuals_db.items() %}
+          <li><a href="{{url_for('visuals.visual', name='visual_title')}}">{{visual_data.title}}</a></li>
+          {% endfor %}
         </ul>
       </div>
     </div>
