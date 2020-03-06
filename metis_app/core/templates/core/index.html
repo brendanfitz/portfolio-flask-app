@@ -38,7 +38,7 @@
       <div class="card-body">
         <ul>
           {% for visual_title, visual_data in visuals_db.items() %}
-          <li><a href="{{url_for('visuals.visual', name='visual_title')}}">{{visual_data.title}}</a></li>
+          <li><a href="{{url_for('visuals.visual', name=visual_title)}}">{{visual_data.title}}</a></li>
           {% endfor %}
         </ul>
       </div>
