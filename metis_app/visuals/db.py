@@ -11,4 +11,7 @@ visuals_db = {
     'nhl_playoff_race_dashboard': {
         'title': 'NHL Playoff Race Dashboard',
     },
+    'yield_curve': {
+        'title': 'Riding the Yield Curve'
+    },
 }

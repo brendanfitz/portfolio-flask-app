@@ -9,7 +9,7 @@ visuals = Blueprint('visuals', __name__, **kwargs)
 
 @visuals.route('/<name>')
 def visual(name):
-    visual_data = blog_db[name]
+    visual_data = visuals_db[name]
     title = visual_data['title']
     template = '{}.html'.format(name)
     return render_template(template, title=title, viz_page=True)
