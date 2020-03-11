@@ -112,7 +112,8 @@ p {
 
 .line {
   fill: none;
-  stroke-width: 2px;
+  stroke: steelblue;
+  stroke-width: 3px;
 }
 
 .overlay {
