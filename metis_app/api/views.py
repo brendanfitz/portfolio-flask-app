@@ -1,5 +1,5 @@
 # api/views.py
-from flask import render_template, request, Blueprint
+from flask import render_template, request, Blueprint, send_from_directory
 from flask.json import jsonify
 from metis_app.api.nhl_game_results_scrape import nhl_scrape
 from flask import jsonify
@@ -38,7 +38,12 @@ def nhl_results():
 
     return jsonify(data)
 
-@api.route('yield_curve/<year>')
+@api.route('/yield_curve/<year>')
 def yield_curve(year):
     data = get_yield_curve(year)
     return jsonify(data)
+
+@api.route('/workout-log')
+def workout_log():
+    return send_from_directory(os.path.join('static', 'js', 'data'),
+                               'Workout_Log.xlsx', as_attachment=True)
