@@ -141,3 +141,8 @@ p {
   padding-top: 10px;
   padding-bottom: 10px;
 }
+
+.pic-margins {
+  margin-top: 25px;
+  margin-bottom: 25px;
+}

@@ -35,7 +35,7 @@ ax.set(title='Domestic Total Gross by Month',
        xlabel='',
        ylabel='')
 plt.show()</code></pre>
-<img src="{{url_for('blog_posts.static', filename='movies_gross_by_month.png')}}" class="img-thumbnail img-fluid mx-auto d-block">
+<img src="{{url_for('blog_posts.static', filename='movies_gross_by_month.png')}}" class="img-thumbnail img-fluid mx-auto d-block pic-margins">
 
 <h2>Fact 2: Ratings</h2>
 <p>R-rated movies have the strongest ROI</p>
@@ -43,7 +43,7 @@ plt.show()</code></pre>
 ax.set(title='ROI by Rating', xlabel='', ylabel='')
 ax.set_yticklabels(['{:,.0%}'.format(x) for x in ax.get_yticks()])
 plt.show()</code></pre>
-<img src="{{url_for('blog_posts.static', filename='rating_roi.png')}}" class="img-thumbnail img-fluid mx-auto d-block">
+<img src="{{url_for('blog_posts.static', filename='rating_roi.png')}}" class="img-thumbnail img-fluid mx-auto d-block pic-margins">
 
 <h2>Fun Fact 3: Genres</h2>
 
@@ -61,6 +61,6 @@ ax.set_xticklabels(ax.get_xticklabels(),
 ax.set_yticklabels(['{:,.0%}'.format(x) for x in ax.get_yticks()])
 ax.set(title='ROI by Genre', xlabel='', ylabel='')
 plt.show()</code></pre>
-<img src="{{url_for('blog_posts.static', filename='genre_roi.png')}}" class="img-thumbnail img-fluid mx-auto d-block">
+<img src="{{url_for('blog_posts.static', filename='genre_roi.png')}}" class="img-thumbnail img-fluid mx-auto d-block pic-margins">
 
 {% endblock %}
