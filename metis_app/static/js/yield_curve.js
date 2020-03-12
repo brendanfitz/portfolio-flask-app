@@ -66,13 +66,11 @@ var yAxisCall = d3.axisLeft()
 var yAxis = g.append("g")
     .attr("class", "y axis")
     .call(yAxisCall);
-
 // Add jQuery UI slider
 $("#date-slider").slider({
     max: new Date("1/1/2020").getTime(),
     min: new Date("3/5/2020").getTime(),
     step: 86400000, // One day
-    values: [new Date("1/1/2020").getTime(), new Date("3/5/2020").getTime()],
     slide: function(event, ui){
         $("#dateLabel").text(formatTime(new Date(ui.value)));
         update();
@@ -103,7 +101,7 @@ function update() {
     //var sliderDate = $("#date-slider").slider("values");
     var sliderDate = new Date("3/5/2020");
     var data = formattedData[sliderDate];
-    console.log(data);
+
     // Path generator
     line = d3.line()
         .x(function(d){ return x(d.instrument) + 22.5; })

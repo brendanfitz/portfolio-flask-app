@@ -116,6 +116,10 @@ p {
   stroke-width: 3px;
 }
 
+.circle {
+  fill: steelblue;
+}
+
 .overlay {
   fill: none;
   pointer-events: all;
