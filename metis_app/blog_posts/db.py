@@ -32,4 +32,7 @@ blog_db = {
     'workout-log': {
         'title': 'Tracking My Workouts in Excel',
     },
+    'bash-netflix-command': {
+        'title': 'Creating a Bash Command for Netflix',
+    },
 }
