@@ -29,4 +29,7 @@ blog_db = {
     'extract_pos_with_textblob': {
         'title': 'Extracting Parts-of-Speech with TextBlob',
     },
+    'workout-log': {
+        'title': 'Tracking My Workouts in Excel',
+    },
 }
