@@ -14,7 +14,7 @@ var g = svg.append("g")
         .attr("transform", "translate(" + margin.left +
             ", " + margin.top + ")");
 
-var t = function(){ return d3.transition().duration(1000); }
+var t = function(){ return d3.transition().duration(1000); };
 
 var parseTime = d3.timeParse("%m/%d/%Y");
 var formatTime = d3.timeFormat("%m/%d/%Y");
@@ -50,7 +50,7 @@ treasurys_ord = [
   "2 Year", "3 Year", "5 Year", "7 Year", "10 Year", "20 Year", "30 Year"
 ]
 var x = d3.scaleBand().domain(treasurys_ord).rangeRound([0, width]).padding(0.1),
-    y = d3.scaleLinear().domain([0, 4]).rangeRound([height, 0]);
+    y = d3.scaleLinear().domain([0, 3]).rangeRound([height, 0]);
 
 // X-axis
 var xAxisCall = d3.axisBottom()
@@ -67,17 +67,6 @@ var yAxis = g.append("g")
     .attr("class", "y axis")
     .call(yAxisCall);
 
-// Add jQuery UI slider
-$("#date-slider").slider({
-    min: parseTime("1/1/2020").getTime(),
-    max: parseTime("3/5/2020").getTime(),
-    step: 86400000, // One day
-    slide: function(event, ui){
-        $("#dateLabel").text(formatTime(new Date(ui.value)));
-        update();
-    }
-});
-
 d3.json("/api/yield_curve/2020").then(function(data){
     // Prepare and clean data
     formattedData = {};
@@ -92,6 +81,7 @@ d3.json("/api/yield_curve/2020").then(function(data){
       formattedData[new Date(itemObj["Date"])] = entryList;
     });
 
+    console.log(formattedData);
     // Run the visualization for the first time
     update();
 })
@@ -99,7 +89,8 @@ d3.json("/api/yield_curve/2020").then(function(data){
 function update() {
     // Filter data based on selections
     //var sliderDate = $("#date-slider").slider("values");
-    var sliderDate = new Date("3/5/2020");
+    var dateText = $("#dateLabel").text();
+    var sliderDate = parseTime(dateText);
     var data = formattedData[sliderDate];
 
     // Path generator
@@ -113,11 +104,29 @@ function update() {
      .transition(t)
      .attr("d", line(data));
 
-   g.selectAll("circle")
-       .data(data)
-     .enter().append("circle")
-       .attr("class", "circle")
-       .attr("cx", function(d) { return x(d.instrument) + 22.5; })
-       .attr("cy", function(d) { return y(d.yield); })
-       .attr("r", 4)
+   //var circles = g.selectAll("circle")
+   //    .data(data);
+   //circles.exit()
+   //    .attr("class", "exit")
+   //    .remove();
+   //circles.enter().append("circle")
+   //    .attr("class", "circle")
+   //    .attr("r", 4)
+   //    .merge(circles)
+   //      .transition(t)
+   //      .attr("cx", function(d) { return x(d.instrument) + 22.5; })
+   //      .attr("cy", function(d) { return y(d.yield); })
+
 }
+
+// Add jQuery UI slider
+$("#date-slider").slider({
+    min: parseTime("1/2/2020").getTime(),
+    max: parseTime("3/12/2020").getTime(),
+    value: parseTime("3/12/2020").getTime(),
+    step: 86400000, // One day
+    slide: function(event, ui){
+        $("#dateLabel").text(formatTime(new Date(ui.value)));
+        update();
+    }
+});
