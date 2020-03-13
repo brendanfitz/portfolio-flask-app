@@ -67,9 +67,10 @@ var yAxis = g.append("g")
     .attr("class", "y axis")
     .call(yAxisCall);
 
+var formattedData = {};
+
 d3.json("/api/yield_curve/2020").then(function(data){
     // Prepare and clean data
-    formattedData = {};
     data.forEach((itemObj, i) => {
       var entryList = [];
       treasurys_ord.forEach((instrument, i) => {
@@ -81,7 +82,6 @@ d3.json("/api/yield_curve/2020").then(function(data){
       formattedData[new Date(itemObj["Date"])] = entryList;
     });
 
-    console.log(formattedData);
     // Run the visualization for the first time
     update();
 })
@@ -118,15 +118,16 @@ function update() {
    //      .attr("cy", function(d) { return y(d.yield); })
 
 }
-
+var maxDate = $("#dateLabel").text()
 // Add jQuery UI slider
 $("#date-slider").slider({
     min: parseTime("1/2/2020").getTime(),
-    max: parseTime("3/12/2020").getTime(),
-    value: parseTime("3/12/2020").getTime(),
+    max: parseTime(maxDate).getTime() + 86400000,
+    value: parseTime(maxDate).getTime(),
     step: 86400000, // One day
     slide: function(event, ui){
         $("#dateLabel").text(formatTime(new Date(ui.value)));
         update();
     }
 });
+console.log($("#dateLabel").text());
