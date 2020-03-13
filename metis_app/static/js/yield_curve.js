@@ -16,8 +16,8 @@ var g = svg.append("g")
 
 var t = function(){ return d3.transition().duration(1000); }
 
-var parseTime = d3.timeParse("%d/%m/%Y");
-var formatTime = d3.timeFormat("%d/%m/%Y");
+var parseTime = d3.timeParse("%m/%d/%Y");
+var formatTime = d3.timeFormat("%m/%d/%Y");
 var bisectDate = d3.bisector(function(d) { return d.date; }).left;
 
 // Add the line for the first time
@@ -66,10 +66,11 @@ var yAxisCall = d3.axisLeft()
 var yAxis = g.append("g")
     .attr("class", "y axis")
     .call(yAxisCall);
+
 // Add jQuery UI slider
 $("#date-slider").slider({
-    max: new Date("1/1/2020").getTime(),
-    min: new Date("3/5/2020").getTime(),
+    min: parseTime("1/1/2020").getTime(),
+    max: parseTime("3/5/2020").getTime(),
     step: 86400000, // One day
     slide: function(event, ui){
         $("#dateLabel").text(formatTime(new Date(ui.value)));
@@ -90,7 +91,6 @@ d3.json("/api/yield_curve/2020").then(function(data){
       });
       formattedData[new Date(itemObj["Date"])] = entryList;
     });
-    console.log(formattedData);
 
     // Run the visualization for the first time
     update();
