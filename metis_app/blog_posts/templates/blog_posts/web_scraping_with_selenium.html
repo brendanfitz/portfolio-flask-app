@@ -1,5 +1,47 @@
 {% extends "base.html" %}
 
 {% block blog_content %}
+<p>
+  Scraping data is a blast. The thrill of obtaining a brand new dataset, one potentially no else has ever made before, is a high like no other.
+</p>
+<p>
+  Normally, my go to scraper tool is BeautifulSoup or Scrapy.
+  However, sometimes we run across a site that dynamic populates data with additional javascript calls after loading the page.
+  An example of a site like this is Kickstarter.
+</p>
+<p>
+  For my third project at Metis, we were assigned with developing a natural language processing project.
+  We would use unsupervised learning tools such as clustering and topic modeling to find meaning in a corpus.
+  I choose to look at Kickstarter data.
+  My goals were twofold:
+</p>
+<ol>
+  <li>Develop topics for each pitch using LDA or K-Means</li>
+  <li>Use topics and Term Frequency Inverse Document Frequency (TF-IDF) to develop a <a href="{{url_for('ml_models.models', name='fletcher')}}">pitch funding outcome prediction model</a></li>
+</ol>
+<p>
+  Before doing so, I would have to actually obtain the dataset.
+  This required scraping Kickstarter pitches to obtain a corpus.
+  My first attempt at doing so used BeautifulSoup; however, I noticed the DOM nodes that were supposed to contain the data were coming up empty.
+  What could be the cause of this?
+</p>
+<p>
+  After further inspecting I realized that the page was dynamically adding data using javascript after the initial html loaded.
+  BeautifulSoup was only loading the shell page!
+</p>
+<div class="d-flex justify-content-center">
+  <img src="{{url_for('static', filename='img/kickstarter_network.jpg')}}" alt="Kickstarter Network" class="img-thumbnail img-fluid mx-auto d-block pic-margins">
+</div>
+<p>
+  To solve this, I switched to a headless browser, aka a web browser without a graphical user interface.
+  A tool like this would make the request call using chrome.
+  They are normally used to test web apps but also serve as great web scraper in these instances.
+  My tool of choice was Selenium.
+  Luckily, I was able to port over all my DOM selectors into Selenium functions, so my BeautifulSoup would was not for naught.
+  Below you'll find the result of all this work. Overall, it was a very fun project.
+</p>
+<p>
+  Enjoy!
+</p>
 <script src="https://gist.github.com/bfitzpa5/5261b81295ab63d45cfe4ab9694aef0f.js"></script>
 {% endblock %}
