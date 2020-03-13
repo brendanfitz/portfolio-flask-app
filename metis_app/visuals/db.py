@@ -11,4 +11,7 @@ visuals_db = {
     'house_word_cloud': {
         'title': 'Hogwarts House Word Clouds',
     },
+    'yield_curve': {
+        'title': 'Ridin\' the Yield Curve',
+    },
 }
