@@ -130,4 +130,3 @@ $("#date-slider").slider({
         update();
     }
 });
-console.log($("#dateLabel").text());
