@@ -16,4 +16,5 @@ def visual(name):
     if name == 'yield_curve':
         todays_date = datetime.today() - timedelta(days=1)
         date_str = '{d.month}/{d.day}/{d.year}'.format(d=todays_date)
-    return render_template(template, title=title, viz_page=True, date_str=date_str)
+        return render_template(template, title=title, viz_page=True, date_str=date_str)
+    return render_template(template, title=title, viz_page=True)
