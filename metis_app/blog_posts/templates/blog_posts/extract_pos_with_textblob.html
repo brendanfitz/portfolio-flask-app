@@ -1,5 +1,34 @@
 {% extends "base.html" %}
 
 {% block blog_content %}
+<p>
+  Starting out on a project, it's good to do some exploratory data analysis (EDA) on your data
+  to get to know it better.
+  It's similar to the awkward part of a first date where you ask questions such as "Where are you from?"
+  and "Who's the best player from Mighty Ducks?" (trick question, Coach Bombay is obviously the best).
+  The difference is that your questions are "What's the schema of the data?"
+  and "What's the distribution of this column [x]?".
+</p>
+<p>
+  When starting out on my fourth Metis project, aka My Harry Potter House Sorting Hat Algorithm,
+  I decided to visualize each house in word clouds to get an idea of what kind of words were associated
+  with the different houses.
+  Thinking about this a little more, I decided I only wanted adjectives to be used to sort people,
+  due to the fact that adjectives describe people and sorting people into a house is a way to describe them.
+</p>
+<p>
+  The data for this came from the <strong><em>Traits</em></strong> section of each
+  houses respective page on <a href="https://pottermore.fandom.com/wiki/Pottermore_Wiki">the Pottermore Wiki</a>.
+  I then used <a href="https://textblob.readthedocs.io/en/dev/">Textblob's</a> tags feature to extract adjectives ("JJ")
+  and also some select nouns ("NN"), which I filtered using stop-words.
+</p>
+<p>
+  The result is outputted to a json with the houses as keys and their word lists as the items.
+  I then piped this to my <a href="{{url_for('visuals.visual', name='house_word_cloud')}}">Hogwarts House Word Clouds</a> d3 visual.
+  See below for the full script.
+</p>
+<p>
+  Enjoy!
+</p>
 <script src="https://gist.github.com/bfitzpa5/5b2587e1d57f1dd84327e05b408c303b.js"></script>
 {% endblock %}
