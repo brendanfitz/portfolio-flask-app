@@ -73,8 +73,8 @@
           <div class="row">
             <div class="col-md-9 mx-auto">
               <div class="post-heading">
-                <h1>{{title}}</h1>
-                <span class="meta" style="font-style: italic;">Posted on {{date}}</span>
+                <h1 {% if model -%}style="text-align: center;"{% endif %}>{{title}}</h1>
+                {% if blog -%}<span class="meta" style="font-style: italic;">Posted on {{date}}</span>{% endif %}
                 <hr>
               </div>
             </div>
