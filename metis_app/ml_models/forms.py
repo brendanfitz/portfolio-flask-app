@@ -58,7 +58,7 @@ class LoanPredictorForm(FlaskForm):
         default='Debt Consolidation',
     )
     delinq_2yrs = SelectField(
-        'Borrower delinquencies in the past 2 years',
+        'Delinquencies (past 2 years)',
         choices=[(x, x) for x in range(30)],
         default=0,
     )
