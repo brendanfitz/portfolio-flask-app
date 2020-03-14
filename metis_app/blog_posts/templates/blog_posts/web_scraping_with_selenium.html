@@ -6,13 +6,13 @@
 </p>
 <p>
   Normally, my go to scraper tool is BeautifulSoup or Scrapy.
-  However, sometimes we run across a site that dynamic populates data with additional javascript calls after loading the page.
+  However, sometimes we run across a site that dynamically populates data with additional javascript calls after loading the page.
   An example of a site like this is Kickstarter.
 </p>
 <p>
   For my third project at Metis, we were assigned with developing a natural language processing project.
   We would use unsupervised learning tools such as clustering and topic modeling to find meaning in a corpus.
-  I choose to look at Kickstarter data.
+  I choose to look at Kickstarter pitches for my dataset.
   My goals were twofold:
 </p>
 <ol>
@@ -26,19 +26,19 @@
   What could be the cause of this?
 </p>
 <p>
-  After further inspecting I realized that the page was dynamically adding data using javascript after the initial html loaded.
-  BeautifulSoup was only loading the shell page!
+  After further inspecting, it was clear the site was dynamically adding data using javascript after the initial html loaded.
+  BeautifulSoup was only scraping the shell page!
 </p>
 <div class="d-flex justify-content-center">
   <img src="{{url_for('static', filename='img/kickstarter_network.jpg')}}" alt="Kickstarter Network" class="img-thumbnail img-fluid mx-auto d-block pic-margins">
 </div>
 <p>
   To solve this, I switched to a headless browser, aka a web browser without a graphical user interface.
-  A tool like this would make the request call using chrome.
+  A tool like this would make the request call using Chrome.
   They are normally used to test web apps but also serve as great web scraper in these instances.
   My tool of choice was Selenium.
   Luckily, I was able to port over all my DOM selectors into Selenium functions, so my BeautifulSoup work was not for naught.
-  Below you'll find the result of all this work. Overall, it was a very fun project.
+  Below you'll find the result of all this work.
 </p>
 <p>
   Enjoy!
