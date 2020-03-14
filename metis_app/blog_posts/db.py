@@ -35,4 +35,7 @@ blog_db = {
     'bash-netflix-command': {
         'title': 'Creating a Bash Command for Netflix',
     },
+    'parsing-xml': {
+        'title': 'Parsing XML to Visual the Yield Curve',
+    },
 }
