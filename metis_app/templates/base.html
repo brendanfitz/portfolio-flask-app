@@ -64,9 +64,6 @@
       </div>
     </nav>
     <div class="container">
-      {% if homepage -%}{% block hp_content %}{% endblock %}{% endif %}
-      {% if error_page -%}{% block error_content %}{% endblock %}{% endif %}
-      {% if viz_page -%}{% block viz_content %}{% endblock %}{% endif %}
       {% if blog or model -%}
       <header class="masthead">
         <div class="container">
@@ -83,8 +80,10 @@
       </header>
       <div class="row">
         <div class="container col-md-8">
-          {% if blog -%}{% block blog_content %}{% endblock %}{% endif %}
-          {% if model -%}{% block model_content %}{% endblock %}{% endif %}
+      {% endif %}
+        {% block content -%}
+        {% endblock %}
+      {% if blog or model -%}
         </div>
       </div>{% endif %}
     </div>
