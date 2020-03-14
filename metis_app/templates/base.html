@@ -67,10 +67,20 @@
       {% if homepage -%}{% block hp_content %}{% endblock %}{% endif %}
       {% if error_page -%}{% block error_content %}{% endblock %}{% endif %}
       {% if viz_page -%}{% block viz_content %}{% endblock %}{% endif %}
-      {% if blog or model -%}<div class="jumbotron">
-        <h2 class="blog-post-title text-center">{{title}}</h2>
-      </div>
-
+      {% if blog or model -%}
+      <header class="masthead">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-9 mx-auto">
+              <div class="post-heading">
+                <h1>{{title}}</h1>
+                <span class="meta" style="font-style: italic;">Posted on {{date}}</span>
+                <hr>
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
       <div class="row">
         <div class="container col-md-8">
           {% if blog -%}{% block blog_content %}{% endblock %}{% endif %}

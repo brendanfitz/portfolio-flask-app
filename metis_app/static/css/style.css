@@ -4,14 +4,10 @@ body {
 }
 
 h1 {
-  font-size: 63px;
   font-weight: 800;
+  margin-top: 10px;
+  margin-bottom: 25px;
 }
-
-h2 {
-  font-weight: 800;
-}
-
 
 .jumbotron p {
   font-size: 21px;
@@ -24,7 +20,7 @@ table {
 
 p {
     line-height: 1.5;
-    margin: 30px 0;
+    margin: 25px 0;
 }
 
 .section-heading {
