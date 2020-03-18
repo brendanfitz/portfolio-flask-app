@@ -34,6 +34,16 @@
             <li class="nav-item active">
               <a class="navbar-brand" href="{{url_for('core.index')}}">BRENDAN/FITZPATRICK</a>
             </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Site Sections
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="{{url_for('core.site_section_list', template_name='blogs_list')}}">Blogs</a>
+                <a class="dropdown-item" href="{{url_for('core.site_section_list', template_name='models_list')}}">Models</a>
+                <a class="dropdown-item" href="{{url_for('core.site_section_list', template_name='visuals_list')}}">Visuals</a>
+              </div>
+            </li>
           </ul>
           <ul class="navbar-nav ml-auto">
             <li class="nav-item">
@@ -87,5 +97,6 @@
         </div>
       </div>{% endif %}
     </div>
+    <br>
   </body>
 </html>

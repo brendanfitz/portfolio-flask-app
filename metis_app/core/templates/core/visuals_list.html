@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+  <div class="container col-sm-10">
+    <div class="card">
+      <h4 class="card-header">Visuals <em>(D3.js)</em></h4>
+      <div class="card-body">
+        <ul>
+          {% for visual_title, visual_data in visuals_db.items() %}
+          <li><a href="{{url_for('visuals.visual', name=visual_title)}}">{{visual_data.title}}</a></li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

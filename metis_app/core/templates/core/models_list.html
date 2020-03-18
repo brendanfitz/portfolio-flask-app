@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+  <div class="container col-sm-10">
+    <div class="card">
+      <h4 class="card-header">Models</h4>
+      <div class="card-body">
+        <ul>
+          <li><a href="{{url_for('ml_models.models', name='luther')}}">Movie ROI Predictor</a></li>
+          <li><a href="{{url_for('ml_models.models', name='mcnulty')}}">Lending Club Loan Default Prediction Model</a></li>
+          <li><a href="{{url_for('ml_models.models', name='fletcher')}}">Kickstarter Pitch Funding Outcome Prediction Model</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
