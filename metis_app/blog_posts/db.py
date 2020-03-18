@@ -51,4 +51,8 @@ blog_db = {
         'title': 'Parsing XML to Visual the Yield Curve',
         'date_posted': '2020-03-14',
     },
+    'regex-named-capture-groups': {
+        'title': 'Extracting Heavyweight Boxer\'s Height using Regex Named Capture Groups',
+        'date_posted': '2020-03-17',
+    },
 }

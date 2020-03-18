@@ -1,0 +1,6 @@
+height_in_inches = ((ft_inch_columns.feet * 12 + ft_inch_columns.inches)
+                    .rename('opponent_height_in_inches')
+                    )
+(df.join(height_in_inches)
+ .head()
+)
