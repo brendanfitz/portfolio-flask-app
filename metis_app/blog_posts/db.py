@@ -52,7 +52,7 @@ blog_db = {
         'date_posted': '2020-03-14',
     },
     'regex-named-capture-groups': {
-        'title': 'Extracting Heavyweight Boxer\'s Height using Regex Named Capture Groups',
+        'title': 'Wrangling Heavyweight Boxer\'s Height using Regex Named Capture Groups',
         'date_posted': '2020-03-17',
     },
 }
