@@ -12,7 +12,7 @@ def index():
 
 @core.route('/about')
 def about():
-    return render_template('about.html', blog=True, title="About Me, Brendan!")
+    return render_template('about.html', blog=True, title="About Me, Brendan!", date="November 27, 2020")
 
 @core.route('/<template_name>')
 def site_section_list(template_name):
