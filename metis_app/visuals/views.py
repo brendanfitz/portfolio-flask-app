@@ -1,5 +1,5 @@
 # visuals/views.py
-from flask import render_template, request, Blueprint
+from flask import render_template, abort, request, Blueprint
 from metis_app.visuals.db import visuals_db
 from datetime import datetime, timedelta
 
@@ -10,6 +10,9 @@ visuals = Blueprint('visuals', __name__, **kwargs)
 
 @visuals.route('/<name>')
 def visual(name):
+    if name not in visuals_db.keys():
+        abort(404)
+
     visual_data = visuals_db[name]
     title = visual_data['title']
     template = '{}.html'.format(name)

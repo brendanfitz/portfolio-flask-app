@@ -1,7 +1,7 @@
 # ml_models/views.py
 import numpy as np
 import pandas as pd
-from flask import render_template, request, Blueprint
+from flask import render_template, abort, request, Blueprint
 from metis_app.ml_models.forms import MoviePredictorForm, LoanPredictorForm, KickstarterPitchOutcomeForm
 from metis_app.ml_models.pickle_imports import Pickle_Imports
 
@@ -60,7 +60,7 @@ def models(name):
         form = KickstarterPitchOutcomeForm()
         title = "Kickstarter Pitch Funding Outcome Prediction Model"
     else:
-        form = None
+        abort(404)
 
     if request.method == 'POST':
         if name == 'luther':
