@@ -55,4 +55,8 @@ blog_db = {
         'title': 'Wrangling Heavyweight Boxer\'s Height using Regex Named Capture Groups',
         'date_posted': '2020-03-17',
     },
+    'same-line-printer': {
+        'title': 'Python Class for Printing Single-Line Status Bars',
+        'date_posted': '2020-03-19',
+    },
 }
