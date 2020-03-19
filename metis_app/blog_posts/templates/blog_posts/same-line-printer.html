@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<p>
+  When running a command line program that executes an iterable procedure, such as web scraping,
+  it's usually helpful to print out the current status as the program runs.
+  This is especially true when the program takes an extended period of time.
+  For example, when scraping BoxRec I added a 15 second time delay between urls
+  as they bounced me a few times for too many requests.
+  This caused the program to take over an hour as it scraped a large number of fights for many boxers.
+</p>
+<p>
+  However, if you continually print status updates over many lines,
+  it will clutter the output. Especially when you don't need that output once
+  the program successfully completes a step in the iteration.
+  A resolution for this is to write over the current output during each step.
+</p>
+<p>
+  To manage this easily, I created a SameLinePrinter class that logs the current line length
+  and writes over it on consecutive prints.
+  This takes care of the status line overhead so you can focus on the data science.
+  Below is the class script.
+</p>
+<pre class="language-py"><code>{% include "include_docs/same-line-printer/code1.py" %}</code></pre>
+<p>
+  To illustrate, let's take a look at how it works over a loop.
+</p>
+<pre class="language-py"><code>{% include "include_docs/same-line-printer/code2.py" %}</code></pre>
+<div class="d-flex justify-content-center">
+  <img src="https://media.giphy.com/media/URvPrxmMHOaX3kXo7o/giphy.gif" alt="" class="img-thumbnail img-fluid mx-auto d-block pic-margins">
+</div>
+<p>
+  As an alternative, there are progress bar modules available as well.
+  My recommendation would be <em><a href="https://github.com/tqdm/tqdm">tqdm</a></em>.
+  Here is the same example of how to use it for the same loop.
+</p>
+<pre class="language-py"><code>{% include "include_docs/same-line-printer/code3.py" %}</code></pre>
+<div class="d-flex justify-content-center">
+  <img src="https://media.giphy.com/media/dCX4VsQwOorTR0UBkQ/giphy.gif" alt="" class="img-thumbnail img-fluid mx-auto d-block pic-margins">
+</div>
+<p>
+  Thanks for reading!
+</p>
+{% endblock %}
