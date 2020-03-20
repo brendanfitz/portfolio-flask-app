@@ -3,64 +3,22 @@
 {% block content %}
 
 <p>Before starting, standard data import and cleaning.</p>
-<pre class="language-py"><code>import os
-import pandas as pd
-import numpy as np
-import datetime as dt
-import re
-import matplotlib.pyplot as plt
-import seaborn as sns
-sns.set(style="darkgrid")
-%matplotlib inline
-
-fname = sorted([x for x in os.listdir('data')
-                if re.match('box_office_mojo_pp', x)])[-1]
-df = (pd.read_csv('data/%s' % fname)
-      .set_index('title')
-      .assign(release_date=lambda x: x.release_date.astype('datetime64'),
-              log_gross=lambda x: np.log(x.domestic_total_gross),
-              roi=lambda x: x.domestic_total_gross.div(x.budget) - 1))</code></pre>
-
+<pre class="language-py"><code>{% include "include_docs/movie_data_eda/code1.py" %}</code></pre>
 <p>Our data is the top 100 movies by box office gross from 2008 - 2018</p>
 
 <h2>Fact 1: Seasonality by Month</h2>
 <p>May, June, July, November and December are the strongest months.</p>
-<pre class="language-py"><code>ax = (df.assign(month=lambda x: x.release_date.dt.month)
-      .pipe((sns.boxplot, 'data'), x='month', y='domestic_total_gross'))
-ax.set_xticklabels(month_names,
-                   rotation=45,
-                   horizontalalignment='right')
-ax.yaxis.set_major_formatter(formatter)
-ax.set(title='Domestic Total Gross by Month',
-       xlabel='',
-       ylabel='')
-plt.show()</code></pre>
+<pre class="language-py"><code>{% include "include_docs/movie_data_eda/code2.py" %}</code></pre>
 <img src="{{url_for('blog_posts.static', filename='movies_gross_by_month.png')}}" class="img-thumbnail img-fluid mx-auto d-block pic-margins">
 
 <h2>Fact 2: Ratings</h2>
 <p>R-rated movies have the strongest ROI</p>
-<pre class="language-py"><code>ax = sns.boxplot(x='rating', y='roi', data=df, order=rating_order, showfliers=False)
-ax.set(title='ROI by Rating', xlabel='', ylabel='')
-ax.set_yticklabels(['{:,.0%}'.format(x) for x in ax.get_yticks()])
-plt.show()</code></pre>
+<pre class="language-py"><code>{% include "include_docs/movie_data_eda/code3.py" %}</code></pre>
 <img src="{{url_for('blog_posts.static', filename='rating_roi.png')}}" class="img-thumbnail img-fluid mx-auto d-block pic-margins">
 
 <h2>Fun Fact 3: Genres</h2>
-
 <p>If you want to make money in movies, make horror films.</p>
-
-<pre class="language-python"><code>mask = df.genre.isin(genres)
-fig = plt.figure(figsize= [15, 10])
-ax = fig.add_subplot(111)
-data = df.loc[mask, ['genre', 'roi']]
-sns.boxplot(x='genre', y='roi', data=data, showfliers=False)
-ax.set_xticklabels(ax.get_xticklabels(),
-                   rotation=45,
-                   horizontalalignment='right',
-                   fontweight='light')
-ax.set_yticklabels(['{:,.0%}'.format(x) for x in ax.get_yticks()])
-ax.set(title='ROI by Genre', xlabel='', ylabel='')
-plt.show()</code></pre>
+<pre class="language-python"><code>{% include "include_docs/movie_data_eda/code4.py" %}</code></pre>
 <img src="{{url_for('blog_posts.static', filename='genre_roi.png')}}" class="img-thumbnail img-fluid mx-auto d-block pic-margins">
 
 {% endblock %}
