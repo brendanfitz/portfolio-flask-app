@@ -74,13 +74,12 @@
       </div>
     </nav>
     <div class="container">
-      {% if blog or model -%}
       <header class="masthead">
         <div class="container">
           <div class="row">
             <div class="col-md-9 mx-auto">
               <div class="post-heading">
-                <h1 {% if model -%}style="text-align: center;"{% endif %}>{{title}}</h1>
+                <h1 {% if model or viz_page -%}style="text-align: center;"{% endif %}>{{title}}</h1>
                 {% if blog -%}<span class="meta" style="font-style: italic;">Posted on {{date}}</span>{% endif %}
                 <hr>
               </div>
@@ -88,6 +87,7 @@
           </div>
         </div>
       </header>
+      {% if blog or model -%}
       <div class="row">
         <div class="container col-md-8">
       {% endif %}
