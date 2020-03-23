@@ -82,16 +82,29 @@ d3.json("/api/yield_curve/2020").then(function(data){
       formattedData[new Date(itemObj["Date"])] = entryList;
     });
 
+    dates = Object.keys(formattedData);
+
+    $("#date-slider").slider({
+        min: 0,
+        max: dates.length - 1,
+        value: dates.length - 1,
+        step: 1, // One day
+        slide: function(event, ui){
+            var date = dates[ui.value];
+            $("#dateLabel").text(formatTime(new Date(date)));
+            update(date);
+        }
+    });
+
     // Run the visualization for the first time
-    update();
+    var date = dates.slice(-1)[0];
+    $("#dateLabel").text(formatTime(new Date(date)));
+    update(date);
 })
 
-function update() {
+function update(date) {
     // Filter data based on selections
-    //var sliderDate = $("#date-slider").slider("values");
-    var dateText = $("#dateLabel").text();
-    var sliderDate = parseTime(dateText);
-    var data = formattedData[sliderDate];
+    var data = formattedData[date];
 
     // Path generator
     line = d3.line()
@@ -104,29 +117,4 @@ function update() {
      .transition(t)
      .attr("d", line(data));
 
-   //var circles = g.selectAll("circle")
-   //    .data(data);
-   //circles.exit()
-   //    .attr("class", "exit")
-   //    .remove();
-   //circles.enter().append("circle")
-   //    .attr("class", "circle")
-   //    .attr("r", 4)
-   //    .merge(circles)
-   //      .transition(t)
-   //      .attr("cx", function(d) { return x(d.instrument) + 22.5; })
-   //      .attr("cy", function(d) { return y(d.yield); })
-
 }
-var maxDate = $("#dateLabel").text()
-// Add jQuery UI slider
-$("#date-slider").slider({
-    min: parseTime("1/2/2020").getTime(),
-    max: parseTime(maxDate).getTime() + 86400000,
-    value: parseTime(maxDate).getTime(),
-    step: 86400000, // One day
-    slide: function(event, ui){
-        $("#dateLabel").text(formatTime(new Date(ui.value)));
-        update();
-    }
-});
