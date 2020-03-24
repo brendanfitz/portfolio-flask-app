@@ -14,11 +14,16 @@ var projection = d3.geoAlbersUsa()
 var path = d3.geoPath() // path generator that will convert GeoJSON to SVG paths
   .projection(projection); // tell path generator to use albersUsa projection
 
+function pad(s, maxlength) {
+  var pad_length = maxlength - s.length;
+  var padded_str = '&nbsp;'.repeat(pad_length) + s;
+  return padded_str;
+}
 var tip = d3.tip()
   .attr("class", "d3-tip")
   .html(function(d) {
-    var text = "<strong>Country:</strong> <span style='color:red'>" + d.properties.name + "</span><br>";
-    text += "<strong>Default Rate:</strong> <span style='color:red'>" + d3.format('.1%')(d.properties.default_rate) + "</span><br>";
+    var text = "<strong>State:</strong> <span style='color:#66ccff'>" + pad(d.properties.name, 25)  + "</span><br>";
+    text += "<strong>Default Rate:</strong> <span style='color:#66ccff'>" + pad(d3.format('.1%')(d.properties.default_rate), 9) + "</span><br>";
     return text;
   })
 
