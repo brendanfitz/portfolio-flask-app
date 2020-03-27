@@ -71,6 +71,7 @@
       </div>
     </nav>
     <div class="container">
+      {% if title %}
       <header class="masthead">
         <div class="container">
           <div class="row">
@@ -83,6 +84,7 @@
             </div>
           </div>
         </div>
+        {% endif %}
       </header>
       {% if blog or model -%}
       <div class="row">
