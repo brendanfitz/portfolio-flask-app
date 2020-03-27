@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<p>
+  Back in the good old days, <a href="https://pandas-datareader.readthedocs.io/en/latest/">pandas-datareader</a> used to be the cool-kids
+  way to pull finacial data.
+  Alas, all good things must come to an end.
+  Now, due to Yahoo Finance and Google not-cooperating, this API has now become defunct.
+  However, if you're like me, you're still craving financial data.
+</p>
+<p>
+  Instead of relying on another person's API, I've launched a personal postgreSQL database on AWS RDS to store data for this
+  site and my personal projects.
+  Over the past three days, I've loaded in all historical S&P data and launched a backend server to update the data daily
+  (blog post <a href="#">here</a> if you're interested in reading more in-depth on that process).
+</p>
+<p>
+  Using PostgreSQL, the database driver chosen for my RDS, I ran some technical analysis on the S&P.
+  For results of the below queries, click <a href="{{url_for('api.sp_500_excel')}}">here</a> to download an excel with visualizations.
+
+</p>
+<p>
+  First up, let's take a look at the structure of the data.
+</p>
+<pre><code class="language-sql">{% include "include_docs/s&p_500_analysis/code1.sql" %}</code></pre>
+<p>
+  To finish our warm-up, let's get the average stock price per year.
+</p>
+<pre><code class="language-sql">{% include "include_docs/s&p_500_analysis/code2.sql" %}</code></pre>
+<h2 style="margin-top: 50px;">First Value</h2>
+<p>
+  Now, for our first window function, we'll use <strong><a href="https://www.postgresqltutorial.com/postgresql-first_value-function/">first_value</a></strong> to determine the date with the highest close price
+  for any day of that year.
+</p>
+<pre><code class="language-sql">{% include "include_docs/s&p_500_analysis/code3.sql" %}</code></pre>
+<h2 style="margin-top: 50px;">Lag</h2>
+<p>
+  Another good pathway of analysis is to look at the deviation between days.
+  We'll use <strong><a href="https://www.postgresqltutorial.com/postgresql-lag-function/">lag</a></strong> to determine the days with the 25 largest changes in closing value from the prior day.
+</p>
+<pre><code class="language-sql">{% include "include_docs/s&p_500_analysis/code4.sql" %}</code></pre>
+<p>
+  Now, as lag is a very important function for analysis, we'll use it again to determine the average daily deviation by decade.
+</p>
+<pre><code class="language-sql">{% include "include_docs/s&p_500_analysis/code5.sql" %}</code></pre>
+<h2 style="margin-top: 50px;">Break Time</h2>
+<p>
+  Let's take a quick break from window functions to look at the top intra-day trading range percentage.
+</p>
+<pre><code class="language-sql">{% include "include_docs/s&p_500_analysis/code6.sql" %}</code></pre>
+<h2 style="margin-top: 50px;">Avg</h2>
+<p>
+  For our grand finale, let's look at the 200-day moving average using the <strong><a href="https://www.postgresqltutorial.com/postgresql-window-function/">avg</a></strong> window function.
+</p>
+<p>
+  The 200-Day Moving average is a technical indicator used to gauge long-term price trends.
+  If the price is consistently trading above the average, this can be seen as an upward trending market.
+  Conversely, markets trading below the 200-day moving average are viewed to be in a downtrend.
+  When the current price crosses below the 200-day moving average, this is seen as a nexus point indicating a change in price-trends.
+</p>
+<pre><code class="language-sql">{% include "include_docs/s&p_500_analysis/code7.sql" %}</code></pre>
+{% endblock %}

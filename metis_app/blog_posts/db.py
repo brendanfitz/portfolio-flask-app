@@ -59,7 +59,7 @@ blog_db = {
         'title': 'Python Class for Printing Single-Line Status Bars',
         'date_posted': '2020-03-19',
     },
-    's_and_p_500_analysis': {
+    's&p_500_analysis': {
         'title': 'S&P Technical PostgreSQL Analysis using Window Functions',
         'date_posted': '2020-03-27',
     },

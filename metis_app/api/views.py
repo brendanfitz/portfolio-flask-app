@@ -47,3 +47,8 @@ def yield_curve(year):
 def workout_log():
     return send_from_directory(os.path.join('static', 'js', 'data'),
                                'Workout_Log.xlsx', as_attachment=True)
+
+@api.route('/s&p_500_excel')
+def sp_500_excel():
+    return send_from_directory(os.path.join('static', 'js', 'data'),
+                               'S&P 500 Visualizations.xlsx', as_attachment=True)
