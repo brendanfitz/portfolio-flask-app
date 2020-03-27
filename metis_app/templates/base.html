@@ -13,7 +13,7 @@
     <link href="https://fonts.googleapis.com/css?family=Raleway:400,800&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
     <!-- Synatx Highlighting -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.5.0/themes/prism.min.css"/>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/prism.css') }}"/>
     {% if viz_page %}
     <link rel="stylesheet" href="{{ url_for('static', filename='css/d3-tip.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/jquery-ui.min.css') }}">
@@ -24,9 +24,6 @@
     <link rel="shortcut icon" href="{{ url_for('static', filename='img/redhead-favicon.jpg')}}">
   </head>
   <body>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/prism.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/components/prism-python.min.js"></script>
-
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-dark">
       <div class="container">
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -98,5 +95,6 @@
       </div>{% endif %}
     </div>
     <br>
+    <script src="{{ url_for('static', filename='js/prism.js') }}"></script>
   </body>
 </html>
