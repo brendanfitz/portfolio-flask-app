@@ -37,8 +37,8 @@ function pad(s, maxlength) {
 // Tooltip
 var tip = d3.tip().attr('class', 'd3-tip')
     .html(function(d) {
-        var text = "<strong>Team:</strong> <span class='team-tooltip'>" + pad(d.team, 28) + "</span><br>";
-        text += "<strong>Game #:</strong> <span style='color:aqua'>" + pad(d.games_played.toString(), 9) + "</span><br>";
+          var text = "<strong>Team:</strong> <span class='team-tooltip'>" + pad(d.team, 28) + "</span><br>";
+          text += "<strong>Game #:</strong> <span style='color:aqua'>" + pad(d.games_played.toString(), 9) + "</span><br>";
         text += "<strong>Points:</strong> <span style='color:aqua'>" + pad(d.points.toString(), 13) + "</span><br>";
         return text;
     });
