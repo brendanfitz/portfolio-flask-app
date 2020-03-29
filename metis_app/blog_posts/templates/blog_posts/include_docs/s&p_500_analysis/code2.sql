@@ -1,5 +1,5 @@
 SELECT
-  EXTRACT('year' from s.date),
+  EXTRACT('year' from s.date) as trading_year,
   AVG(close) AS average_closing_price
 
 

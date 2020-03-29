@@ -23,31 +23,37 @@
   First up, let's take a look at the structure of the data.
 </p>
 <pre><code class="language-sql">{% include "include_docs/s&p_500_analysis/code1.sql" %}</code></pre>
+{% include "include_docs/s&p_500_analysis/table1.html" %}
 <p>
   To finish our warm-up, let's get the average stock price per year.
 </p>
 <pre><code class="language-sql">{% include "include_docs/s&p_500_analysis/code2.sql" %}</code></pre>
+{% include "include_docs/s&p_500_analysis/table2.html" %}
 <h2 style="margin-top: 50px;">First Value</h2>
 <p>
   Now, for our first window function, we'll use <strong><a href="https://www.postgresqltutorial.com/postgresql-first_value-function/">first_value</a></strong> to determine the date with the highest close price
   for any day of that year.
 </p>
 <pre><code class="language-sql">{% include "include_docs/s&p_500_analysis/code3.sql" %}</code></pre>
+{% include "include_docs/s&p_500_analysis/table3.html" %}
 <h2 style="margin-top: 50px;">Lag</h2>
 <p>
   Another good pathway of analysis is to look at the deviation between days.
   We'll use <strong><a href="https://www.postgresqltutorial.com/postgresql-lag-function/">lag</a></strong> to determine the days with the 25 largest changes in closing value from the prior day.
 </p>
 <pre><code class="language-sql">{% include "include_docs/s&p_500_analysis/code4.sql" %}</code></pre>
+{% include "include_docs/s&p_500_analysis/table4.html" %}
 <p>
   Now, as lag is a very important function for analysis, we'll use it again to determine the average daily deviation by decade.
 </p>
 <pre><code class="language-sql">{% include "include_docs/s&p_500_analysis/code5.sql" %}</code></pre>
+{% include "include_docs/s&p_500_analysis/table5.html" %}
 <h2 style="margin-top: 50px;">Break Time</h2>
 <p>
   Let's take a quick break from window functions to look at the top intra-day trading range percentage.
 </p>
 <pre><code class="language-sql">{% include "include_docs/s&p_500_analysis/code6.sql" %}</code></pre>
+{% include "include_docs/s&p_500_analysis/table6.html" %}
 <h2 style="margin-top: 50px;">Avg</h2>
 <p>
   For our grand finale, let's look at the 200-day moving average using the <strong><a href="https://www.postgresqltutorial.com/postgresql-window-function/">avg</a></strong> window function.
@@ -59,4 +65,11 @@
   When the current price crosses below the 200-day moving average, this is seen as a nexus point indicating a change in price-trends.
 </p>
 <pre><code class="language-sql">{% include "include_docs/s&p_500_analysis/code7.sql" %}</code></pre>
+{% include "include_docs/s&p_500_analysis/table7.html" %}
+<p>
+  Window functions are an advanced but rewarding tool needed in any data scientist's arsenal.
+</p>
+<p>
+  Thanks for reading!
+</p>
 {% endblock %}
