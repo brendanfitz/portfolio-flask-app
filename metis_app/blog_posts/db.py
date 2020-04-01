@@ -63,4 +63,8 @@ blog_db = {
         'title': 'S&P Technical PostgreSQL Analysis using Window Functions',
         'date_posted': '2020-03-27',
     },
+    'week_ending_saturday_udf': {
+        'title': 'Week-Ending-Saturday  SQL User-Defined Function (UDF)',
+        'date_posted': '2020-04-01',
+    }
 }

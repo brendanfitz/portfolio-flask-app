@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<p>
+  Acronym's are <strong>GREAT</strong>!
+  Not only do they make you seem extremely shrewd and brainy, they also are also are a great way to confuse your enemies and coworkers.
+  Let's all add another cool acronym to our verbiage.
+</p>
+<p>
+  If you don't know about User-Defined Functions (<strong>UDF's</strong>) then get with it!
+  They are available in almost every flavor of SQL, including <a href="https://www.postgresql.org/docs/8.0/xfunc.html">PostgreSQL</a> and <a href="https://docs.aws.amazon.com/redshift/latest/dg/user-defined-functions.html">Redshift</a>.
+  UDF's allow you create your own SQL functions.
+  In more practical terms, they allow us <strong>embed business logic in a single place</strong>, rather than copy and pasting it across multiple queries and procedures.
+  They also help us keep our code <strong>DRY</strong> (another great acronym!).
+</p>
+<p>
+  Let's do an run through a good UDF use-case.
+  We are super important traders and want to analyze the S&P.
+  We hope to develop a swing trading strategy, which involves holding a position for multiple days to weeks.
+  Therefore, we need to not only look at the data on a daily basis, but also on a weekly basis.
+</p>
+<p>
+  For some reason I can't explain away, we also want our week to be based on Saturday-Friday instead of Monday-Sunday.
+  If it were Monday, we could use the <em>date_trunc</em> function, built into both <a href="https://www.postgresql.org/docs/9.1/functions-datetime.html">PostgreSQL</a> and <a href="https://docs.aws.amazon.com/redshift/latest/dg/r_DATE_TRUNC.html">Redshift</a>.
+  But we don't want Monday, we want Saturday!
+</p>
+<p>
+  So how do we solve this? Create our own UDF!
+</p>
+<p>
+  Our UDF will find the number for the day of week (O for Sunday, 1 for Monday, etc.).
+  It then subtracts that number plus + 1 days from the date, except if it's Saturday, in which case we subtract 0.
+  Here's the code:
+</p>
+<pre><code class="language-sql">{% include 'include_docs/week_ending_saturday_udf/code1.sql' %}</code></pre>
+<p>
+  If that all seems confusing to you, then you're in luck! I put together the following chart to illustrate step-by-step how the function works.
+</p>
+<img src="{{url_for('blog_posts.static', filename='last_week_saturday.jpg')}}" class="img-thumbnail img-fluid mx-auto d-block pic-margins">
+<p>
+  Enough theory! Let's see this UDF in action.
+</p>
+<pre><code class="language-sql">{% include 'include_docs/week_ending_saturday_udf/code2.sql' %}</code></pre>
+{% include 'include_docs/week_ending_saturday_udf/table2.html' %}
+<p></p>
+<p>
+  The row highlight colors corrspond to different <em>week_ending_saturday</em>'s.
+  Now let's look a our actual use case for this:
+</p>
+<pre><code class="language-sql">{% include 'include_docs/week_ending_saturday_udf/code3.sql' %}</code></pre>
+{% include 'include_docs/week_ending_saturday_udf/table3.html' %}
+<p>
+  We can see the havoc Corona Virus has wrecked in this chart! The week of 2/15 was higher but the index fell of a cliff during the week of 2/22!
+  If we believe this some part of larger market trend, we'll have to develop a short startegy or maybe keep our money in cash for a bit.
+</p>
+<p>
+  Hope this was helpful!
+  Go forth and make UDFs!
+</p>
+
+{% endblock %}
