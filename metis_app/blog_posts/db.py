@@ -81,7 +81,7 @@ blog_db = [
     },
     {
         'id': 'week_ending_saturday_udf',
-        'title': 'Week-Ending-Saturday  SQL User-Defined Function (UDF)',
+        'title': 'PostgreSQL User-Defined Function (UDF) for Week-Ending Saturday',
         'date_posted': '2020-04-01',
     }
 ]
