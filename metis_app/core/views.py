@@ -3,6 +3,8 @@ from flask import render_template, abort, request, Blueprint
 from metis_app.blog_posts.db import blog_db
 from metis_app.visuals.db import visuals_db
 
+blog_db.sort(reverse=True, key=lambda x: x['date_posted'])
+
 core = Blueprint('core', __name__, template_folder='templates/core')
 
 @core.route('/')
