@@ -9,7 +9,7 @@ core = Blueprint('core', __name__, template_folder='templates/core')
 
 @core.route('/')
 def index():
-    kwargs = dict(homepage=True, blog_db=blog_db, visuals_db=visuals_db)
+    kwargs = dict(homepage=True, blog_db=blog_db[:5], visuals_db=visuals_db)
     return render_template('index.html', **kwargs)
 
 @core.route('/about')

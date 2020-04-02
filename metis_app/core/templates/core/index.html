@@ -11,6 +11,9 @@
           <li><a href="{{url_for('blog_posts.blog', name=blog_data.id)}}">{{blog_data.title}}</a></li>
           {% endfor %}
         </ul>
+        <div class="d-flex justify-content-center">
+          <a href="{{url_for('core.site_section_list', template_name='blogs_list')}}">Click Here for More Blogs...</a>
+        </div>
       </div>
     </div>
   </div>
@@ -23,6 +26,15 @@
           <li><a href="{{url_for('ml_models.models', name='mcnulty')}}">Lending Club Loan Default Prediction Model</a></li>
           <li><a href="{{url_for('ml_models.models', name='fletcher')}}">Kickstarter Pitch Funding Outcome Prediction Model</a></li>
         </ul>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <div class="d-flex justify-content-center align-items-bottom">
+          <a href="{{url_for('core.site_section_list', template_name='models_list')}}">Click Here for More Models...</a>
+        </div>
       </div>
     </div>
   </div>
@@ -35,6 +47,15 @@
           <li><a href="{{url_for('visuals.visual', name=visual_title)}}">{{visual_data.title}}</a></li>
           {% endfor %}
         </ul>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <div class="d-flex justify-content-center">
+          <a href="{{url_for('core.site_section_list', template_name='visuals_list')}}">Click Here for More Visuals...</a>
+        </div>
       </div>
     </div>
   </div>
