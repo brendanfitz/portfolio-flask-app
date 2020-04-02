@@ -10,13 +10,13 @@
 <p>
   If you don't know about User-Defined Functions (<strong>UDF's</strong>) then get with it!
   They are available in almost every flavor of SQL, including <a href="https://www.postgresql.org/docs/8.0/xfunc.html">PostgreSQL</a> and <a href="https://docs.aws.amazon.com/redshift/latest/dg/user-defined-functions.html">Redshift</a>.
-  UDF's allow you create your own SQL functions.
+  UDF's allow you to create your own SQL functions, aka a reusable block of code.
   In more practical terms, they allow us <strong>embed business logic in a single place</strong>, rather than copy and pasting it across multiple queries and procedures.
   They also help us keep our code <strong>DRY</strong> (another great acronym!).
 </p>
 <p>
-  Let's do an run through a good UDF use-case.
-  We are super important traders and want to analyze the S&P.
+  Let's do a run through of a good UDF use-case.
+  Imagine, we are super important traders and want to analyze the S&P.
   We hope to develop a swing trading strategy, which involves holding a position for multiple days to weeks.
   Therefore, we need to not only look at the data on a daily basis, but also on a weekly basis.
 </p>
