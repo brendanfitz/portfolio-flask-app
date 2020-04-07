@@ -75,7 +75,7 @@ blog_db = [
         'date_posted': '2020-03-19',
     },
     {
-        'id': 's&p_500_analysis',
+        'id': 's&p_500_technical_sql_analysis',
         'title': 'S&P Technical PostgreSQL Analysis using Window Functions',
         'date_posted': '2020-03-27',
     },
