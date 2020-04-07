@@ -1,5 +1,5 @@
 # api/views.py
-from flask import render_template, request, Blueprint, send_from_directory
+from flask import render_template, abort, request, Blueprint, send_from_directory
 from flask.json import jsonify
 from metis_app.api.nhl_game_results_scrape import nhl_scrape
 from flask import jsonify
@@ -43,12 +43,14 @@ def yield_curve(year):
     data = get_yield_curve(year)
     return jsonify(data)
 
-@api.route('/workout-log')
-def workout_log():
-    return send_from_directory(os.path.join('static', 'js', 'data'),
-                               'Workout_Log.xlsx', as_attachment=True)
-
-@api.route('/s&p_500_excel')
-def sp_500_excel():
-    return send_from_directory(os.path.join('static', 'js', 'data'),
-                               'S&P 500 Visualizations.xlsx', as_attachment=True)
+ALLOWED_EXCEL_FILENAME = [
+    'S&P 500 Time Horizon Analysis.xlsx',
+    'S&P 500 Visualizations.xlsx',
+    'Workout_Log.xlsx',
+]
+EXCEL_DIRECTORY = os.path.join('static', 'excels')
+@api.route('/excels/<filename>')
+def excel_downloads(filename):
+    if filename not in ALLOWED_EXCEL_FILENAME:
+        abort(404)
+    return send_from_directory(EXCEL_DIRECTORY, filename, as_attachment=True)
