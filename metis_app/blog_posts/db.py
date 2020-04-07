@@ -83,5 +83,10 @@ blog_db = [
         'id': 'week_ending_saturday_udf',
         'title': 'PostgreSQL User-Defined Function (UDF) for Week-Ending Saturday',
         'date_posted': '2020-04-01',
-    }
+    },
+    {
+        'id': 's&p500_time_horizon_analysis',
+        'title': 'S&P 500 Time Horizon Analysis',
+        'date_posted': '2020-04-07',
+    },
 ]
