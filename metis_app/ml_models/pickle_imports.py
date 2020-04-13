@@ -7,6 +7,7 @@ from sklearn.linear_model import LinearRegression, Lasso, LassoCV
 from sklearn.naive_bayes import GaussianNB
 from metis_app.ml_models import luther_util
 from metis_app.ml_models import mcnulty_util
+from sklearn.ensemble import RandomForestClassifier
 import time
 
 
@@ -79,3 +80,13 @@ class Pickle_Imports:
             self.kickstarter_model = pickle.load(f)
         end = time.time()
         print('Kickstarter Model: {:,.4f} seconds'.format(end - start))
+
+        """
+        start = time.time()
+        filename = 'metis_app/static/pickles/titanic_model.pkl'
+        with open(filename, 'rb') as f:
+            self.titantic_model = pickle.load(f)
+        end = time.time()
+        print('Titantic Model: {:,.4f} seconds'.format(end - start))
+        """
+        self.titantic_model = None

@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row justify-content-md-center">
+  <div class="col-sm-8">
+    {% if prediction %}
+    <p class="text-center"><span class="font-weight-bold">{{prediction}}</span></p>
+    {% else %}
+    <p class="text-center">Will You Survive The Titantic? Fill Out the Below Form to Find Out!</p>
+    {% endif %}
+    <form method="post">
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          {{ form.pclass.label }}{{ form.pclass(class_="form-control") }}
+        </div>
+        <div class="form-group col-md-6">
+          {{ form.sex.label }}{{ form.sex(class_="form-control") }}
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          {{ form.title.label }}{{ form.title(class_="form-control") }}
+        </div>
+        <div class="form-group col-md-6">
+          {{ form.embarked.label }}{{ form.embarked(class_="form-control") }}
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          {{ form.family_size.label }}{{ form.family_size(class_="form-control") }}
+        </div>
+        <div class="form-group col-md-6">
+          {{ form.age.label }}{{ form.age(class_="form-control") }}
+        </div>
+      </div>
+      {{ form.submit(class_="btn btn-primary") }}
+    </form>
+  </div>
+</div>
+<br>
+
+{% endblock %}

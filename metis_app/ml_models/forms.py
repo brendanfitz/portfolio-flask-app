@@ -81,3 +81,24 @@ class LoanPredictorForm(FlaskForm):
         default='CA',
     )
     submit = SubmitField("Predict")
+
+def TitanticPredictorForm(FlaskForm):
+    pclass = SelectField("Which Class Will You Be Traveling?",
+        choices=[(1, "1st Class"), (2, "2nd Class"), (3, "3rd Class")],
+        default="2nd Class",
+    )
+    sex = SelectField("Which Gender Are You?",
+        choices=[(0, "Male"), (1, "Female")],
+        default="Male",
+    )
+    title = SelectField("What is your title?",
+        choices=choices_list('title_choices.csv'),
+        default="Mrs"
+    )
+    embarked = SelectField("Where will you embark from?",
+        choices=choices_list('embarked_choices.csv'),
+        default="Southampton",
+    )
+    family_size = IntegerField("How many family members will you be traveling with?")
+    age = IntegerField("What is your age?")
+    submit = SubmitField("Find Out If You're A Survivor!")

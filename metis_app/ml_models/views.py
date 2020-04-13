@@ -2,9 +2,10 @@
 import numpy as np
 import pandas as pd
 from flask import render_template, abort, request, Blueprint
-from metis_app.ml_models.forms import MoviePredictorForm, LoanPredictorForm, KickstarterPitchOutcomeForm
+from metis_app.ml_models.forms import (MoviePredictorForm, LoanPredictorForm,
+                                       KickstarterPitchOutcomeForm, TitanticPredictorForm)
 from metis_app.ml_models.pickle_imports import Pickle_Imports
-
+from metis_app.ml_models import titanic_util as tu
 
 ml_models = Blueprint('ml_models', __name__, template_folder="templates/ml_models")
 
@@ -40,6 +41,20 @@ def mcnulty_prediction(form):
     prediction = "{:0.1%}".format(pickles.clf.predict_proba(row)[0][1])
     return prediction
 
+
+def titantic_prediction(form):
+    row = pd.DataFrame({
+        'pclass': form.pclass.data,
+        'sex': sex_map[form.sex.data],
+        'title': title_map[form.title.data],
+        'embarked': embarked_map[form.embarked.data],
+        'family_size': form.family_size.data,
+        'is_alone': tu.is_alone(form.family_size.data),
+        'age_category': tu.age_label(form.age.data),
+    })
+    prediction = pickles.titantic_model.predict(pitch_vectorized)[0]
+    return prediction
+
 def fletcher_prediction(form):
     pitch = [form.pitch.data]
     pitch_vectorized = pickles.kickstarter_vectorizer.transform(pitch).toarray()
@@ -59,6 +74,9 @@ def models(name):
     elif name == 'fletcher':
         form = KickstarterPitchOutcomeForm()
         title = "Kickstarter Pitch Funding Outcome Prediction Model"
+    elif name == 'titantic':
+        form = TitanticPredictorForm()
+        title = "Will You Survive The Titantic?"
     else:
         abort(404)
 
@@ -69,6 +87,8 @@ def models(name):
             prediction = mcnulty_prediction(form)
         elif name == 'fletcher':
             prediction = fletcher_prediction(form)
+        elif name == 'fletcher':
+            prediction = titantic_prediction(form)
         return render_template(template, model=True, form=form, title=title, prediction=prediction)
 
     return render_template(template, model=True, title=title, form=form)
