@@ -13,13 +13,12 @@ import time
 import boto3
 
 LOCAL_DIRECTORY = 'metis_app/static/pickles/'
-AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
-AWS_SECRET_KEY = os.getenv('AWS_SECRET_KEY')
+AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
+AWS_SECRET_KEY = os.environ.get('AWS_SECRET_KEY')
 
 
 if not os.path.exists(LOCAL_DIRECTORY):
     os.mkdir(LOCAL_DIRECTORY)
-
 
 import sys
 sys.path.append('metis_app/ml_models')
