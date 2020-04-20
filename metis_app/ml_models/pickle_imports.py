@@ -11,6 +11,8 @@ from metis_app.ml_models import mcnulty_util
 from sklearn.ensemble import RandomForestClassifier
 import time
 import boto3
+import warnings
+warnings.simplefilter("ignore", UserWarning)
 
 LOCAL_DIRECTORY = 'metis_app/static/pickles/'
 AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
@@ -112,12 +114,10 @@ class Pickle_Imports:
         end = time.time()
         print('Kickstarter Model: {:,.4f} seconds'.format(end - start))
 
-        """
         start = time.time()
-        filename = 'metis_app/static/pickles/titanic_model.pkl'
-        with open(filename, 'rb') as f:
+        filename = 'titanic_model.pkl'
+        with open(aws_download(filename), 'rb') as f:
             self.titantic_model = pickle.load(f)
         end = time.time()
         print('Titantic Model: {:,.4f} seconds'.format(end - start))
-        """
-        self.titantic_model = None
+        #self.titantic_model = None

@@ -40,7 +40,7 @@ class MoviePredictorForm(FlaskForm):
     submit = SubmitField("Predict")
 
 class LoanPredictorForm(FlaskForm):
-    dti = FloatField('Debt-to-Interest', default=16.7)
+    dti = FloatField('Debt-to-Income', default=16.7)
     int_rate = FloatField('Interest Rate (%)', default=13.8)
     emp_length = SelectField(
         'Employment Length',
@@ -82,7 +82,7 @@ class LoanPredictorForm(FlaskForm):
     )
     submit = SubmitField("Predict")
 
-def TitanticPredictorForm(FlaskForm):
+class TitanticPredictorForm(FlaskForm):
     pclass = SelectField("Which Class Will You Be Traveling?",
         choices=[(1, "1st Class"), (2, "2nd Class"), (3, "3rd Class")],
         default="2nd Class",
@@ -99,6 +99,10 @@ def TitanticPredictorForm(FlaskForm):
         choices=choices_list('embarked_choices.csv'),
         default="Southampton",
     )
-    family_size = IntegerField("How many family members will you be traveling with?")
-    age = IntegerField("What is your age?")
+    family_size = IntegerField("How many family members will you be traveling with?",
+        default=3,
+    )
+    age = IntegerField("What is your age?",
+        default=30,
+    )
     submit = SubmitField("Find Out If You're A Survivor!")

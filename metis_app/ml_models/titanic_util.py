@@ -25,6 +25,7 @@ def fare_label(fare):
         return 3
 
 def age_label(age):
+    print(type(age))
     if age < 12:
         return 4
     elif age < 18:

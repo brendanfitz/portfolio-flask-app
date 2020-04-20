@@ -45,15 +45,17 @@ def mcnulty_prediction(form):
 def titantic_prediction(form):
     row = pd.DataFrame({
         'pclass': form.pclass.data,
-        'sex': sex_map[form.sex.data],
-        'title': title_map[form.title.data],
-        'embarked': embarked_map[form.embarked.data],
+        'sex': form.sex.data,
+        'title': tu.title_map[form.title.data],
+        'embarked': tu.embarked_map[form.embarked.data],
         'family_size': form.family_size.data,
         'is_alone': tu.is_alone(form.family_size.data),
         'age_category': tu.age_label(form.age.data),
-    })
-    prediction = pickles.titantic_model.predict(pitch_vectorized)[0]
-    return prediction
+    }, index=[0])
+    prediction = pickles.titantic_model.predict(row)[0]
+    if prediction:
+        return "Congrats! You're a survivor like Beyonce"
+    return "Oh no! It's not looking good for you. You're down like Leo."
 
 def fletcher_prediction(form):
     pitch = [form.pitch.data]
@@ -87,8 +89,10 @@ def models(name):
             prediction = mcnulty_prediction(form)
         elif name == 'fletcher':
             prediction = fletcher_prediction(form)
-        elif name == 'fletcher':
+        elif name == 'titantic':
             prediction = titantic_prediction(form)
+        else:
+            abort(404)
         return render_template(template, model=True, form=form, title=title, prediction=prediction)
 
     return render_template(template, model=True, title=title, form=form)
