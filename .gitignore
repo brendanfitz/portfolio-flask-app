@@ -2,3 +2,4 @@ __pycache__/*
 *.pyc
 venv/*
 metis_app/api/static/api/data/nhl_results_*.json
+metis_app/static/pickles/*
