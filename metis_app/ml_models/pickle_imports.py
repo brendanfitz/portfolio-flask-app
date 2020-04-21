@@ -5,9 +5,7 @@ import pandas as pd
 from sklearn.preprocessing import PolynomialFeatures, OneHotEncoder, StandardScaler
 from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
 from sklearn.linear_model import LinearRegression, Lasso, LassoCV
-from sklearn.naive_bayes import GaussianNB
 from metis_app.ml_models import luther_util
-from metis_app.ml_models import mcnulty_util
 from sklearn.ensemble import RandomForestClassifier
 import time
 import boto3
@@ -94,9 +92,9 @@ class Pickle_Imports:
         print('Passthroughs Scaler: {:,.4f} seconds'.format(end - start))
 
         start = time.time()
-        filename = 'clf.pkl'
+        filename = 'rf.pkl'
         with open(aws_download(filename), 'rb') as f:
-            self.clf = pickle.load(f)
+            self.rf = pickle.load(f)
         end = time.time()
         print('CLF: {:,.4f} seconds'.format(end - start))
 

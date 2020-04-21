@@ -40,45 +40,29 @@ class MoviePredictorForm(FlaskForm):
     submit = SubmitField("Predict")
 
 class LoanPredictorForm(FlaskForm):
+    loan_amnt = FloatField('Loan Amount', default=13658)
+    int_rate = FloatField('Interest Rate (%)', default=13.87)
+    annual_inc = FloatField('Annual Income', default=72402)
     dti = FloatField('Debt-to-Income', default=16.7)
-    int_rate = FloatField('Interest Rate (%)', default=13.8)
     emp_length = SelectField(
         'Employment Length',
         choices=choices_list('emp_length_choices.csv'),
         default='10+ years',
-    )
-    home_ownership = SelectField(
-        'Home Ownership Status',
-        choices=choices_list('home_ownership_choices.csv'),
-        default='Mortgage',
-    )
-    purpose = SelectField(
-        'Purpose of Loan',
-        choices=choices_list('purpose_choices.csv'),
-        default='Debt Consolidation',
-    )
-    delinq_2yrs = SelectField(
-        'Delinquencies (past 2 years)',
-        choices=[(x, x) for x in range(30)],
-        default=0,
-    )
-    revol_bal = FloatField('Revolving Balance', default=15000)
-    loan_amnt = FloatField('Loan Amount', default=13658)
-    grade = SelectField(
-        'Lending Club Loan Grade',
-        choices=choices_list('grade_choices.csv'),
-        default='B',
     )
     term = SelectField(
         'Loan Term',
         choices=[('36 months', '36 months'), ('60 months', '60 months'),],
         default='36 months',
     )
-    installment = FloatField('Installment', default=420)
-    addr_state = SelectField(
-        'State',
-        choices=choices_list('addr_state_choices.csv'),
-        default='CA',
+    purpose = SelectField(
+        'Purpose of Loan',
+        choices=choices_list('purpose_choices.csv'),
+        default='Debt Consolidation',
+    )
+    grade = SelectField(
+        'Lending Club Loan Grade',
+        choices=choices_list('grade_choices.csv'),
+        default='B',
     )
     submit = SubmitField("Predict")
 

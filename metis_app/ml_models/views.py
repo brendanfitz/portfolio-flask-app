@@ -5,6 +5,7 @@ from flask import render_template, abort, request, Blueprint
 from metis_app.ml_models.forms import (MoviePredictorForm, LoanPredictorForm,
                                        KickstarterPitchOutcomeForm, TitanticPredictorForm)
 from metis_app.ml_models.pickle_imports import Pickle_Imports
+from metis_app.ml_models import mcnulty_util as mu
 from metis_app.ml_models import titanic_util as tu
 
 ml_models = Blueprint('ml_models', __name__, template_folder="templates/ml_models")
@@ -25,20 +26,19 @@ def luther_prediction(form):
 
 def mcnulty_prediction(form):
     row = pd.DataFrame({
-        'dti': form.dti.data,
-        'int_rate': form.int_rate.data,
-        'emp_length': form.emp_length.data,
-        'home_ownership': form.home_ownership.data,
-        'purpose': form.purpose.data,
-        'delinq_2yrs': form.delinq_2yrs.data,
-        'revol_bal': form.revol_bal.data,
-        'loan_amnt': form.loan_amnt.data,
-        'grade': form.grade.data,
-        'term': form.term.data,
-        'installment': form.installment.data,
-        'addr_state': form.addr_state.data,
-    }, index=[0])
-    prediction = "{:0.1%}".format(pickles.clf.predict_proba(row)[0][1])
+            'loan_amnt': form.loan_amnt.data,
+            'int_rate': form.int_rate.data,
+            'annual_inc': form.annual_inc.data,
+            'dti': form.dti.data,
+            'emp_length': mu.emp_length_map[form.emp_length.data],
+            'term': mu.term_map[form.term.data],
+            'purpose': mu.purpose_map[form.purpose.data],
+            'grade': mu.grade_map[form.grade.data],
+        },
+        index=[0]
+    )
+    print(row)
+    prediction = "{:0.0%}".format(pickles.rf.predict_proba(row)[0, 1])
     return prediction
 
 

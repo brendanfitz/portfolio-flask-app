@@ -1,47 +1,31 @@
-import pandas as pd
-from sklearn.base import BaseEstimator, TransformerMixin
-from sklearn.preprocessing import PolynomialFeatures, OneHotEncoder
-from sklearn.pipeline import FeatureUnion, Pipeline
+emp_length_map = {'1 year': 0,
+ '10+ years': 1,
+ '2 years': 2,
+ '3 years': 3,
+ '4 years': 4,
+ '5 years': 5,
+ '6 years': 6,
+ '7 years': 7,
+ '8 years': 8,
+ '9 years': 9,
+ '< 1 year': 10,
+ 'Not provided': 11}
 
-class ItemSelector(BaseEstimator, TransformerMixin):
-    def __init__(self, key):
-        self.key = key
+term_map = {'36 months': 0, '60 months': 1}
 
-    def fit(self, x, y=None):
-        return self
+purpose_map =  {'car': 0,
+ 'credit_card': 1,
+ 'debt_consolidation': 2,
+ 'educational': 3,
+ 'home_improvement': 4,
+ 'house': 5,
+ 'major_purchase': 6,
+ 'medical': 7,
+ 'moving': 8,
+ 'other': 9,
+ 'renewable_energy': 10,
+ 'small_business': 11,
+ 'vacation': 12,
+ 'wedding': 13}
 
-    def transform(self, data_dict):
-        return data_dict.loc[:, self.key]
-
-def poly_pipeline(features, degree):
-    poly_steps = [('selector', ItemSelector(key=features)),
-                  ('poly', PolynomialFeatures(degree=degree, include_bias=False))]
-    pipeline = Pipeline(poly_steps)
-    return pipeline
-
-def dummy_pipeline(feature_name):
-    feature = [feature_name]
-    steps = [('selector', ItemSelector(key=feature)),
-             ('enc', OneHotEncoder())]
-    pipeline = Pipeline(steps)
-    return pipeline
-
-def feature_transformer_list(features, degree):
-    transformer_list = list()
-    numerics = [x for x in features if independents[x] == 'numeric']
-    if numerics:
-        numeric_trans = ('numeric', poly_pipeline(numerics, degree))
-        transformer_list.append(numeric_trans)
-    dummy_vars = [x for x in features if independents[x] == 'dummy']
-    if dummy_vars:
-        dummy_steps = list()
-        for dummy in dummy_vars:
-            step = ('{}_enc'.format(dummy), dummy_pipeline(dummy))
-            dummy_steps.append(step)
-        transformer_list += dummy_steps
-    return transformer_list
-
-def clf_pipeline(clf, features, degree):
-    transformer_list = feature_transformer_list(features, degree)
-    return Pipeline([('union', FeatureUnion(transformer_list=transformer_list)),
-                     ('clf', clf)])
+grade_map = {'A': 0, 'B': 1, 'C': 2, 'D': 3, 'E': 4, 'F': 5, 'G': 6}
