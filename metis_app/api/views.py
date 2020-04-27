@@ -6,7 +6,15 @@ from flask import jsonify
 import datetime as dt
 import os
 from metis_app.api.yield_curve import get_yield_curve
+from metis_app.api.sp_500_weighting import scrape_sp_500_weighting_data
 import json
+
+ALLOWED_EXCEL_FILENAME = [
+    'S&P 500 Time Horizon Analysis.xlsx',
+    'S&P 500 Visualizations.xlsx',
+    'Workout_Log.xlsx',
+]
+EXCEL_DIRECTORY = os.path.join('static', 'excels')
 
 api = Blueprint('api', __name__)
 
@@ -43,14 +51,14 @@ def yield_curve(year):
     data = get_yield_curve(year)
     return jsonify(data)
 
-ALLOWED_EXCEL_FILENAME = [
-    'S&P 500 Time Horizon Analysis.xlsx',
-    'S&P 500 Visualizations.xlsx',
-    'Workout_Log.xlsx',
-]
-EXCEL_DIRECTORY = os.path.join('static', 'excels')
+
 @api.route('/excels/<filename>')
 def excel_downloads(filename):
     if filename not in ALLOWED_EXCEL_FILENAME:
         abort(404)
     return send_from_directory(EXCEL_DIRECTORY, filename, as_attachment=True)
+
+@api.route('/s&p500_weighting')
+def sp_500_weighting_view():
+    data = scrape_sp_500_weighting_data()
+    return jsonify(data)
