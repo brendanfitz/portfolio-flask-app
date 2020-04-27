@@ -28,7 +28,10 @@ def aws_download(object_name, filename=None,
     bucket_directory='pickles',
     local_directory='metis_app/static/pickles'):
 
-    object_path = bucket_directory + '/' + object_name
+    if bucket_directory:
+        object_path = bucket_directory + '/' + object_name
+    else:
+        object_path = object_name
 
     if filename:
         download_path =  local_directory + '/' + filename

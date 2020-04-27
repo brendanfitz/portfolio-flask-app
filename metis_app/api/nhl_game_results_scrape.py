@@ -34,6 +34,7 @@ def nhl_scrape():
     }
     df = (df.rename(columns=colmap)
         .assign(date=lambda x: pd.to_datetime(x.date))
+        .query("date <= '2020-03-11'")
         .pipe(filter_unplayed_games)
         .set_index('date', append=True)
         .rename_axis(["game_id", "date"])
@@ -55,7 +56,6 @@ def nhl_scrape():
     records = df_full_to_records(df_full)
     
     return records
-
 
 def points_calc(win, extra_time):
     extra_time_loss = ~win & ~extra_time.isnull()

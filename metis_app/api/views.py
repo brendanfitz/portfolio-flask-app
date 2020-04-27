@@ -7,6 +7,7 @@ import datetime as dt
 import os
 from metis_app.api.yield_curve import get_yield_curve
 from metis_app.api.sp_500_weighting import scrape_sp_500_weighting_data
+from metis_app.ml_models.pickle_imports import aws_download
 import json
 
 ALLOWED_EXCEL_FILENAME = [
@@ -24,8 +25,12 @@ def nhl_results():
     season_end = dt.date(2020, 4, 4)
 
     if dt.date.today() > season_end:
-        filename = os.path.join(basedir, f"nhl_results_{season_end}.json")
-        with open(season_end, 'r') as f:
+        filename = f"nhl_results_{season_end}.json"
+        if not os.path.isfile(filename):
+            aws_download(filename, bucket_directory=None, local_directory=basedir)
+
+        filename = os.path.join(basedir, filename)
+        with open(filename, 'r') as f:
             data = json.load(f)
     else:
         today = dt.datetime.today().strftime('%Y%m%d')
