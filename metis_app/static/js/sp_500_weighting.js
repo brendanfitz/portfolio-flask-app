@@ -72,7 +72,7 @@ d3.json("/api/s%26p500_weighting").then(function(data){
       .attr("dy", ".2em")
       .style("text-anchor", "middle")
       .text(function(d) {
-          return d.data.Symbol.substring(0, d.r / 3);
+          return d.data.Symbol;
       })
       .attr("font-family", "sans-serif")
       .attr("font-size", function(d){
