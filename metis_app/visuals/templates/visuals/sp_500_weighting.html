@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div id="chart-area"></div>
+  <script src="https://d3js.org/d3.v5.min.js"></script>
+  <script src="{{ url_for('static', filename='js/sp_500_weighting.js') }}"></script>
+
+{% endblock %}
