@@ -15,6 +15,6 @@ visuals_db = {
         'title': 'Ridin\' the Yield Curve',
     },
     'sp_500_weighting': {
-        'title': 'S&P 500 Weighting',
+        'title': 'S&P 500 Weighting by Constituent Stocks',
     },
 }

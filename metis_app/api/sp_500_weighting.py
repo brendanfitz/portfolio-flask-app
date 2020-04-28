@@ -18,10 +18,22 @@ def scrape_sp_500_weighting_data():
     columns = ['Company', 'Weight', 'Price']
     industries = sp_500_industries()
 
-    df = (df_scraped
+    df_without_weights = (df_scraped
              .loc[:, columns]
              .join(industries)
+             .sort_values(['GICS Sector', 'Weight'], ascending=[True, False])
          )
+
+    industry_weights = (df_without_weights
+        .groupby(['GICS Sector'], as_index=False)['Weight'].sum()
+        .set_index('GICS Sector')
+        .rename(columns={'Weight': 'Industry Weight'})
+    )
+
+    df = (df_without_weights
+        .join(industry_weights, on=['GICS Sector'])
+        .sort_values(['Industry Weight', 'Weight'], ascending=[False, False])
+    )
 
     data = (df
         .reset_index()

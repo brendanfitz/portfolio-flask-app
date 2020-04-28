@@ -1,5 +1,6 @@
 // source: https://bl.ocks.org/alokkshukla/3d6be4be0ef9f6977ec6718b2916d168
 var diameter = 600;
+var margin = { left:0, right:0, top:0, bottom:300 };
 var color = d3.scaleOrdinal(d3.schemeCategory10);
 
 dollarfmt = d3.format('$,.2f')
@@ -26,15 +27,18 @@ d3.json("/api/s%26p500_weighting").then(function(data){
 
   var svg = d3.select("#chart-area")
       .append("svg")
-      .attr("width", diameter)
-      .attr("height", diameter)
+      .attr("width", diameter + margin.left + margin.right)
+      .attr("height", diameter + margin.top + margin.bottom)
       .attr("class", "bubble");
+
+  var g = svg.append("g")
+          .attr("transform", "translate(" + margin.left +
+              ", " + margin.top + ")");
 
   var nodes = d3.hierarchy(dataset)
       .sum(function(d) { return d.Weight; });
 
-  console.log(bubble(nodes).descendants())
-  var node = svg.selectAll(".node")
+  var node = g.selectAll(".node")
       .data(bubble(nodes).descendants())
       .enter()
       .filter(function(d){
@@ -78,5 +82,34 @@ d3.json("/api/s%26p500_weighting").then(function(data){
      .style("height", diameter + "px");
 
   svg.call(tip);
-  }
-)
+
+  industries = [];
+  data.forEach(function(d) {
+      if (!industries.includes(d['GICS Sector'])) {
+        industries.push(d['GICS Sector']);
+    }
+  });
+  industries.sort();
+  
+  var legend = svg.append('g')
+    .attr("transform", "translate(" + (diameter / 2) + ", " + (diameter + 20) + ")")
+
+  industries.forEach(function(industry, i) {
+    var legendRow = legend.append("g")
+      .attr("transform", "translate(0, " + (i * 20) + ")");
+
+    legendRow.append("rect")
+      .attr("width", 10)
+      .attr("height", 10)
+      .attr("fill", color(industry));
+
+    legendRow.append("text")
+      .attr("x", -10)
+      .attr("y", 10)
+      .attr("text-anchor", "end")
+      .style("text-transform", "capitalize")
+      .text(industry);
+
+  })
+
+})
