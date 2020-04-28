@@ -4,6 +4,10 @@ visuals_db = [
         'title': 'NHL Playoff Race Dashboard',
     },
     {
+        'id': 'SP500_component_stock_weightings',
+        'title': 'S&P 500 Weighting by Constituent Stocks',
+    },
+    {
         'id': 'genre_chart',
         'title': 'Median ROI by Movie Genre',
     },
@@ -18,10 +22,6 @@ visuals_db = [
     {
         'id': 'yield_curve',
         'title': 'Ridin\' the Yield Curve',
-    },
-    {
-        'id': 'SP500_component_stock_weightings',
-        'title': 'S&P 500 Weighting by Constituent Stocks',
     },
     {
         'id': 'DowJones_component_stock_weightings',
