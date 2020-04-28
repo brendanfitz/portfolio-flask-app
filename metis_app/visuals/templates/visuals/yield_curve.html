@@ -27,6 +27,6 @@
   src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
   integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
   crossorigin="anonymous"></script>
-<script src="/static/js/d3.min.js"></script>
+<script src="{{ url_for('static', filename='js/d3.min.js') }}"></script>
 <script src="{{ url_for('visuals.static', filename='js/yield_curve.js') }}"></script>
 {% endblock %}
