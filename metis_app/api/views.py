@@ -6,7 +6,7 @@ from flask import jsonify
 import datetime as dt
 import os
 from metis_app.api.yield_curve import get_yield_curve
-from metis_app.api.sp_500_weighting import scrape_sp_500_weighting_data
+from metis_app.api.index_component_stock_weightings import scrape_index_component_stocks
 from metis_app.ml_models.pickle_imports import aws_download
 import json
 
@@ -63,7 +63,7 @@ def excel_downloads(filename):
         abort(404)
     return send_from_directory(EXCEL_DIRECTORY, filename, as_attachment=True)
 
-@api.route('/s&p500_weighting')
-def sp_500_weighting_view():
-    data = scrape_sp_500_weighting_data()
+@api.route('/index_component_stocks/<index>')
+def index_component_stocks(index):
+    data = scrape_index_component_stocks(index)
     return jsonify(data)

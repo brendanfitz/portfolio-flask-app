@@ -14,7 +14,10 @@ visuals_db = {
     'yield_curve': {
         'title': 'Ridin\' the Yield Curve',
     },
-    'sp_500_weighting': {
+    'SP500_component_stock_weightings': {
         'title': 'S&P 500 Weighting by Constituent Stocks',
+    },
+    'DowJones_component_stock_weightings': {
+        'title': 'Dow Jones Industrial Average Weighting by Constituent Stocks',
     },
 }

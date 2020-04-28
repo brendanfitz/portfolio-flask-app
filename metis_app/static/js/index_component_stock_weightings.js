@@ -10,15 +10,18 @@ var tip = d3.tip()
   .attr("class", "d3-tip")
   .html(function(d) {
     console.log(dollarfmt(d.data['Price']));
-    console.log(d.data['GICS Sector']);
+    console.log(d.data['Industry']);
     var text = "<strong>Company:</strong> <span style='color:#66ccff'>" + d.data['Company']  + "</span><br>";
-    text += "<strong>GICS Sector:</strong> <span style='color:#66ccff'>" + d.data['GICS Sector'] + "</span><br>";
+    text += "<strong>Industry:</strong> <span style='color:#66ccff'>" + d.data['Industry'] + "</span><br>";
     text += "<strong>Price:</strong> <span style='color:#66ccff'>" + dollarfmt(d.data['Price']) + "</span><br>";
     text += "<strong>Weight:</strong> <span style='color:#66ccff'>" + weightfmt(d.data['Weight']) + "</span><br>";
     return text;
   });
 
-d3.json("/api/s%26p500_weighting").then(function(data){
+index = $("p#StockIndex").text()
+uri = "/api/index_component_stocks/" + index
+
+d3.json(uri).then(function(data){
   var dataset = {"children": data}
 
   var bubble = d3.pack(dataset)
@@ -60,7 +63,7 @@ d3.json("/api/s%26p500_weighting").then(function(data){
           return d.r;
       })
       .style("fill", function(d,i) {
-          return color(d.data['GICS Sector']);
+          return color(d.data['Industry']);
       })
       .on("mouseover", tip.show)
       .on("mouseout", tip.hide);
@@ -85,12 +88,12 @@ d3.json("/api/s%26p500_weighting").then(function(data){
 
   industries = [];
   data.forEach(function(d) {
-      if (!industries.includes(d['GICS Sector'])) {
-        industries.push(d['GICS Sector']);
+      if (!industries.includes(d['Industry'])) {
+        industries.push(d['Industry']);
     }
   });
   industries.sort();
-  
+
   var legend = svg.append('g')
     .attr("transform", "translate(" + (diameter / 2) + ", " + (diameter + 20) + ")")
 
