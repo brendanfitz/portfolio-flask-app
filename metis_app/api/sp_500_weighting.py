@@ -15,7 +15,7 @@ def scrape_sp_500_weighting_data():
 
     df_scraped = pd.read_html(response.text)[0].set_index('Symbol')
 
-    columns = ['Company', 'Weight']
+    columns = ['Company', 'Weight', 'Price']
     industries = sp_500_industries()
 
     df = (df_scraped

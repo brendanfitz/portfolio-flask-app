@@ -1,30 +1,21 @@
 // source: https://bl.ocks.org/alokkshukla/3d6be4be0ef9f6977ec6718b2916d168
-dataset = {
-    "children": [{"Name":"Olives","Count":4319},
-        {"Name":"Tea","Count":4159},
-        {"Name":"Mashed Potatoes","Count":2583},
-        {"Name":"Boiled Potatoes","Count":2074},
-        {"Name":"Milk","Count":1894},
-        {"Name":"Chicken Salad","Count":1809},
-        {"Name":"Vanilla Ice Cream","Count":1713},
-        {"Name":"Cocoa","Count":1636},
-        {"Name":"Lettuce Salad","Count":1566},
-        {"Name":"Lobster Salad","Count":1511},
-        {"Name":"Chocolate","Count":1489},
-        {"Name":"Apple Pie","Count":1487},
-        {"Name":"Orange Juice","Count":1423},
-        {"Name":"American Cheese","Count":1372},
-        {"Name":"Green Peas","Count":1341},
-        {"Name":"Assorted Cakes","Count":1331},
-        {"Name":"French Fried Potatoes","Count":1328},
-        {"Name":"Potato Salad","Count":1306},
-        {"Name":"Baked Potatoes","Count":1293},
-        {"Name":"Roquefort","Count":1273},
-        {"Name":"Stewed Prunes","Count":1268}]
-};
-
 var diameter = 600;
 var color = d3.scaleOrdinal(d3.schemeCategory10);
+
+dollarfmt = d3.format('$,.2f')
+weightfmt = d3.format('.2f')
+
+var tip = d3.tip()
+  .attr("class", "d3-tip")
+  .html(function(d) {
+    console.log(dollarfmt(d.data['Price']));
+    console.log(d.data['GICS Sector']);
+    var text = "<strong>Company:</strong> <span style='color:#66ccff'>" + d.data['Company']  + "</span><br>";
+    text += "<strong>GICS Sector:</strong> <span style='color:#66ccff'>" + d.data['GICS Sector'] + "</span><br>";
+    text += "<strong>Price:</strong> <span style='color:#66ccff'>" + dollarfmt(d.data['Price']) + "</span><br>";
+    text += "<strong>Weight:</strong> <span style='color:#66ccff'>" + weightfmt(d.data['Weight']) + "</span><br>";
+    return text;
+  });
 
 d3.json("/api/s%26p500_weighting").then(function(data){
   var dataset = {"children": data}
@@ -66,7 +57,10 @@ d3.json("/api/s%26p500_weighting").then(function(data){
       })
       .style("fill", function(d,i) {
           return color(d.data['GICS Sector']);
-      });
+      })
+      .on("mouseover", tip.show)
+      .on("mouseout", tip.hide);
+
 
   node.append("text")
       .attr("dy", ".2em")
@@ -82,5 +76,7 @@ d3.json("/api/s%26p500_weighting").then(function(data){
 
   d3.select(self.frameElement)
      .style("height", diameter + "px");
+
+  svg.call(tip);
   }
 )
