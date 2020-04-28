@@ -5,6 +5,7 @@ from datetime import datetime, timedelta
 
 kwargs = dict(
     template_folder='templates/visuals',
+    static_folder='static',
 )
 visuals = Blueprint('visuals', __name__, **kwargs)
 
