@@ -77,7 +77,7 @@ class TitanticPredictorForm(FlaskForm):
     )
     title = SelectField("What is your title?",
         choices=choices_list('title_choices.csv'),
-        default="Mrs"
+        default="Mr"
     )
     embarked = SelectField("Where will you embark from?",
         choices=choices_list('embarked_choices.csv'),
