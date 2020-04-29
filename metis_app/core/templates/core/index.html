@@ -6,11 +6,22 @@
     <div class="card">
       <h4 class="card-header">Blogs</h4>
       <div class="card-body">
-        <ul>
-          {% for blog_data in blog_db %}
-          <li><a href="{{url_for('blog_posts.blog', name=blog_data.id)}}">{{blog_data.title}}</a></li>
-          {% endfor %}
-        </ul>
+        <div class="row">
+          <div class="col-6">
+            <ul>
+              {% for blog_data in blog_db[0:3] %}
+              <li><a href="{{url_for('blog_posts.blog', name=blog_data.id)}}">{{blog_data.title}}</a></li>
+              {% endfor %}
+            </ul>
+          </div>
+          <div class="col-6">
+            <ul>
+              {% for blog_data in blog_db[3:] %}
+              <li><a href="{{url_for('blog_posts.blog', name=blog_data.id)}}">{{blog_data.title}}</a></li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
       </div>
       <div class="card-footer">
         <a href="{{url_for('core.site_section_list', template_name='blogs_list')}}">Click Here for More Blogs...</a>
@@ -27,8 +38,6 @@
           <li><a href="{{url_for('ml_models.models', name='luther')}}">Movie ROI Predictor</a></li>
           <li><a href="{{url_for('ml_models.models', name='mcnulty')}}">Lending Club Loan Default Prediction Model</a></li>
           <li><a href="{{url_for('ml_models.models', name='fletcher')}}">Kickstarter Pitch Funding Outcome Prediction Model</a></li>
-          <li><a href="{{url_for('ml_models.models', name='titantic')}}">Would You Survive The Titantic?</a></li>
-          <li><a href="#">Housing Price Predictor</a></li>
         </ul>
       </div>
       <div class="card-footer">
