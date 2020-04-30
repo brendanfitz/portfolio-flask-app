@@ -8,12 +8,12 @@ PieChart.prototype.initVis = function() {
   var vis = this;
 
   // set the dimensions and margins of the graph
-  vis.width = 450;
-  vis.height = 450;
-  vis.margin = 40;
+  vis.width = 600;
+  vis.height = 600;
+  vis.margin = 20;
 
   // The radius of the pieplot is half the width or half the height (smallest one). I subtract a bit of margin.
-  vis.radius = Math.min(vis.width, vis.height) / 2 - vis.margin;
+  vis.radius = Math.min(vis.width, vis.height) / 3 - vis.margin;
 
   // append the svg object to the div called 'my_dataviz'
   vis.svg = d3.select(vis.parentElement)
@@ -24,7 +24,6 @@ PieChart.prototype.initVis = function() {
       .attr("transform", "translate(" + vis.width / 2 + "," + vis.height / 2 + ")");
   // set the color scale
   vis.color = d3.scaleOrdinal()
-    .domain(["a", "b", "c", "d", "e", "f", "g", "h"])
     .range(d3.schemeDark2);
 
   // Compute the position of each group on the pie:
@@ -43,11 +42,12 @@ PieChart.prototype.initVis = function() {
     .outerRadius(vis.radius * 0.9)
 }
 
-PieChart.prototype.wrangleData = function() {
+PieChart.prototype.wrangleData = function(_data) {
   var vis = this;
 
   // Create dummy data
-  vis.data = {a: 9, b: 20, c:30, d:8, e:12, f:3, g:7, h:14};
+  //vis.data = {a: 9, b: 20, c:30, d:8, e:12, f:3, g:7, h:14};
+  vis.data = _data;
   vis.data_pie = vis.pie(d3.entries(vis.data));
 
   vis.updateVis();
@@ -105,5 +105,6 @@ PieChart.prototype.updateVis = function() {
           var midangle = d.startAngle + (d.endAngle - d.startAngle) / 2
           return (midangle < Math.PI ? 'start' : 'end')
       })
+      .style('font-size', '8px')
 
 };
