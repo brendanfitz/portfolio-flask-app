@@ -27,4 +27,8 @@ visuals_db = [
         'id': 'DowJones_component_stock_weightings',
         'title': 'Dow Jones Industrial Average Weighting by Constituent Stocks',
     },
+    {
+        'id': 'federal_budget',
+        'title': 'Federal Budget',
+    },
 ]
