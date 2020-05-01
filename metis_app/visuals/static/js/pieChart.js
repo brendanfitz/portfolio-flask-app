@@ -1,11 +1,16 @@
 
-PieChart = function(_parentElement, _width=300, _height=300) {
+PieChart = function(_parentElement, _title="Title", _width=300, _height=300) {
   this.parentElement = _parentElement;
   // set the dimensions
   this.width = _width;
   this.height = _height;
+  this.title = _title;
   this.initVis();
 };
+
+PieChart.prototype.initVis = function() {
+  var vis = this;
+}
 
 PieChart.prototype.initVis = function() {
   var vis = this;
@@ -21,11 +26,22 @@ PieChart.prototype.initVis = function() {
     .append("svg")
       .attr("width", vis.width)
       .attr("height", vis.height)
+
+  vis.g = vis.svg
     .append("g")
       .attr("transform", "translate(" + vis.width / 2 + "," + vis.height / 2 + ")");
+
+  vis.svg
+   .append("text")
+     .attr("class", "chart-title")
+     .attr("transform", "translate(" + vis.width / 2 + "," + vis.margin + ")")
+     .attr("text-anchor", "middle")
+     .style("text-decoration", "underline")
+     .text(vis.title);
+
   // set the color scale
   vis.color = d3.scaleOrdinal()
-    .range(d3.schemeDark2);
+    .range(d3.schemePaired);
 
   // Compute the position of each group on the pie:
   vis.pie = d3.pie()
@@ -61,7 +77,7 @@ PieChart.prototype.updateVis = function() {
   vis.color.domain(keys);
 
   // Build the pie chart: Basically, each part of the pie is a path that we build using the arc function.
-  vis.svg
+  vis.g
     .selectAll('allSlices')
     .data(vis.data_pie)
     .enter()
@@ -79,7 +95,7 @@ PieChart.prototype.updateLabels = function() {
   var vis = this;
 
   // Add the polylines between chart and labels:
-  vis.svg
+  vis.g
     .selectAll('allPolylines')
     .data(vis.data_pie)
     .enter()
@@ -95,8 +111,9 @@ PieChart.prototype.updateLabels = function() {
         posC[0] = vis.radius * 0.95 * (midangle < Math.PI ? 1 : -1); // multiply by 1 or -1 to put it on the right or on the left
         return [posA, posB, posC]
       })
+
   // Add the polylines between chart and labels:
-  vis.svg
+  vis.g
     .selectAll('allLabels')
     .data(vis.data_pie)
     .enter()
@@ -104,14 +121,14 @@ PieChart.prototype.updateLabels = function() {
       .text( function(d) { return d.data.key } )
       .attr('transform', function(d) {
           var pos = vis.outerArc.centroid(d);
-          var midangle = d.startAngle + (d.endAngle - d.startAngle) / 3
+          var midangle = d.startAngle + (d.endAngle - d.startAngle) / 2
           pos[0] = vis.radius * 0.99 * (midangle < Math.PI ? 1 : -1);
           return 'translate(' + pos + ')';
       })
       .style('text-anchor', function(d) {
-          var midangle = d.startAngle + (d.endAngle - d.startAngle) / 3
+          var midangle = d.startAngle + (d.endAngle - d.startAngle) / 2
           return (midangle < Math.PI ? 'start' : 'end')
       })
-      .style('font-size', '8px')
+      .style('font-size', '6px');
 
 };
