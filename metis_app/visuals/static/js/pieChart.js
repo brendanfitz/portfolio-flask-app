@@ -43,10 +43,13 @@ PieChart.prototype.initVis = function() {
   vis.color = d3.scaleOrdinal()
     .range(d3.schemePaired);
 
+  // percent label format
+  vis.percentfmt = d3.format('0.0%')
+
   // Compute the position of each group on the pie:
   vis.pie = d3.pie()
-    .sort(function(d) { return d.value; }) // Do not sort group by size
-    .value(function(d) { return d.value; })
+    .sort(function(d) { return d.value.Allocation; }) // Do not sort group by size
+    .value(function(d) { return d.value.Allocation; })
 
   // The arc generator
   vis.arc = d3.arc()
@@ -108,7 +111,7 @@ PieChart.prototype.updateLabels = function() {
         var posB = vis.outerArc.centroid(d) // line break: we use the other arc generator that has been built only for that
         var posC = vis.outerArc.centroid(d); // Label position = almost the same as posB
         var midangle = d.startAngle + (d.endAngle - d.startAngle) / 2 // we need the angle to see if the X position will be at the extreme right or extreme left
-        posC[0] = vis.radius * 0.95 * (midangle < Math.PI ? 1 : -1); // multiply by 1 or -1 to put it on the right or on the left
+        posC[0] = vis.radius * 0.75 * (midangle < Math.PI ? 1 : -1); // multiply by 1 or -1 to put it on the right or on the left
         return [posA, posB, posC]
       })
 
@@ -118,17 +121,22 @@ PieChart.prototype.updateLabels = function() {
     .data(vis.data_pie)
     .enter()
     .append('text')
-      .text( function(d) { return d.data.key } )
+      .text( function(d) { return vis.labelText(d) } )
       .attr('transform', function(d) {
           var pos = vis.outerArc.centroid(d);
           var midangle = d.startAngle + (d.endAngle - d.startAngle) / 2
-          pos[0] = vis.radius * 0.99 * (midangle < Math.PI ? 1 : -1);
+          pos[0] = vis.radius * 0.8 * (midangle < Math.PI ? 1 : -1);
           return 'translate(' + pos + ')';
       })
       .style('text-anchor', function(d) {
           var midangle = d.startAngle + (d.endAngle - d.startAngle) / 2
           return (midangle < Math.PI ? 'start' : 'end')
       })
-      .style('font-size', '6px');
+      .style('font-size', '8px');
 
 };
+
+PieChart.prototype.labelText = function(d) {
+  var vis = this;
+  return d.data.key + ' (' + vis.percentfmt(d.data.value.Percent) + ')'
+}

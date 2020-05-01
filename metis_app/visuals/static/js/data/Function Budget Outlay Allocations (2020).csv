@@ -1,16 +1,16 @@
-Discretionary or Mandatory,Function,Allocation
-Discretionary,Administration of Justice,65646
-Discretionary,Misc. Social Services,101460
-Discretionary,Health,82037
-Discretionary,Income Security,77925
-Discretionary,International Affairs,58030
-Discretionary,National Defense,746001
-Discretionary,Other Discretionary,201507
-Discretionary,Veterans Benefits,92984
-Mandatory,Health,545484
-Mandatory,Income Security,458247
-Mandatory,Medicare,688482
-Mandatory,Net Interest,382643
-Mandatory,Other Mandatory,336313
-Mandatory,Social Security,1096349
-Mandatory,Undistributed Offsetting Receipts,-104022
+Discretionary or Mandatory,Function,Allocation,Percent
+Discretionary,Admin. of Justice,65646,0.046048303
+Discretionary,Social Services,101460,0.071170533
+Discretionary,Health,82037,0.057545998
+Discretionary,Income Security,77925,0.054661579
+Discretionary,Int'l Affairs,58030,0.040705953
+Discretionary,National Defense,746001,0.523292812
+Discretionary,Other Disc.,201507,0.141349897
+Discretionary,Veterans Benefits,92984,0.065224924
+Mandatory,Health,545484,0.155518518
+Mandatory,Income Security,458247,0.130647084
+Mandatory,Medicare,688482,0.196287517
+Mandatory,Net Interest,382643,0.109092241
+Mandatory,Other Mandatory,336313,0.095883471
+Mandatory,Social Security,1096349,0.312571169
+Mandatory,Undistributed Offsetting Receipts,-104022,
