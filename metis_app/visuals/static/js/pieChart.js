@@ -1,15 +1,16 @@
 
-PieChart = function(_parentElement) {
+PieChart = function(_parentElement, _width=300, _height=300) {
   this.parentElement = _parentElement;
+  // set the dimensions
+  this.width = _width;
+  this.height = _height;
   this.initVis();
 };
 
 PieChart.prototype.initVis = function() {
   var vis = this;
 
-  // set the dimensions and margins of the graph
-  vis.width = 600;
-  vis.height = 600;
+  // set the margins of the graph
   vis.margin = 20;
 
   // The radius of the pieplot is half the width or half the height (smallest one). I subtract a bit of margin.
@@ -28,18 +29,18 @@ PieChart.prototype.initVis = function() {
 
   // Compute the position of each group on the pie:
   vis.pie = d3.pie()
-    .sort(null) // Do not sort group by size
+    .sort(function(d) { return d.value; }) // Do not sort group by size
     .value(function(d) { return d.value; })
 
   // The arc generator
   vis.arc = d3.arc()
-    .innerRadius(vis.radius * 0.5)         // This is the size of the donut hole
-    .outerRadius(vis.radius * 0.8)
+    .innerRadius(vis.radius * 0.4)         // This is the size of the donut hole
+    .outerRadius(vis.radius * 0.7)        // This is the size of the donut
 
   // Another arc that won't be drawn. Just for labels positioning
   vis.outerArc = d3.arc()
-    .innerRadius(vis.radius * 0.9)
-    .outerRadius(vis.radius * 0.9)
+    .innerRadius(vis.radius * 0.8)
+    .outerRadius(vis.radius * 0.8)
 }
 
 PieChart.prototype.wrangleData = function(_data) {
@@ -55,6 +56,7 @@ PieChart.prototype.wrangleData = function(_data) {
 
 PieChart.prototype.updateVis = function() {
   var vis = this;
+
   keys = this.data_pie.map(function(d) { return d.data.key; })
   vis.color.domain(keys);
 
@@ -68,7 +70,13 @@ PieChart.prototype.updateVis = function() {
       .attr('fill', function(d){ return(vis.color(d.data.key)) })
       .attr("stroke", "white")
       .style("stroke-width", "2px")
-      .style("opacity", 0.7)
+      .style("opacity", 0.7);
+
+   vis.updateLabels();
+};
+
+PieChart.prototype.updateLabels = function() {
+  var vis = this;
 
   // Add the polylines between chart and labels:
   vis.svg
@@ -87,7 +95,6 @@ PieChart.prototype.updateVis = function() {
         posC[0] = vis.radius * 0.95 * (midangle < Math.PI ? 1 : -1); // multiply by 1 or -1 to put it on the right or on the left
         return [posA, posB, posC]
       })
-
   // Add the polylines between chart and labels:
   vis.svg
     .selectAll('allLabels')
@@ -97,12 +104,12 @@ PieChart.prototype.updateVis = function() {
       .text( function(d) { return d.data.key } )
       .attr('transform', function(d) {
           var pos = vis.outerArc.centroid(d);
-          var midangle = d.startAngle + (d.endAngle - d.startAngle) / 2
+          var midangle = d.startAngle + (d.endAngle - d.startAngle) / 3
           pos[0] = vis.radius * 0.99 * (midangle < Math.PI ? 1 : -1);
           return 'translate(' + pos + ')';
       })
       .style('text-anchor', function(d) {
-          var midangle = d.startAngle + (d.endAngle - d.startAngle) / 2
+          var midangle = d.startAngle + (d.endAngle - d.startAngle) / 3
           return (midangle < Math.PI ? 'start' : 'end')
       })
       .style('font-size', '8px')
