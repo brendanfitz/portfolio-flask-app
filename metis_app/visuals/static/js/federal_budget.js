@@ -17,7 +17,6 @@ d3.csv("static/js/data/Mandatory or Disc Budget Outlay Allocations (2020).csv").
 })
 
 d3.csv("static/js/data/Function Budget Outlay Allocations (2020).csv").then(function(data) {
-  console.log(data);
   data.forEach(function(d) {
     if ((d['Discretionary or Mandatory'] == 'Mandatory') && (+d.Allocation > 0)) {
 
