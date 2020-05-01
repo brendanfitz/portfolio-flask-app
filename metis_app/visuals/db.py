@@ -4,7 +4,7 @@ visuals_db = [
         'title': 'NHL Playoff Race Dashboard',
     },
     {
-        'id': 'SP500_component_stock_weightings',
+        'id': 'sp500_component_stock_weightings',
         'title': 'S&P 500 Weighting by Constituent Stocks',
     },
     {
@@ -28,7 +28,7 @@ visuals_db = [
         'title': 'Ridin\' the Yield Curve',
     },
     {
-        'id': 'DowJones_component_stock_weightings',
+        'id': 'dowjones_component_stock_weightings',
         'title': 'Dow Jones Industrial Average Weighting by Constituent Stocks',
     },
 ]
