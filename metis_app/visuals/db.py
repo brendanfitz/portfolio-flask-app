@@ -8,6 +8,10 @@ visuals_db = [
         'title': 'S&P 500 Weighting by Constituent Stocks',
     },
     {
+        'id': 'federal_budget',
+        'title': '2020 U.S. Federal Budget Outlay Allocations',
+    },
+    {
         'id': 'genre_chart',
         'title': 'Median ROI by Movie Genre',
     },
@@ -26,9 +30,5 @@ visuals_db = [
     {
         'id': 'DowJones_component_stock_weightings',
         'title': 'Dow Jones Industrial Average Weighting by Constituent Stocks',
-    },
-    {
-        'id': 'federal_budget',
-        'title': 'Federal Budget',
     },
 ]
