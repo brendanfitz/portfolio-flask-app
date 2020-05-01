@@ -1,20 +1,20 @@
 superfunction,function,amount
-National Defense,National Defense,724480
-Human resources,"Education, Training, Employment, and Social Services",195526
-Human resources,Health,640878
-Human resources,Medicare,699281
-Human resources,Income Security,529335
 Human resources,Social Security,1097184
-Human resources,Veterans Benefits and Services,215077
-Physical resources,Energy,4596
-Physical resources,Natural Resources and Environment,42817
-Physical resources,Commerce and Housing Credit,684
-Physical resources,Transportation,101560
-Physical resources,Community and Regional Development,30306
+National Defense,National Defense,724480
+Human resources,Medicare,699281
+Human resources,Health,640878
+Human resources,Income Security,529335
 Net interest,Net interest,376171
-Other functions,International Affairs,58320
-Other functions,"General Science, Space, and Technology",35032
-Other functions,Agriculture,38332
+Human resources,Veterans Benefits and Services,215077
+Human resources,"Education, Training, Employment, and Social Services",195526
+Physical resources,Transportation,101560
 Other functions,Administration of Justice,79570
+Other functions,International Affairs,58320
+Physical resources,Natural Resources and Environment,42817
+Other functions,Agriculture,38332
+Other functions,"General Science, Space, and Technology",35032
+Physical resources,Community and Regional Development,30306
 Other functions,General Government,29465
+Physical resources,Energy,4596
+Physical resources,Commerce and Housing Credit,684
 Other functions,Allowances,364
