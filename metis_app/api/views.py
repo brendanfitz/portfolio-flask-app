@@ -27,6 +27,8 @@ def nhl_results():
     if dt.date.today() > season_end:
         filename = f"nhl_results_{season_end}.json"
         if not os.path.isfile(filename):
+            if not os.path.isdir(basedir):
+                os.makedirs(basedir)
             aws_download(filename, bucket_directory=None, local_directory=basedir)
 
         filename = os.path.join(basedir, filename)
