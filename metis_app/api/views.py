@@ -7,6 +7,7 @@ import datetime as dt
 import os
 from metis_app.api.yield_curve import get_yield_curve
 from metis_app.api.index_component_stock_weightings import scrape_index_component_stocks
+from metis_app.api.schiller_pe_ratio import scrape_schiller_pe_ratio_data
 from metis_app.ml_models.pickle_imports import aws_download
 import json
 
@@ -68,4 +69,9 @@ def excel_downloads(filename):
 @api.route('/index_component_stocks/<index>')
 def index_component_stocks(index):
     data = scrape_index_component_stocks(index)
+    return jsonify(data)
+
+@api.route('/schiller_pe_ratio')
+def schiller_pe_ratio():
+    data = scrape_schiller_pe_ratio_data()
     return jsonify(data)
