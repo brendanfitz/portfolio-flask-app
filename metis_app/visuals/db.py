@@ -31,4 +31,8 @@ visuals_db = [
         'id': 'dowjones_component_stock_weightings',
         'title': 'Dow Jones Industrial Average Weighting by Constituent Stocks',
     },
+    {
+        'id': 'schiller_pe_ratio',
+        'title': 'Schiller PE Ratio Line Yearly Data',
+    },
 ]
