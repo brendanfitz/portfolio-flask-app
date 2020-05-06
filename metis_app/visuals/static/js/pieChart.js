@@ -10,10 +10,6 @@ PieChart = function(_parentElement, _title="Title", _width=300, _height=300) {
 
 PieChart.prototype.initVis = function() {
   var vis = this;
-}
-
-PieChart.prototype.initVis = function() {
-  var vis = this;
 
   // set the margins of the graph
   vis.margin = 20;
