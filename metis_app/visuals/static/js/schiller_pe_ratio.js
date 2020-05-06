@@ -28,7 +28,7 @@ d3.json("/api/schiller_pe_ratio", function(data) {
 
     g.append("g")
       .attr("transform", "translate(0," + height + ")")
-      .call(d3.axisBottom(x));
+      .call(d3.axisBottom(x).tickSizeOuter(0));
 
     // Add Y axis
     var y = d3.scaleLinear()
@@ -36,7 +36,7 @@ d3.json("/api/schiller_pe_ratio", function(data) {
       .range([ height, 0 ]);
 
     g.append("g")
-      .call(d3.axisLeft(y));
+      .call(d3.axisLeft(y).tickSizeOuter(0));
 
     var line = d3.line()
         .x(function(d) { return x(d.Date) })
