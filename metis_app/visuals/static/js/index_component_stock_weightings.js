@@ -9,8 +9,6 @@ weightfmt = d3.format('.2f')
 var tip = d3.tip()
   .attr("class", "d3-tip")
   .html(function(d) {
-    console.log(dollarfmt(d.data['Price']));
-    console.log(d.data['Industry']);
     var text = "<strong>Company:</strong> <span style='color:#66ccff'>" + d.data['Company']  + "</span><br>";
     text += "<strong>Industry:</strong> <span style='color:#66ccff'>" + d.data['Industry'] + "</span><br>";
     text += "<strong>Price:</strong> <span style='color:#66ccff'>" + dollarfmt(d.data['Price']) + "</span><br>";
@@ -114,5 +112,8 @@ d3.json(uri).then(function(data){
       .text(industry);
 
   })
+
+  // remove data spinner
+  $("#data-loading-spinner").remove();
 
 })

@@ -1,6 +1,16 @@
 {% extends "base.html" %}
 
 {% block content %}
+  <div class="container" id="data-loading-spinner">
+    <div class="row d-flex justify-content-center">
+      <div class="spinner-border" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+    </div>
+    <div class="row d-flex justify-content-center">
+      <span>Loading</span>
+    </div>
+  </div>
   <div id="chart-area"></div>
   <script src="{{ url_for('static', filename='js/d3.min.js') }}"></script>
   <script src="{{ url_for('static', filename='js/d3-tip.js') }}"></script>
