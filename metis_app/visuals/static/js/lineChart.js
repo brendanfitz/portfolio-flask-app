@@ -38,7 +38,7 @@ LineChart.prototype.updateVis = function() {
 
   vis.g.append("g")
     .attr("transform", "translate(0," + vis.height + ")")
-    .call(d3.axisBottom(vis.x).tickSizeOuter(0));
+    .call(d3.axisBottom(vis.x).ticks(20).tickSizeOuter(0));
 
   vis.g.append("g")
     .call(d3.axisLeft(vis.y).tickSizeOuter(0));
