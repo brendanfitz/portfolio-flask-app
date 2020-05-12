@@ -33,6 +33,6 @@ visuals_db = [
     },
     {
         'id': 'schiller_pe_ratio',
-        'title': 'Schiller PE Ratio Line Per Annum',
+        'title': 'Schiller P/E Ratio Per Annum',
     },
 ]
