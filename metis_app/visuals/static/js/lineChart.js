@@ -34,6 +34,8 @@ LineChart.prototype.initVis = function() {
 LineChart.prototype.updateVis = function() {
   var vis = this;
 
+  vis.shadeBackground();
+
   vis.g.append("g")
     .attr("transform", "translate(0," + vis.height + ")")
     .call(d3.axisBottom(vis.x).tickSizeOuter(0));
@@ -52,3 +54,49 @@ LineChart.prototype.updateVis = function() {
     .attr("stroke-width", 1.5)
     .attr("d", line)
 }
+
+LineChart.prototype.shadeBackground = function() {
+  var vis = this;
+
+  var overvalued = 25;
+  var undervalued = 15;
+  var textColor = "#909497";
+  var fontSize = "9px";
+
+  var g = vis.g.append("g")
+    .attr("class", "shadings");
+
+  g.append("rect")
+    .attr("class", "overvalued-shading")
+    .attr("x", 0)
+    .attr("y", 0)
+    .attr("width", vis.width)
+    .attr("height", vis.y(overvalued))
+    .attr("fill", "#E6B0AA");
+
+  g.append("rect")
+    .attr("class", "undervalued-shading")
+    .attr("x", 0)
+    .attr("y", vis.y(undervalued))
+    .attr("width", vis.width)
+    .attr("height", vis.height - vis.y(undervalued))
+    .attr("fill", "#D5F5E3");
+
+  g.append("text")
+    .attr("x", vis.width)
+    .attr("y", vis.y(overvalued))
+    .attr("text-anchor", "end")
+    .attr("fill", textColor)
+    .style("font-size", fontSize)
+    .text("overvalued");
+
+  g.append("text")
+    .attr("x", vis.width)
+    .attr("y", vis.y(undervalued))
+    .attr("text-anchor", "end")
+    .attr("alignment-baseline", "hanging")
+    .attr("fill", textColor)
+    .style("font-size", fontSize)
+    .text("undervalued");
+
+};
