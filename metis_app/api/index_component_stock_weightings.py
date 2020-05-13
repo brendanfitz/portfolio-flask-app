@@ -34,6 +34,7 @@ def scrape_index_component_stocks(index):
 
     df = (df_without_weights
         .join(industry_weights, on=['Industry'])
+        .fillna("Unknown")
         .sort_values(['Industry Weight', 'Weight'], ascending=[False, False])
     )
 
