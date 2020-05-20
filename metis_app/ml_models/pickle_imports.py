@@ -13,8 +13,8 @@ import warnings
 warnings.simplefilter("ignore", UserWarning)
 
 LOCAL_DIRECTORY = 'metis_app/static/pickles/'
-AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
-AWS_SECRET_KEY = os.environ.get('AWS_SECRET_KEY')
+AWS_ACCESS_KEY_ID = os.environ.get('METIS_APP_AWS_ACCESS_KEY_ID')
+AWS_SECRET_KEY = os.environ.get('METIS_APP_AWS_SECRET_KEY')
 
 
 if not os.path.exists(LOCAL_DIRECTORY):
