@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% block content %}
+<p>
+  In previous blog posts, I've written extensively about scraping data (see
+  <a href="{{url_for('blog_posts.blog', name='web_scraping_with_beautiful_soup')}}">here</a> and
+  <a href="{{url_for('blog_posts.blog', name='web_scraping_with_selenium')}}">here</a>).
+  Not only is this a great skill, but if you're a nerd like me, it's also a ton a fun.
+  If I'm being honest with myself, I've spent WAY too much time in the data acquisition phase of my personal projects
+  more than a few times getting lost in the thrill of the scrape.
+</p>
+<p>
+  Before scraping though, it's worth checking if there is a relevant API that can get you the data
+  you need in a tidy format to avoid that time suck.
+  If you don't succeed in finding one through Google,
+  I always first recommend checking <a href="https://www.programmableweb.com/">ProgrammableWeb</a>
+  or <a href="https://rapidapi.com/">RapidAPI</a> for a relevant data source.
+</p>
+<p>
+  However, if all three of those options fail, don't just jump into scraping yet.
+  A third option is see if you can find a hidden API from the source.
+  Let me explain more.
+</p>
+<p>
+  I recently have begun a regression analysis to determine if I can predict the number of goals
+  a player in the NHL will have in a season.
+  Unsurpisingly, to do this analysis I would need data for each NHL player's performance by season.
+  After failing to find an API through the three aforementioned sources, I checked NHL.com
+  and found they had player data in tabular form
+   <a href="http://www.nhl.com/stats/skaters?reportType=season&seasonFrom=20192020&seasonTo=20192020&gameType=2&filter=gamesPlayed,gte,1&sort=goals&page=0&pageSize=50">here</a>
+   as shown below.
+</p>
+<img src="{{url_for('blog_posts.static', filename='nhlcom_table.jpg')}}" class="img-thumbnail img-fluid mx-auto d-block pic-margins">
+<p>
+  This is great! We could easily scrape the data from this page.
+  However, iterating over a few hundred pages to get the past twenty years of data would take a day or two of work.
+  Instead let's look to see if we can find an API using chrome's developer tools.
+  Right-click the page and click "Inspect" found at the end (highlighted in green below).
+</p>
+<img src="{{url_for('blog_posts.static', filename='nhlcom_inspect.png')}}" class="img-thumbnail img-fluid mx-auto d-block pic-margins">
+<p>
+  After head over to the network tab (circled in green as well).
+</p>
+<img src="{{url_for('blog_posts.static', filename='nhlcom_developertools.png')}}" class="img-thumbnail img-fluid mx-auto d-block pic-margins">
+<p>
+  At first there isn't any data there!
+</p>
+<img src="{{url_for('blog_posts.static', filename='nhlcom_networkempty.png')}}" class="img-thumbnail img-fluid mx-auto d-block pic-margins">
+<p>
+  Reload the page and the table will populate as below.
+</p>
+<img src="{{url_for('blog_posts.static', filename='nhlcom_networkfull.png')}}" class="img-thumbnail img-fluid mx-auto d-block pic-margins">
+<p>
+  This table includes data for all the http calls that NHL.com made after we asked it for the page.
+  Pretty cool stuff!
+</p>
+<p>
+  At this point, we have to put on our Sherlock Holmes hat and scan through the table checking any endpoints that look like APIs.
+  I found one that started with "summary" and looked suspiciously like an API.
+  After clicking the row, Chrome shows a preview of the data it sent to our browser.
+</p>
+<img src="{{url_for('blog_posts.static', filename='nhlcom_networkexample.png')}}" class="img-thumbnail img-fluid mx-auto d-block pic-margins">
+<p>
+  The smaller green circle contains the url and the larger green circle highlights the data it sent back.
+  It looks like it's a json file. The value under the "data" key contains a list of javascript objects.
+  Each object is a player's performance for that year.
+  The one circled above shows David "Pasta" Pastrnak's stats over the past season!
+  The full url is here:
+</p>
+<pre class="language-py"><code>"https://api.nhle.com/stats/rest/en/skater/summary?isAggregate=false&isGame=false&sort=%5B%7B%22property%22:%22points%22,%22direction%22:%22DESC%22%7D,%7B%22property%22:%22goals%22,%22direction%22:%22DESC%22%7D,%7B%22property%22:%22assists%22,%22direction%22:%22DESC%22%7D%5D&start=0&limit=50&factCayenneExp=gamesPlayed%3E=1&cayenneExp=gameTypeId=2%20and%20seasonId%3C=20192020%20and%20seasonId%3E=20192020"</code></pre>
+<p>
+  Woah! That is one long url!
+  We can see at first glance that it's calling some rest api hosted by api.nhle.com.
+  The query string contains a bunch of filters for the data.
+  Next step is to jump into python and see if we can deconstruct the url and then reconstruct it to call additional data.
+</p>
+<p>
+  Since this post is getting pretty long, I've split that into. Tune back for the final reveal!
+</p>
+<p>
+  Thanks for reading!
+</p>
+
+
+{% endblock %}
