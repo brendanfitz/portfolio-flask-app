@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row justify-content-md-center">
+  <div class="col-sm-8">
+    {% if prediction %}
+    <p class="text-center"><span class="font-weight-bold">{{prediction}}</span></p>
+    <p class="text-center"><span class="font-weight-bold">Fill out the below stats for another player to see how many goals they will score next season!</span></p>
+    {% else %}
+    <p class="text-center"><span class="font-weight-bold">Have a favorite NHL player? Fill out the below stats for the player to see how many goals they will score next season!</span></p>
+    {% endif %}
+    <hr>
+    <form method="post">
+      <div class="form-row align-items-end">
+        <div class="form-group col-md-6">
+          {{ form.l1.label }}{{ form.l1(class_="form-control") }}
+        </div>
+        <div class="form-group col-md-6">
+          {{ form.l2.label }}{{ form.l2(class_="form-control") }}
+        </div>
+      </div>
+      <div class="form-row align-items-end">
+        <div class="form-group col-md-6">
+          {{ form.l3.label }}{{ form.l3(class_="form-control") }}
+        </div>
+        <div class="form-group col-md-6">
+          {{ form.l4.label }}{{ form.l4(class_="form-control") }}
+        </div>
+      </div>
+      <div class="form-row align-items-end">
+        <div class="form-group col-md-6">
+          {{ form.l5.label }}{{ form.l5(class_="form-control") }}
+        </div>
+        <div class="form-group col-md-6">
+          {{ form.season_number.label }}{{ form.season_number(class_="form-control") }}
+        </div>
+      </div>
+      <div class="form-row align-items-end">
+        <div class="form-group col-md-6">
+          {{ form.gamesPlayed.label }}{{ form.gamesPlayed(class_="form-control") }}
+        </div>
+        <div class="form-group col-md-6">
+          {{ form.positionCode.label }}{{ form.positionCode(class_="form-control") }}
+        </div>
+      </div>
+      <div class="d-flex justify-content-center">
+        {{ form.submit(class_="btn btn-primary") }}
+      </div>
+    </form>
+  </div>
+</div>
+<br>
+
+{% endblock %}

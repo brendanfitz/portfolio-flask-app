@@ -3,7 +3,8 @@ import numpy as np
 import pandas as pd
 from flask import render_template, abort, request, Blueprint
 from metis_app.ml_models.forms import (MoviePredictorForm, LoanPredictorForm,
-                                       KickstarterPitchOutcomeForm, TitanticPredictorForm)
+                                       KickstarterPitchOutcomeForm, TitanticPredictorForm,
+                                       NhlGoalsPredictorForm)
 from metis_app.ml_models.pickle_imports import Pickle_Imports
 from metis_app.ml_models import mcnulty_util as mu
 from metis_app.ml_models import titanic_util as tu
@@ -63,6 +64,10 @@ def fletcher_prediction(form):
     prediction = pickles.kickstarter_model.predict(pitch_vectorized)[0]
     return prediction
 
+def nhl_goals_prediction(form):
+    prediction = 1
+    return prediction
+
 @ml_models.route('/<name>', methods=['GET', 'POST'])
 def models(name):
     template = '{}.html'.format(name)
@@ -79,6 +84,9 @@ def models(name):
     elif name == 'titantic':
         form = TitanticPredictorForm()
         title = "Will You Survive The Titantic?"
+    elif name == 'nhl_goals':
+        form = NhlGoalsPredictorForm()
+        title = "Will You Survive The Titantic?"
     else:
         abort(404)
 
@@ -90,6 +98,8 @@ def models(name):
         elif name == 'fletcher':
             prediction = fletcher_prediction(form)
         elif name == 'titantic':
+            prediction = titantic_prediction(form)
+        elif name == 'nhl_goals':
             prediction = titantic_prediction(form)
         else:
             abort(404)

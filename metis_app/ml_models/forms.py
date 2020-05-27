@@ -90,3 +90,16 @@ class TitanticPredictorForm(FlaskForm):
         default=30,
     )
     submit = SubmitField("Find Out If You're A Survivor!")
+
+class NhlGoalsPredictorForm(FlaskForm):
+    l1 = IntegerField("Goals Last Year", default=17)
+    l2 = IntegerField("Goals Two Years Ago", default=18)
+    l3 = IntegerField("Goals Three Years Ago", default=18)
+    l4 = IntegerField("Goals Four Years Ago", default=18)
+    l5 = IntegerField("Goals Five Years Ago", default=18)
+    season_number = IntegerField("How many seasons have this player been playing?", default=5)
+    gamesPlayed = IntegerField("How many games will this player play this year?", default=82)
+    positionCode = SelectField("Forward or D?",
+        choices=[("F", "Forward"), ("D", "D")]
+    )
+    submit = SubmitField("Predict!")
