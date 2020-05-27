@@ -98,7 +98,7 @@ def models(name):
         title = "Will You Survive The Titantic?"
     elif name == 'nhl_goals':
         form = NhlGoalsPredictorForm()
-        title = "Will You Survive The Titantic?"
+        title = "NHL Goals Scored Prediction Model"
     else:
         abort(404)
 
