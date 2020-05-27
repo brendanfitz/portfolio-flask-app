@@ -1,4 +1,4 @@
-{'assists': 21,
+>>> {'assists': 21,
  'evGoals': 14,
  'evPoints': 31,
  'faceoffWinPct': 0.6923,

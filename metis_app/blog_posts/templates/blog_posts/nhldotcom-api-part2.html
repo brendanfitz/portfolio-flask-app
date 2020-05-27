@@ -18,24 +18,29 @@
   Well I am glad you asked!
   This post will be all about taking the API endpoint into python, deconstructing the query string to understand how it's asking for the data it wants,
   and then reconstructing it into asking for the boatload of data that we want.
-  In this way we're basically like Edward Elrich (shoutout to <a href="https://www.rottentomatoes.com/tv/fullmetal_alchemist_brotherhood/s01">FMA:Brotherhood fans</a>, highly recommended to those who have absolutely no idea what I'm talking about)
-  As a reminder, our goal is to pull NHL player data by season in order to create an autoregressive model that can predict a players goals.
+  In this way we're basically like Edward Elrich.
+</p>
+<img src="https://media.giphy.com/media/NOHzmFYti2A6c/giphy.gif" class="img-thumbnail img-fluid mx-auto d-block pic-margins">
+<p>
+  Shoutout to <a href="https://www.rottentomatoes.com/tv/fullmetal_alchemist_brotherhood/s01">FMA:Brotherhood fans</a> (highly recommended to those who have absolutely no idea what I'm talking about).
+  But I digress. As a reminder, our goal is to pull NHL player data by season in order to create an autoregressive model to predict a players goals over next season.
 </p>
 <p>
   Our first step is to use python's <a href="https://requests.readthedocs.io/en/master/">Requests</a> and <a href="https://docs.python.org/3/library/json.html">JSON</a> modules
   to load the data into python using the below script.
 </p>
 <pre><code class="language-py">{% include "include_docs/nhldotcom-api-part2/code1.py" %}</code></pre>
+<pre><code class="language-py">{% include "include_docs/nhldotcom-api-part2/code1b.py" %}</code></pre>
 <p>
   Having received a 200 http status code, we know we got the data.
-  This data is now a handy python dictionary thanks to the JSON module. It will return the structure of the keys. Let's take a look at result.
+  This data is now a handy python dictionary thanks to the JSON module. It will return the structure of the keys.
 </p>
-<pre><code class="language-py">{% include "include_docs/nhldotcom-api-part2/code1b.py" %}</code></pre>
 <p>
   We have two parts here. The data itself we can assume is the value under "data", while the value under "total" most likely contains some metadata we can ignore.
   So what type of format is the data under "data"?
 </p>
 <pre><code class="language-py">{% include "include_docs/nhldotcom-api-part2/code2.py" %}</code></pre>
+<pre><code class="language-py">{% include "include_docs/nhldotcom-api-part2/code2b.py" %}</code></pre>
 <p>
   This return a list. What is the structure of the data in the list?
 </p>
@@ -50,51 +55,51 @@
   We'll then load it into urllib.parse's parse_qs function, which returns a dictionary with the query string key-value pairs decoded.
 </p>
 <pre><code class="language-py">{% include "include_docs/nhldotcom-api-part2/code4.py" %}</code></pre>
+<pre><code class="language-py">{% include "include_docs/nhldotcom-api-part2/code4b.py" %}</code></pre>
 <p>
-  Wow, that is refreshingly readable! Going through the keys, we can assume 'isAggregate' and 'isGame' ask for aggregate player data and player data for game.
+  Wow, that is refreshingly readable! Going through the keys, we can assume <strong>isAggregate</strong> and <strong>isGame</strong> ask for aggregate player data over their full career and by game, respectively.
   We'll keep both those false.
 </p>
 <p>
-  'Sort', will determine the sort of the data. Using goals in descending order is fine here.
+  <strong>Sort</strong>, will determine the sort of the data. Using goals in descending order is fine here.
 </p>
 <p>
-  'Start' and 'limit' are important for us. These most likely determine the pagination of the data.
-  'Start' is where in the dataset we are starting, and 'limit' means to return a maximum of 100 entries.
+  <strong>Start</strong> and <strong>limit</strong> are important for us. These most likely determine the pagination of the data.
+  <strong>Start</strong> is where in the dataset we are starting, and <strong>limit</strong> means to return a maximum of 100 entries.
 </p>
 <p>
-  The last two where a little tricky for me. They are clearly delineating some filters for the data. After googling I figured out that
+  The last two were a little tricky for me. They are clearly delineating some filters for the data. After googling I figured out that
   Cayenne is an Apache Java module for object-relational mapping (ORM) to a database.
-  If that seemed like the jargon-y bunch of nonsense it was to you, all you have to know if the backend of this endpoint is a program run by Java,
-  which then parses these expressions to create SQL queries that pull data the program sends to us.
+  If that seemed like the jargon-y bunch of nonsense it was to you, all you have to know is the backend of this endpoint is a program run by Java,
+  which parses these expressions to create SQL queries that pull data the program sends to us.
 </p>
 <p>
   The first filter removes players that didn't play any games. We'll want to keep that.
-  The second filter delineates some gameTypeID (no idea what that is) but also the seasonId. We'll update that seasonId to pull
+  The second filter delineates some <strong>gameTypeID</strong> (no idea what that is) but also the <strong>seasonId</strong>. We'll update that <strong>seasonId</strong> to pull
   data across seasons.
 </p>
 <p>
-  Before updating, let's create a function that can re-enconde this dictionary back into the same query string format
+  Before updating, let's create a function that can re-encode this dictionary back into the same query string format
   we had before. This took a big of hacky code as there where some discrepencies in the urllib parsing and encoding but the following function
   fixes all that.
 </p>
-<pre><code class="language-py">{% include "include_docs/nhldotcom-api-part2/code4b.py" %}</code></pre>
+<pre><code class="language-py">{% include "include_docs/nhldotcom-api-part2/code5.py" %}</code></pre>
 <p>
   The assert statement confirms we are good to go.
 </p>
 <p>
-  Next, we'll put a named interpolation into that season string of the 'cayenneExp' value that we can call.
+  Next, we'll put a named interpolation into that season string of the <strong>cayenneExp</strong> value that we can call.
   Then we'll create the below generate_qstrobj that copies our template object
-  and then updates the 'start' field and year in the 'cayenneExp' field.
+  and then updates the <strong>start</strong> field and year in the <strong>cayenneExp</strong> field.
 </p>
-<pre><code class="language-py">{% include "include_docs/nhldotcom-api-part2/code5.py" %}</code></pre>
+<pre><code class="language-py">{% include "include_docs/nhldotcom-api-part2/code6.py" %}</code></pre>
 <p>
   Now that we have our functions ready, let's look through seasons from 2000 to 2019
   and pull the first 300 players for each season.
-  To catch the data, we'll use the frames variable. Before putting the data in that though,
-  convert it from a list of dictionaries to a pandas dataframe using <a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.from_records.html">pandas.DataFrame.from_records</a> function.
+  To catch the data, we'll use the frames variable. Before putting the data in that list,
+  we'll convert it from a list of dictionaries to a pandas dataframe using the <a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.from_records.html">pandas.DataFrame.from_records</a> function.
   This will allow us to easily concatenate the data into one dataset and then output it to a csv.
 </p>
-<pre><code class="language-py">{% include "include_docs/nhldotcom-api-part2/code6.py" %}</code></pre>
 <p>
   Now that we have our data, let's put it all together and check the columns.
 </p>

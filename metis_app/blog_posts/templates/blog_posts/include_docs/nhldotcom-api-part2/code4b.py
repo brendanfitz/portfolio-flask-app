@@ -1,4 +1,4 @@
-{'isAggregate': ['false'],
+>>> {'isAggregate': ['false'],
  'isGame': ['false'],
  'sort': ['[{"property":"goals","direction":"DESC"}]'],
  'start': ['0'],
