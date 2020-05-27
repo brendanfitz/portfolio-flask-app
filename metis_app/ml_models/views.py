@@ -8,6 +8,7 @@ from metis_app.ml_models.forms import (MoviePredictorForm, LoanPredictorForm,
 from metis_app.ml_models.pickle_imports import Pickle_Imports
 from metis_app.ml_models import mcnulty_util as mu
 from metis_app.ml_models import titanic_util as tu
+from statsmodels.regression.linear_model import OLSResults
 
 ml_models = Blueprint('ml_models', __name__, template_folder="templates/ml_models")
 
@@ -65,7 +66,18 @@ def fletcher_prediction(form):
     return prediction
 
 def nhl_goals_prediction(form):
-    prediction = 1
+    row = pd.DataFrame({
+            'L1': form.l1.data,
+            'L2': form.l2.data,
+            'L3': form.l3.data,
+            'L4': form.l4.data,
+            'L5': form.l5.data,
+            'season_number': form.season_number.data,
+            'gamesPlayed': form.gamesPlayed.data,
+            'positionCode': form.positionCode.data,
+        }, index=[0]
+    )
+    prediction = "This player will score {:,.0f} goals".format(pickles.nhl_goals_model.predict(row)[0])
     return prediction
 
 @ml_models.route('/<name>', methods=['GET', 'POST'])
@@ -100,7 +112,7 @@ def models(name):
         elif name == 'titantic':
             prediction = titantic_prediction(form)
         elif name == 'nhl_goals':
-            prediction = titantic_prediction(form)
+            prediction = nhl_goals_prediction(form)
         else:
             abort(404)
         return render_template(template, model=True, form=form, title=title, prediction=prediction)

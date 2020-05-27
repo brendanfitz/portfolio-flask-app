@@ -10,6 +10,7 @@ from sklearn.ensemble import RandomForestClassifier
 import time
 import boto3
 import warnings
+from statsmodels.regression.linear_model import OLSResults
 warnings.simplefilter("ignore", UserWarning)
 
 LOCAL_DIRECTORY = 'metis_app/static/pickles/'
@@ -121,4 +122,10 @@ class Pickle_Imports:
             self.titantic_model = pickle.load(f)
         end = time.time()
         print('Titantic Model: {:,.4f} seconds'.format(end - start))
-        #self.titantic_model = None
+
+        start = time.time()
+        filename = 'nhl_goals_regression_model.pkl'
+        with open(aws_download(filename), 'rb') as f:
+            self.nhl_goals_model = OLSResults.load(f)
+        end = time.time()
+        print('NHL Goals Model: {:,.4f} seconds'.format(end - start))
