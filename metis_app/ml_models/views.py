@@ -8,6 +8,7 @@ from metis_app.ml_models.forms import (MoviePredictorForm, LoanPredictorForm,
 from metis_app.ml_models.pickle_imports import Pickle_Imports
 from metis_app.ml_models import mcnulty_util as mu
 from metis_app.ml_models import titanic_util as tu
+from metis_app.ml_models.db import ml_db
 from statsmodels.regression.linear_model import OLSResults
 
 ml_models = Blueprint('ml_models', __name__, template_folder="templates/ml_models")
@@ -84,23 +85,12 @@ def nhl_goals_prediction(form):
 def models(name):
     template = '{}.html'.format(name)
 
-    if name == 'luther':
-        form = MoviePredictorForm()
-        title = "Movie ROI Prediction Model"
-    elif name == 'mcnulty':
-        form = LoanPredictorForm()
-        title = "Lending Club Loan Default Prediction Model"
-    elif name == 'fletcher':
-        form = KickstarterPitchOutcomeForm()
-        title = "Kickstarter Pitch Funding Outcome Prediction Model"
-    elif name == 'titantic':
-        form = TitanticPredictorForm()
-        title = "Will You Survive The Titantic?"
-    elif name == 'nhl_goals':
-        form = NhlGoalsPredictorForm()
-        title = "NHL Goals Scored Prediction Model"
-    else:
+    if name not in [x['id'] for x in ml_db]:
         abort(404)
+
+    model_data = next(filter(lambda x: name == x['id'], ml_db))
+    form = model_data['form']()
+    title = model_data['title']
 
     if request.method == 'POST':
         if name == 'luther':
