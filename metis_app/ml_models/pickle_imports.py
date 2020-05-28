@@ -11,6 +11,7 @@ import time
 import boto3
 import warnings
 from statsmodels.regression.linear_model import OLSResults
+from metis_app.ml_models.db import ml_db
 warnings.simplefilter("ignore", UserWarning)
 
 LOCAL_DIRECTORY = 'metis_app/static/pickles/'
@@ -52,7 +53,19 @@ def aws_download(object_name, filename=None,
 class Pickle_Imports:
 
     def __init__(self):
+        self.regr = None
+        self.budget_poly = None
+        self.budget_poly_scaler = None
+        self.ohe = None
+        self.cv = None
+        self.passthroughs_scaler = None
+        self.rf = None
+        self.kickstarter_vectorizer = None
+        self.kickstarter_model = None
+        self.titantic_model = None
+        self.nhl_goals_model = None
 
+    def luther_downloads(self):
         start = time.time()
         filename = 'luther_model.pkl'
         with open(aws_download(filename), 'rb') as f:
@@ -95,6 +108,7 @@ class Pickle_Imports:
         end = time.time()
         print('Passthroughs Scaler: {:,.4f} seconds'.format(end - start))
 
+    def mcnulty_downloads(self):
         start = time.time()
         filename = 'rf.pkl'
         with open(aws_download(filename), 'rb') as f:
@@ -102,6 +116,7 @@ class Pickle_Imports:
         end = time.time()
         print('CLF: {:,.4f} seconds'.format(end - start))
 
+    def fletcher_downloads(self):
         start = time.time()
         filename = 'kickstarter_vectorizer.pkl'
         with open(aws_download(filename), 'rb') as f:
@@ -116,6 +131,7 @@ class Pickle_Imports:
         end = time.time()
         print('Kickstarter Model: {:,.4f} seconds'.format(end - start))
 
+    def titantic_downloads(self):
         start = time.time()
         filename = 'titanic_model.pkl'
         with open(aws_download(filename), 'rb') as f:
@@ -123,9 +139,19 @@ class Pickle_Imports:
         end = time.time()
         print('Titantic Model: {:,.4f} seconds'.format(end - start))
 
+    def nhl_downloads(self):
         start = time.time()
         filename = 'nhl_goals_regression_model.pkl'
         with open(aws_download(filename), 'rb') as f:
             self.nhl_goals_model = OLSResults.load(f)
         end = time.time()
         print('NHL Goals Model: {:,.4f} seconds'.format(end - start))
+
+    def pickle_isdownloaded(self, filename):
+        filepath = os.path.join(LOCAL_DIRECTORY, filename)
+        return os.path.isfile(filepath)
+
+    def all_models_pickles_are_downloaded(self, model):
+        model_data = next(filter(lambda x: model == x['id'], ml_db))
+        pkl_list = model_data['pickles']
+        return all([self.pickle_isdownloaded(filename) for filename in pkl_list])

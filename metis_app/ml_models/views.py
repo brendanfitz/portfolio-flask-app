@@ -16,6 +16,12 @@ ml_models = Blueprint('ml_models', __name__, template_folder="templates/ml_model
 pickles = Pickle_Imports()
 
 def luther_prediction(form):
+    if (   pickles.regr is None or pickles.budget_poly is None
+        or pickles.budget_poly_scaler is None or pickles.ohe is None
+        or pickles.cv is None or pickles.passthroughs_scaler is None
+       ):
+        pickles.luther_downloads()
+
     budget_df = pickles.budget_poly_scaler.transform(pickles.budget_poly.transform([[form.budget.data]]))
     passthroughs_df = pickles.passthroughs_scaler.transform([
        [form.in_release_days.data, form.widest_release.data, form.runtime.data],
@@ -28,6 +34,9 @@ def luther_prediction(form):
     return prediction
 
 def mcnulty_prediction(form):
+    if pickles.rf is None:
+        pickles.mcnulty_downloads()
+
     row = pd.DataFrame({
             'loan_amnt': form.loan_amnt.data,
             'int_rate': form.int_rate.data,
@@ -40,12 +49,14 @@ def mcnulty_prediction(form):
         },
         index=[0]
     )
-    print(row)
     prediction = "{:0.0%}".format(pickles.rf.predict_proba(row)[0, 1])
     return prediction
 
 
 def titantic_prediction(form):
+    if pickles.titantic_model is None:
+        pickles.titantic_downloads()
+
     row = pd.DataFrame({
         'pclass': form.pclass.data,
         'sex': form.sex.data,
@@ -61,12 +72,18 @@ def titantic_prediction(form):
     return "Oh no! It's not looking good for you. You're down like Leo."
 
 def fletcher_prediction(form):
+    if pickles.kickstarter_vectorizer is None or pickles.kickstarter_model is None:
+        pickles.fletcher_downloads()
+
     pitch = [form.pitch.data]
     pitch_vectorized = pickles.kickstarter_vectorizer.transform(pitch).toarray()
     prediction = pickles.kickstarter_model.predict(pitch_vectorized)[0]
     return prediction
 
 def nhl_goals_prediction(form):
+    if pickles.nhl_goals_model is None:
+        pickles.nhl_downloads()
+
     row = pd.DataFrame({
             'L1': form.l1.data,
             'L2': form.l2.data,
