@@ -152,6 +152,6 @@ p {
   fill: steelblue;
 }
 
-.axisRed text{
-  fill: red;
+.barsFill text{
+  fill: #82E0AA;
 }
