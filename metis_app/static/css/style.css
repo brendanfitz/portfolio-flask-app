@@ -147,3 +147,11 @@ p {
   color: aqua;
   text-transform: capitalize;
 }
+
+.axisSteelBlue text{
+  fill: steelblue;
+}
+
+.axisRed text{
+  fill: red;
+}

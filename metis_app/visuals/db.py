@@ -35,4 +35,8 @@ visuals_db = [
         'id': 'schiller_pe_ratio',
         'title': 'Schiller P/E Ratio Per Annum',
     },
+    {
+        'id': 'nhl-player-stats-by-season',
+        'title': 'NHL Player Stats By Season',
+    },
 ]
