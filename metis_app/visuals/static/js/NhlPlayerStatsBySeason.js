@@ -63,11 +63,13 @@ function update(data) {
   yLineScale.domain([0, d3.max(data, function(d) { return d.goals; })])
       .nice();
 
-  var rect = g.selectAll("rect")
+  var rects = g.selectAll("rect")
       .data(data)
 
-  rect.enter().append("rect")
-  	.merge(rect)
+  rects.exit().remove();
+
+  rects.enter().append("rect")
+  	.merge(rects)
       .style("stroke", "none")
       .attr("class", "bar barsFill")
       .style("fill", "#82E0AA")
@@ -76,15 +78,18 @@ function update(data) {
       .attr("height", function(d){ return height - yBarScale(d.gamesPlayed); })
       .attr("y", function(d){ return yBarScale(d.gamesPlayed); });
 
+  g.select("line").remove();
+
   // Add the valueline path.
   g.append("path")
-      .data([data])
       .attr("class", "line")
       .style("stroke", "steelblue")
-      .attr("d", valueline);
+      .attr("d", valueline(data));
 
   var points1 = g.selectAll("circle.point1")
-      .data(data)
+      .data(data);
+
+  points1.exit().remove();
 
   points1.enter().append("circle")
   	.merge(points1)
