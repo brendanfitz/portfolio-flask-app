@@ -48,6 +48,13 @@ d3.csv("static/js/data/alexander_ovechkin.csv", function(error, data) {
   });
 	console.table(data);
 
+  update(data);
+
+
+});
+
+function update(data) {
+
   // Scale the range of the data
   xBarScale.domain(data.map(function(d) { return d.season_number; }));
   xLineScale.domain(data.map(function(d) { return d.season_number; }));
@@ -116,5 +123,4 @@ d3.csv("static/js/data/alexander_ovechkin.csv", function(error, data) {
           .attr("dy", ".71em")
           .style("text-anchor", "end")
           .text("Games Played");
-
-});
+}
