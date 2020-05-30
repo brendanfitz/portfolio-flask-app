@@ -37,7 +37,7 @@ var g = svg.append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 // Get the data
-d3.csv("static/js/data/alexander_ovechkin.csv", function(error, data) {
+d3.csv("static/js/data/top_50_goal_scorers.csv", function(error, data) {
   if (error) throw error;
 
   // format the data
@@ -46,10 +46,9 @@ d3.csv("static/js/data/alexander_ovechkin.csv", function(error, data) {
       d.goals = +d.goals;
       d.gamesPlayed = +d.gamesPlayed;
   });
-	console.table(data);
+  dataFiltered = data.filter(function(d) { return d.skaterFullName == 'Alex Ovechkin'});
 
-  update(data);
-
+  update(dataFiltered);
 
 });
 
