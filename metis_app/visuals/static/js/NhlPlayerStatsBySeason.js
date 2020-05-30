@@ -1,5 +1,6 @@
 console.clear()
 
+var formattedData;
 // set the dimensions and margins of the graph
 var margin = {top: 20, right: 40, bottom: 30, left: 50},
     width = 960 - margin.left - margin.right,
@@ -36,6 +37,17 @@ var svg = d3.select("#chart-area").append("svg")
 var g = svg.append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+var xAxisGroup = g.append("g")
+    .attr("class", "x axis")
+    .attr("transform", "translate(0," + height +")");
+
+var yAxisLeftGroup = g.append("g")
+    .attr("class", "y-left axis axisSteelBlue");
+
+var yAxisRightGroup = g.append("g")
+    .attr("class", "y-right axis barsFill")
+    .attr("transform", "translate( " + width + ", 0 )");
+
 // Get the data
 d3.csv("static/js/data/top_50_goal_scorers.csv", function(error, data) {
   if (error) throw error;
@@ -46,13 +58,27 @@ d3.csv("static/js/data/top_50_goal_scorers.csv", function(error, data) {
       d.goals = +d.goals;
       d.gamesPlayed = +d.gamesPlayed;
   });
-  dataFiltered = data.filter(function(d) { return d.skaterFullName == 'Alex Ovechkin'});
 
-  update(dataFiltered);
+  players = Array.from(new Set(data.map(function(d) { return d.skaterFullName; })));
+  createOptionsList(players, "playerSelect");
+  formattedData = data;
+
+  update(formattedData);
 
 });
 
-function update(data) {
+$("#playerSelect")
+  .on("change", function() {
+    update(formattedData);
+  });
+
+function update(dataFull) {
+  var value = $("#playerSelect").val();
+  console.log(value);
+
+  var data = dataFull.filter(function(d) {
+    return d.skaterFullName == value;
+  });
 
   // Scale the range of the data
   xBarScale.domain(data.map(function(d) { return d.season_number; }));
@@ -77,7 +103,7 @@ function update(data) {
       .attr("height", function(d){ return height - yBarScale(d.gamesPlayed); })
       .attr("y", function(d){ return yBarScale(d.gamesPlayed); });
 
-  g.select("line").remove();
+  g.select(".line").remove();
 
   // Add the valueline path.
   g.append("path")
@@ -101,14 +127,12 @@ function update(data) {
 
 
   // Add the X Axis
-  g.append("g")
-      .attr("transform", "translate(0," + height + ")")
-      .call(d3.axisBottom(xLineScale));
+  var xAxisCall = d3.axisBottom(xLineScale);
+  xAxisGroup.call(xAxisCall)
 
-  // Add the Y0 Axis
-  g.append("g")
-      .attr("class", "axisSteelBlue")
-      .call(d3.axisLeft(yLineScale))
+  // Add the left y-axis
+  var yAxisLeftCall = d3.axisLeft(yLineScale);
+  yAxisLeftGroup.call(yAxisLeftCall)
         .append("text")
           .attr("transform", "rotate(-90)")
           .attr("y", 6)
@@ -116,10 +140,9 @@ function update(data) {
           .style("text-anchor", "end")
           .text("Goals");
 
-  // Add the Y1 Axis
-  g.append("g")
-      .attr("class", "barsFill")
-      .attr("transform", "translate( " + width + ", 0 )")
+  // Add the right y-axis
+  var yAxisRightCall = d3.axisRight(yBarScale);
+  yAxisRightGroup.call(yAxisRightCall)
       .call(d3.axisRight(yBarScale))
         .append("text")
           .attr("transform", "rotate(-90)")
@@ -127,4 +150,12 @@ function update(data) {
           .attr("dy", ".71em")
           .style("text-anchor", "end")
           .text("Games Played");
+}
+
+function createOptionsList(items, id) {
+  var str = ""
+  for (var item of items) {
+    str += "<option>" + item + "</option>"
+  }
+  document.getElementById(id).innerHTML = str;
 }

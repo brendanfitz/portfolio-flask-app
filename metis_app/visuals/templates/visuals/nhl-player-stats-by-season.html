@@ -1,6 +1,15 @@
 {% extends "base.html" %}
 
 {% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-6">
+    <div class="form-group">
+      <label for="playerSelect">Select Player</label>
+      <select id="playerSelect" class="form-control">
+      </select>
+    </div>
+  </div>
+</div>
 <div id="chart-area"></div>
 <script src="https://d3js.org/d3.v4.js"></script>
 <script src="{{ url_for('visuals.static', filename='js/NhlPlayerStatsBySeason.js') }}"></script>
