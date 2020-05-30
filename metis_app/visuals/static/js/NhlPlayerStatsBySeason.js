@@ -97,12 +97,24 @@ d3.csv("static/js/data/alexander_ovechkin.csv", function(error, data) {
   // Add the Y0 Axis
   g.append("g")
       .attr("class", "axisSteelBlue")
-      .call(d3.axisLeft(yLineScale));
+      .call(d3.axisLeft(yLineScale))
+        .append("text")
+          .attr("transform", "rotate(-90)")
+          .attr("y", 6)
+          .attr("dy", ".71em")
+          .style("text-anchor", "end")
+          .text("Goals");
 
   // Add the Y1 Axis
   g.append("g")
       .attr("class", "barsFill")
       .attr("transform", "translate( " + width + ", 0 )")
-      .call(d3.axisRight(yBarScale));
+      .call(d3.axisRight(yBarScale))
+        .append("text")
+          .attr("transform", "rotate(-90)")
+          .attr("y", -12)
+          .attr("dy", ".71em")
+          .style("text-anchor", "end")
+          .text("Games Played");
 
 });
