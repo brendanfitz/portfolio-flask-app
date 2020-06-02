@@ -155,3 +155,20 @@ p {
 .barsFill text{
   fill: #82E0AA;
 }
+
+.simpletable {
+  border-top: 2px solid #333;
+  border-bottom: 2px solid #333;
+}
+
+.simpletable caption {
+  caption-side: top;
+  text-align: center;
+  color: #212529;
+  font-weight: 800;
+  font-size: 16px;
+}
+.simpletable td,
+.simpletable th {
+  border: none;
+}
