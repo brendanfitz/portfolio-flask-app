@@ -10,7 +10,7 @@
 <p>
   In this regression model, the response variable in the previous time period has become the predictor.
   We describe autoregressive by their <strong>order</strong>.
-  The order of an autoregression is the number of preceding values in the series used to predict the value at the present time, e.g. the above equation is written as AR(1).
+  The order of an autoregressive model is the number of preceding values in the series used to predict the value at the present time, e.g. the above equation is written as <em>AR(1)</em>.
   As in a simple linear regression model, autoregressive models are subject to our usual assumptions about errors.
 </p>
 <p>
@@ -29,37 +29,40 @@
 <img src="{{url_for('blog_posts.static', filename='mark_messier_goals_lagged.png')}}" class="img-thumbnail img-fluid mx-auto d-block pic-margins">
 <p>
   Now let's get to the fun modeling part.
-  First, let's try an AR(3) goals model.
+  First, let's try an <em>AR(3)</em> goals model.
 </p>
 {% include "include_docs/nhl-goals-regression-analysis/model1.html" %}
 <p>
   We can see that this model explains roughly 58.9% of the variance of a player's goals.
   Not a bad result.
-  We can interpret this as saying that by knowing a player's last three year's of goals scored we can get make a 58.9% better guess than just guessing the mean goals for all players.
+  Interpretation: by knowing a player's last three year's of goals scored we can get make a 58.9% better guess than just guessing the mean goals for all players.
   All variables have p-value less than 5%, so we can assume they are useful in predicting this years goals.
   In fact, all variables have a p-value of 0.00%!
-  Now, let's try an AR(5) model.
+  Let's get a little wild with an <em>AR(5)</em> model.
 </p>
 {% include "include_docs/nhl-goals-regression-analysis/model2.html" %}
 <p>
-  This resulted in a 6% increased in our R^2, from 0.589 to 0.623.
-  We'll stop a AR(5) because it has good explanatory value and because players common resign contracts after 5 years.
-  This means 5 years will be a good time to use this models to predict next year's goals as a metric for determing their contract value.
+  This resulted in a 6% increased in our R<sup>2</sup>, from 0.589 to 0.623.
   All variables have p-values of 0.00 again.
-  Now let's add a variable for the season number for that player (i.e. their rookie year is 1, their second year is 2, etc.).
+  We'll stop a <em>AR(5)</em> because it has good explanatory value and because players typicall re-negoatie contracts after 5 years.
+  This means 5 years will be a good time to use this models to predict next year's goals as a metric for determining their contract value.
+  Let's add a variable for the season number for that player (i.e. their rookie year is 1, their second year is 2, etc.).
 </p>
 {% include "include_docs/nhl-goals-regression-analysis/model3.html" %}
 <p>
   Season number is also significant but notice that season number is negative.
-  Someone might point out that a players goals usually follows a U-curve as their career progresses,
-  i.e. that a players starts with a low number of goals in their first few years, but after gaining some experience
-  they start hitting their career peak until their goals drop again as age starts to take effect.
+  Does that make sense?
+</p>
+<p>
+  A player's goals usually follows a U-curve as their career progresses,
+  i.e. a player starts with a low number of goals in their first few years, but after gaining some experience
+  they score more as they start hitting their career peak until their goals drop again as age starts to take effect.
   The below chart illustrates this.
 </p>
 <img src="{{url_for('blog_posts.static', filename='goals_by_season_number_and_years_played.png')}}" class="img-thumbnail img-fluid mx-auto d-block pic-margins">
 <p>
   However, our model is only trained on data after a player has 5 years of data.
-  Therefore, the model is only picking up on the third leg of that career journey.
+  Therefore, the model is picking up on the third leg of that career journey.
   This explains why we would have a negative coefficient for season_number.
   If we based the model on all years of players career, we would need to account for that nonlinear relationship, but as we only track players after they have played 5 years, this makes sense.
   Next let's add games played to our model.
@@ -68,7 +71,7 @@
 <p>
   Another significant variable.
   The F-statistic is still very large as well, illustrating our model as a whole is solid.
-  Let's keep moving forward (pun intended) and add a variable for a player's position.
+  Let's keep moving forward (pun intended) and add a variable for position.
 </p>
 {% include "include_docs/nhl-goals-regression-analysis/model6.html" %}
 <p>
@@ -77,15 +80,16 @@
 </p>
 {% include "include_docs/nhl-goals-regression-analysis/model7.html" %}
 <p>
-  Our final model is looking great. We've increased our R^2 22% from our first model (0.589 to 0.718).
+  Our final model is looking great. We've increased our R<sup>2</sup> 22% from our first model (0.589 to 0.718).
   Our F-statistic is large and all of our features are significant.
   Let's interpret them one-by-one by analyzing each by <em>sign</em>, <em>size</em> and <em>significance</em>.
-  All variables are significant so let's focus on the first two.
+  All variables are significant so we'll focus on the first two.
 </p>
 <h3>Intercept</h3>
 <p>
   Our model assumes you have scored -4.3846 if all other variables are 0.
-  This may make no sense as you can score negative goals, but it is interpretable in the context of other variables.
+  This doesn't make a ton of sense as you can score negative goals, but it is interpretable in the context of other variables.
+  Basically, our model is saying you don't automatically start scoring goals, but you have to traverse -4.4 theoretical goals before we give you any real ones.
   We'll look at gamesPlayed next further.
 </p>
 <h3>gamesPlayed</h3>
@@ -93,7 +97,7 @@
   Our gamesPlayed coefficient is 0.1381.
   The sign is positive meaning our model thinks you'll score more goals as you play more games (duh!).
   More specifically, each goal you play will allot 0.1381 goals.
-  Fractional goals are nonsense, but in a more literal context, every 7 games we'll score a goal according to our model.
+  Fractional goals are nonsense, but in a more literal context, every 7 games we'll score a goal according to our model (<em>ceterus paribus</em>).
 </p>
 <h3>C(positionCode)[T.F]</h3>
 <p>
@@ -112,7 +116,7 @@
 <p>
   We will add 18% of the player's goals from two years ago to our total.
   The cool thing about this model is the size of each lagged variable's coefficient is smaller as we get further from the current year.
-  This is intuitive as players performance from last year is more likely to be impactful on this year's performance than their performance 5 years ago.
+  This is intuitive as players performance from last year is more likely to be impactful on this year's performance than their performance from 5 years ago.
 </p>
 <h3>L3</h3>
 <p>
@@ -128,7 +132,7 @@
 </p>
 <h3>Wrapping Up</h3>
 <p>
-  Overall this was a really fun model to analyze. There are definitely some issues with the errors I will look at in further posts but fun to see.
+  Overall this was a really fun model to analyze. There are definitely some issues with the errors I will analyze in further posts, but good times good times nonetheless.
 </p>
 <p>
   Thanks for reading!
