@@ -26,34 +26,34 @@
 <p>
   First, let's import the data and only take the columns we need for this exercise.
 </p>
-<pre class="language-py"><code>{% include "include_docs/regex-named-capture-groups/code1.py" %}</code></pre>
+<pre><code class="language-py">{% include "include_docs/regex-named-capture-groups/code1.py" %}</code></pre>
 {% include "include_docs/regex-named-capture-groups/raw-data.html" %}
 <p>
   Second, let's get rid of those pesky metric measures to only have the feet and inches string.
 </p>
-<pre class="language-py"><code>{% include "include_docs/regex-named-capture-groups/code2.py" %}</code></pre>
+<pre><code class="language-py">{% include "include_docs/regex-named-capture-groups/code2.py" %}</code></pre>
 {% include "include_docs/regex-named-capture-groups/ft-inches-str.html" %}
 <p>
   Before creating the named capture groups, let's mask sure that all our inputs match the pattern (excluding NAs).
 </p>
-<pre class="language-py"><code>{% include "include_docs/regex-named-capture-groups/code3.py" %}</code></pre>
+<pre><code class="language-py">{% include "include_docs/regex-named-capture-groups/code3.py" %}</code></pre>
 {% include "include_docs/regex-named-capture-groups/ft-inches-str-check-fail.html" %}
 <p>
   Oh no! Looks like the 1/2 character is causing some issues. Let's replace that with '0.5' and try again.
   Good thing we checked!
 </p>
-<pre class="language-py"><code>{% include "include_docs/regex-named-capture-groups/code4.py" %}</code></pre>
+<pre><code class="language-py">{% include "include_docs/regex-named-capture-groups/code4.py" %}</code></pre>
 {% include "include_docs/regex-named-capture-groups/ft-inches-str-check-pass.html" %}
 <p>
   No results means everything matches.
   Now, let's add those named capture groups.
 </p>
-<pre class="language-py"><code>{% include "include_docs/regex-named-capture-groups/code5.py" %}</code></pre>
+<pre><code class="language-py">{% include "include_docs/regex-named-capture-groups/code5.py" %}</code></pre>
 {% include "include_docs/regex-named-capture-groups/ft-inches-columns.html" %}
 <p>
   Finally (drumroll please...) we will convert feet to inches and add inches to that.
 </p>
-<pre class="language-py"><code>{% include "include_docs/regex-named-capture-groups/code6.py" %}</code></pre>
+<pre><code class="language-py">{% include "include_docs/regex-named-capture-groups/code6.py" %}</code></pre>
 {% include "include_docs/regex-named-capture-groups/height-in-inches.html" %}
 <p>
   Bada-bing bada-boom!

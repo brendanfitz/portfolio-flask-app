@@ -7,7 +7,7 @@
   While creating my <a href="{{url_for('ml_models.models', name='mcnulty')}}">Lending Club Loan Default Prediction Model</a> (I'm sure you heard of it...)
   I used Grid Search to tune my classification models. Before we dive in, let's import the data and clean it!
 </p>
-<pre class="language-py"><code>import os
+<pre><code class="language-py">import os
 import pandas as pd
 import numpy as np
 import re
@@ -57,7 +57,7 @@ df = mcu.mcnulty_preprocessing()</code></pre>
   We can see that, fortunately for us, the pretend lender, most of the loans were paid in full (i.e. 0) and did not default (i.e. 1).
   So, now that we've identified imbalanced classes, let's get down with some <a href="https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.GridSearchCV.html">Grid Search</a> using our famous partner-in-crime, sklearn!
 </p>
-<pre class="language-py"><code>features = ['dti', 'int_rate', 'emp_length', 'home_ownership', 'purpose',
+<pre><code class="language-py">features = ['dti', 'int_rate', 'emp_length', 'home_ownership', 'purpose',
             'delinq_2yrs','revol_bal', 'loan_amnt', 'grade', 'term']
 degree = 2
 X, y = df.loc[:, features], df.loc[:, dependent]
@@ -72,7 +72,7 @@ gs.fit(X_train, y_train)</code></pre>
 <p>
   After waiting about a billion hours for that to run, we can find our the ideal class weights using the below code.
 </p>
-<pre class="language-py"><code>pd.DataFrame(gs.best_params_)</code></pre>
+<pre><code class="language-py">pd.DataFrame(gs.best_params_)</code></pre>
 <table class="table">
   <thead>
     <tr>

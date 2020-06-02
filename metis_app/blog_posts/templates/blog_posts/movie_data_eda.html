@@ -3,17 +3,17 @@
 {% block content %}
 
 <p>Before starting, standard data import and cleaning.</p>
-<pre class="language-py"><code>{% include "include_docs/movie_data_eda/code1.py" %}</code></pre>
+<pre><code class="language-py">{% include "include_docs/movie_data_eda/code1.py" %}</code></pre>
 <p>Our data is the top 100 movies by box office gross from 2008 - 2018</p>
 
 <h2>Fact 1: Seasonality by Month</h2>
 <p>May, June, July, November and December are the strongest months.</p>
-<pre class="language-py"><code>{% include "include_docs/movie_data_eda/code2.py" %}</code></pre>
+<pre><code class="language-py">{% include "include_docs/movie_data_eda/code2.py" %}</code></pre>
 <img src="{{url_for('blog_posts.static', filename='movies_gross_by_month.png')}}" class="img-thumbnail img-fluid mx-auto d-block pic-margins">
 
 <h2>Fact 2: Ratings</h2>
 <p>R-rated movies have the strongest ROI</p>
-<pre class="language-py"><code>{% include "include_docs/movie_data_eda/code3.py" %}</code></pre>
+<pre><code class="language-py">{% include "include_docs/movie_data_eda/code3.py" %}</code></pre>
 <img src="{{url_for('blog_posts.static', filename='rating_roi.png')}}" class="img-thumbnail img-fluid mx-auto d-block pic-margins">
 
 <h2>Fun Fact 3: Genres</h2>

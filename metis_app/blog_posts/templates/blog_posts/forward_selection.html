@@ -6,7 +6,7 @@
   One method is forward selection.
   Let's use this method on our Box Office Mojo dataset to find some variables predictive of ROI!
 </p>
-<pre class="language-py"><code>import os
+<pre><code class="language-py">import os
 import pandas as pd
 import numpy as np
 import re
@@ -16,7 +16,7 @@ import luther_util as lu</code></pre>
 <p>
   We'll first apply our standard movie data transformations.
 </p>
-<pre class="language-py"><code>fname = sorted([x for x in os.listdir('data')
+<pre><code class="language-py">fname = sorted([x for x in os.listdir('data')
                 if re.match('box_office_mojo_pp', x)])[-1]
 df = (pd.read_csv('data/%s' % fname)
       .set_index('title')
@@ -29,7 +29,7 @@ df = (pd.read_csv('data/%s' % fname)
 <p>
   Next let's create a list of variables we will consider that might have predictive value for movie ROI.
 </p>
-<pre class="language-py"><code>independents = [
+<pre><code class="language-py">independents = [
   'budget',
   'domestic_total_gross',
   'open_wkend_gross',
@@ -41,7 +41,7 @@ df = (pd.read_csv('data/%s' % fname)
 <p>
   Next we will iterate through these variables and log them to a list.
 </p>
-<pre class="language-py"><code>results = list()
+<pre><code class="language-py">results = list()
 for variable in independents:
   if isinstance(variable, list):
     X = df.loc[:, variable]
@@ -123,7 +123,7 @@ results_df(results).head(5)</code></pre>
   Using only one variable, our top model for predicting return is budget.
   Let's add another variable and see what we get.
 </p>
-<pre class="language-py"><code>import itertools
+<pre><code class="language-py">import itertools
 import functools
 import operator
 
@@ -201,7 +201,7 @@ results_df(results).head(5)</code></pre>
   Let's get wild and crazy with three variables!
 </p>
 
-<pre class="language-py"><code>number_independents = 3
+<pre><code class="language-py">number_independents = 3
 
 independents = [x if isinstance(x, list) else [x] for x in independents]
 combs = list(itertools.combinations(independents, number_independents))
