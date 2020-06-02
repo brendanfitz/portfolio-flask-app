@@ -101,7 +101,7 @@ blog_db = [
     },
     {
         'id': 'nhl-goals-regression-analysis',
-        'title': 'NHL Player Goals by Season AutoreRegressive Analysis',
+        'title': 'NHL Player Goals by Season AutoRegressive Analysis',
         'date_posted': '2020-05-30',
     }
 ]
