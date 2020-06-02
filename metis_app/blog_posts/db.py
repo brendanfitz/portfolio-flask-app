@@ -99,4 +99,9 @@ blog_db = [
         'title': 'Hacking NHL.com\'s API - Part 2: Deconstructing and Reconstructing the API Endpoint',
         'date_posted': '2020-05-15',
     },
+    {
+        'id': 'nhl-goals-regression-analysis',
+        'title': 'NHL Player Goals by Season AutoreRegressive Analysis',
+        'date_posted': '2020-05-30',
+    }
 ]

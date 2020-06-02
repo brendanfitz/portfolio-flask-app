@@ -1,0 +1,107 @@
+<div class="container border border-dark mb-2">
+ <table class="simpletable table table-sm table-hover">
+  <caption>
+   AR(5) w/ Season Number Squared &amp; Games Played Model Results
+  </caption>
+  <tr>
+   <th>Dep. Variable:</th><td>y</td>
+   <th>R-squared:</th><td>0.715</td>
+  </tr>
+  <tr>
+   <th>Model:</th><td>OLS</td>
+   <th>Adj. R-squared:</th><td>0.714</td>
+  </tr>
+  <tr>
+   <th>Method:</th><td>Least Squares</td>
+   <th>F-statistic:</th><td>2720.</td>
+  </tr>
+  <tr>
+   <th>Date:</th><td>Tue, 02 Jun 2020</td>
+   <th>Prob (F-statistic):</th><td>0.00</td>
+  </tr>
+  <tr>
+   <th>Time:</th><td>09:18:33</td>
+   <th>Log-Likelihood:</th><td>-26810.</td>
+  </tr>
+  <tr>
+   <th>No. Observations:</th><td>8695</td>
+   <th>AIC:</th><td>5.364e+04</td>
+  </tr>
+  <tr>
+   <th>Df Residuals:</th><td>8686</td>
+   <th>BIC:</th><td>5.370e+04</td>
+  </tr>
+  <tr>
+   <th>Df Model:</th><td>8</td>
+   <th></th>
+   <td></td>
+  </tr>
+  <tr>
+   <th>Covariance Type:</th><td>nonrobust</td>
+   <th></th>
+   <td></td>
+  </tr>
+ </table>
+ <table class="simpletable table table-sm table-hover">
+  <tr class="border-bottom">
+   <td></td>
+   <th>coef</th>
+   <th>std err</th>
+   <th>t</th>
+   <th>P&gt;|t|</th>
+   <th>[0.025</th>
+   <th>0.975]</th>
+  </tr>
+  <tr>
+   <th>Intercept</th><td>-2.0725</td><td>0.581</td><td>-3.570</td><td>0.000</td><td>-3.211</td><td>-0.935</td>
+  </tr>
+  <tr>
+   <th>L1</th><td>0.3279</td><td>0.009</td><td>36.246</td><td>0.000</td><td>0.310</td><td>0.346</td>
+  </tr>
+  <tr>
+   <th>L2</th><td>0.1911</td><td>0.009</td><td>20.646</td><td>0.000</td><td>0.173</td><td>0.209</td>
+  </tr>
+  <tr>
+   <th>L3</th><td>0.1452</td><td>0.009</td><td>16.016</td><td>0.000</td><td>0.127</td><td>0.163</td>
+  </tr>
+  <tr>
+   <th>L4</th><td>0.0728</td><td>0.009</td><td>8.139</td><td>0.000</td><td>0.055</td><td>0.090</td>
+  </tr>
+  <tr>
+   <th>L5</th><td>0.0439</td><td>0.008</td><td>5.344</td><td>0.000</td><td>0.028</td><td>0.060</td>
+  </tr>
+  <tr>
+   <th>season_number</th><td>-0.6858</td><td>0.112</td><td>-6.134</td><td>0.000</td><td>-0.905</td><td>-0.467</td>
+  </tr>
+  <tr>
+   <th>season_number_squared</th><td>0.0151</td><td>0.005</td><td>2.948</td><td>0.003</td><td>0.005</td><td>0.025</td>
+  </tr>
+  <tr>
+   <th>gamesPlayed</th><td>0.1350</td><td>0.003</td><td>50.174</td><td>0.000</td><td>0.130</td><td>0.140</td>
+  </tr>
+ </table>
+ <table class="simpletable table table-sm table-hover">
+  <tr>
+   <th>Omnibus:</th><td>1203.476</td>
+   <th>Durbin-Watson:</th><td>1.880</td>
+  </tr>
+  <tr>
+   <th>Prob(Omnibus):</th><td>0.000</td>
+   <th>Jarque-Bera (JB):</th><td>3064.992</td>
+  </tr>
+  <tr>
+   <th>Skew:</th><td>0.780</td>
+   <th>Prob(JB):</th><td>0.00</td>
+  </tr>
+  <tr>
+   <th>Kurtosis:</th><td>5.455</td>
+   <th>Cond. No.</th><td>1.32e+03</td>
+  </tr>
+ </table>
+ <br/>
+ <br/>
+ <br/>
+ [2] The condition number is large, 1.32e+03. This might indicate that there are
+ <br/>
+ strong multicollinearity or other numerical problems.
+</div>

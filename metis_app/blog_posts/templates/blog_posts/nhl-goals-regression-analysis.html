@@ -1,0 +1,137 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<p>
+  An <strong>autoregressive model</strong> is defined as a regression model that uses a previous period value from a time series dependent variable.
+  It comes in the form of the below equations.
+</p>
+{% include "include_docs/nhl-goals-regression-analysis/mathjax1.html" %}
+<p>
+  In this regression model, the response variable in the previous time period has become the predictor.
+  We describe autoregressive by their <strong>order</strong>.
+  The order of an autoregression is the number of preceding values in the series used to predict the value at the present time, e.g. the above equation is written as AR(1).
+  As in a simple linear regression model, autoregressive models are subject to our usual assumptions about errors.
+</p>
+<p>
+  First things first, how do we lag the dependent variable using python?
+  Well, lucky for you I have created a function using python and panda's <a href="#">shift</a> function.
+  The basis from this function comes from Tom Augspurger's <a href="https://tomaugspurger.github.io/modern-1-intro.html">Modern Pandas</a> blog (a must read for any heavy pandas user).
+</p>
+<pre><code class="language-py">{% include "include_docs/nhl-goals-regression-analysis/code1.py" %}</code></pre>
+<p>
+  This function takes in an <strong>input_df</strong> and <strong>metric</strong> and lags that variable <strong>n</strong> times, joining them all together.
+  The resulting dataframe will be a lagged variable.
+  The below table image illustrates how goals would be lagged for Mark Messier.
+  The green boxes show how his rookie year goals are lagged across the next 5 years.
+  The blue boxes show how his 7th year goals are lagged across the next 5 years.
+</p>
+<img src="{{url_for('blog_posts.static', filename='mark_messier_goals_lagged.png')}}" class="img-thumbnail img-fluid mx-auto d-block pic-margins">
+<p>
+  Now let's get to the fun modeling part.
+  First, let's try an AR(3) goals model.
+</p>
+{% include "include_docs/nhl-goals-regression-analysis/model1.html" %}
+<p>
+  We can see that this model explains roughly 58.9% of the variance of a player's goals.
+  Not a bad result.
+  We can interpret this as saying that by knowing a player's last three year's of goals scored we can get make a 58.9% better guess than just guessing the mean goals for all players.
+  All variables have p-value less than 5%, so we can assume they are useful in predicting this years goals.
+  In fact, all variables have a p-value of 0.00%!
+  Now, let's try an AR(5) model.
+</p>
+{% include "include_docs/nhl-goals-regression-analysis/model2.html" %}
+<p>
+  This resulted in a 6% increased in our R^2, from 0.589 to 0.623.
+  We'll stop a AR(5) because it has good explanatory value and because players common resign contracts after 5 years.
+  This means 5 years will be a good time to use this models to predict next year's goals as a metric for determing their contract value.
+  All variables have p-values of 0.00 again.
+  Now let's add a variable for the season number for that player (i.e. their rookie year is 1, their second year is 2, etc.).
+</p>
+{% include "include_docs/nhl-goals-regression-analysis/model3.html" %}
+<p>
+  Season number is also significant but notice that season number is negative.
+  Someone might point out that a players goals usually follows a U-curve as their career progresses,
+  i.e. that a players starts with a low number of goals in their first few years, but after gaining some experience
+  they start hitting their career peak until their goals drop again as age starts to take effect.
+  The below chart illustrates this.
+</p>
+<img src="{{url_for('blog_posts.static', filename='goals_by_season_number_and_years_played.png')}}" class="img-thumbnail img-fluid mx-auto d-block pic-margins">
+<p>
+  However, our model is only trained on data after a player has 5 years of data.
+  Therefore, the model is only picking up on the third leg of that career journey.
+  This explains why we would have a negative coefficient for season_number.
+  If we based the model on all years of players career, we would need to account for that nonlinear relationship, but as we only track players after they have played 5 years, this makes sense.
+  Next let's add games played to our model.
+</p>
+{% include "include_docs/nhl-goals-regression-analysis/model4.html" %}
+<p>
+  Another significant variable.
+  The F-statistic is still very large as well, illustrating our model as a whole is solid.
+  Let's keep moving forward (pun intended) and add a variable for a player's position.
+</p>
+{% include "include_docs/nhl-goals-regression-analysis/model6.html" %}
+<p>
+  Only being a defenseman is significant in this model.
+  Let's transform that column to only differentiate between Forward's and Defenseman.
+</p>
+{% include "include_docs/nhl-goals-regression-analysis/model7.html" %}
+<p>
+  Our final model is looking great. We've increased our R^2 22% from our first model (0.589 to 0.718).
+  Our F-statistic is large and all of our features are significant.
+  Let's interpret them one-by-one by analyzing each by <em>sign</em>, <em>size</em> and <em>significance</em>.
+  All variables are significant so let's focus on the first two.
+</p>
+<h3>Intercept</h3>
+<p>
+  Our model assumes you have scored -4.3846 if all other variables are 0.
+  This may make no sense as you can score negative goals, but it is interpretable in the context of other variables.
+  We'll look at gamesPlayed next further.
+</p>
+<h3>gamesPlayed</h3>
+<p>
+  Our gamesPlayed coefficient is 0.1381.
+  The sign is positive meaning our model thinks you'll score more goals as you play more games (duh!).
+  More specifically, each goal you play will allot 0.1381 goals.
+  Fractional goals are nonsense, but in a more literal context, every 7 games we'll score a goal according to our model.
+</p>
+<h3>C(positionCode)[T.F]</h3>
+<p>
+  Our model allots 1.3897 goals per season if you are forward.
+  Basically it will give you more goals for being a forward than being a defenseman.
+  This seems low to me as forwards average about 14 goals per year (assuming 82 games played) in our dataset, while defenseman only average 5.
+  But, close enough, can't win 'em all.
+</p>
+<h3>L1</h3>
+<p>
+  Now let's dig into the autoregressive variables.
+  Goals from last year's (L1) has a coefficient of 0.3164.
+  This means we will add ~32% of last year's goal to our total.
+</p>
+<h3>L2</h3>
+<p>
+  We will add 18% of the player's goals from two years ago to our total.
+  The cool thing about this model is the size of each lagged variable's coefficient is smaller as we get further from the current year.
+  This is intuitive as players performance from last year is more likely to be impactful on this year's performance than their performance 5 years ago.
+</p>
+<h3>L3</h3>
+<p>
+  We will add 13.7% of the player's goals from three years ago to our total.
+</p>
+<h3>L4</h3>
+<p>
+  We will add 6.6% of the player's goals from four years ago to our total.
+</p>
+<h3>L5</h3>
+<p>
+  We will add 3.7% of the player's goals from five years ago to our total.
+</p>
+<h3>Wrapping Up</h3>
+<p>
+  Overall this was a really fun model to analyze. There are definitely some issues with the errors I will look at in further posts but fun to see.
+</p>
+<p>
+  Thanks for reading!
+</p>
+
+{% endblock %}
