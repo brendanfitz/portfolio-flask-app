@@ -103,5 +103,10 @@ blog_db = [
         'id': 'nhl-goals-regression-analysis',
         'title': 'NHL Player Goals by Season AutoRegressive Analysis',
         'date_posted': '2020-05-30',
-    }
+    },
+    {
+        'id': 'sending-email-with-python-and-cron',
+        'title': 'Sending Automated Email Alerts with Python and Cron on EC2',
+        'date_posted': '2020-06-05',
+    },
 ]

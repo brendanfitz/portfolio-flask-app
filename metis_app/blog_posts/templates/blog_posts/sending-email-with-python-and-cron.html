@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+
+{% block content %}
+<p>
+  What if I told you that you could send yourself spam mail? Wouldn't that be great?!?!
+</p>
+<p>
+  All kidding aside, it is sometimes really helpful to setup email alerts programmatically.
+  In a professional setting, I have used this in situations where you need to alert yourself if something happens in your data warehouse,
+  such as when a store's inventory is equal to zero, or your conversion rate falls below a certain percent.
+  The best way to do this is with python's <a href="https://docs.python.org/3/library/smtplib.html">smtplib</a> package and cron.
+</p>
+<p>
+  For this example, I'm going to setup a program that sends me email any night the Rangers are playing.
+  I'll include some stats for good measure on both teams so I don't have to google that stuff when I get the email.
+</p>
+<p>
+  <strong>TL;DR:</strong> The code for this program can be read <a href="https://github.com/bfitzpa5/side_projects/blob/master/Other/rangers_email.py">here </a> if you speak python.
+</p>
+<p>
+  For the courageous few of you braving on, let's start by writing functions that scrape the Ranger's schedule,
+  filter that data for today's game, and then scrape's each team's record.
+  I included a global variable <code>_rangers</code> to avoid spelling errors in when repeatedly typing the full team's name.
+</p>
+<pre><code class="language-py">{% include "include_docs/sending-email-with-python-and-cron/code1.py" %}</code></pre>
+<p>
+  We'll run the first two in our <code>main</code> function like this:
+</p>
+<pre><code class="language-py">{% include "include_docs/sending-email-with-python-and-cron/code2.py" %}</code></pre>
+<p>
+  If there's no game data, we hit <code>return</code>, which basically means our program ends since there's no game that night.
+  Next let's setup our email parameters.
+</p>
+<pre><code class="language-py">{% include "include_docs/sending-email-with-python-and-cron/code3.py" %}</code></pre>
+<p>
+  I'm using gmail for my smtp server (smtp stands for Simple Mail Transfer protocol btw) and the standard gmail port.
+  We've also set the subject and the sender_email and receiver_email here, which are pulled from a config python file.
+  We're using a <code>MIMEMultipart</code> email format, which basically sends a rich-text (aka an email with rendered html) email if a receiver accepts that type,
+  and a plain text email if not.
+  Think of this instance of the <code>MIMEMultipart</code> object as the draft of our email.
+  We now need to setup both the html and text templates (aka the email body).
+</p>
+<p>
+  For each of these I created seperate files, which can be found on my Github <a href="https://github.com/bfitzpa5/side_projects/blob/master/Other/rangers_email.html">here</a> for the html and <a href="https://github.com/bfitzpa5/side_projects/blob/master/Other/rangers_email.txt">here</a> for the text file).
+  I read these into python and then created jinja2 template object from the strings.
+</p>
+<pre><code class="language-py">{% include "include_docs/sending-email-with-python-and-cron/code4.py" %}</code></pre>
+<p>
+  These jinja2 objects allow us to do fancy string interpolation into each template object.
+  Let's scrape data for each teams record and then interpolate that data into both our templates.
+</p>
+<pre><code class="language-py">{% include "include_docs/sending-email-with-python-and-cron/code5.py" %}</code></pre>
+<p>
+  The html and text variables now contain the templates with data for the opponent, time of the game and team record's.
+  Our final step for these two templates is to turn them into <code>MIMEText</code> objects and attach them to our <code>MIMEMultipart</code> object.
+</p>
+<pre><code class="language-py">{% include "include_docs/sending-email-with-python-and-cron/code6.py" %}</code></pre>
+<p>
+  At this point we basically have our email drafted. We'll now setup an ssl (Secure Sockets Layer) connection with gmail.
+  This encrypts our email so non-Ranger fan hackers can't see who we're playing.
+  Then we'll use this ssl pipe to connect to the gmail server and send the email.
+</p>
+<pre><code class="language-py">{% include "include_docs/sending-email-with-python-and-cron/code7.py" %}</code></pre>
+<p>
+  Boom! Our program is ready to run.
+  Onto setting it up to run daily on cron.
+</p>
+<p>
+  Before running it on cron we'll need to make it an executable.
+  First, add the shebang for your python interpreter to the program.
+  Then use <code>chmod</code> to make the program executable using the below command (notice the <code>x</code> in the second output of the <code>ll</code> command).
+</p>
+<pre><code class="language-bash">{% include "include_docs/sending-email-with-python-and-cron/code8.sh" %}</code></pre>
+<p>
+  Finally add the following line to your crontab using the <code>crontab -e</code> command.
+</p>
+<pre><code class="language-bash">0 8 * * cd /home/bf2398/Documents/Github/side_projects/Other/ && ./rangers_email.py</code></pre>
+<p>
+  This tells cron to run the command on the 8th hour of everyday.
+  The command first switches to our directory and then runs the actual script.
+  It's important to be in the actual directory of the script, otherwise we won't have access to our template objects.
+  The ouptut of the email will look like this:
+</p>
+<img src="{{url_for('blog_posts.static', filename='rangers_email.png')}}" class="img-thumbnail img-fluid mx-auto d-block pic-margins">
+<p>
+  I added a Rangers logo cause I'm fancy like that.
+  Hopefully this tutorial sparks lots of ideas on how you can use email alerts for your business.
+</p>
+<p>
+  Thanks for reading!
+</p>
+
+{% endblock %}
