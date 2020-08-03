@@ -109,4 +109,9 @@ blog_db = [
         'title': 'Sending Automated Email Alerts with Python and Cron on EC2',
         'date_posted': '2020-06-05',
     },
+    {
+        'id': 'coffee_modeling',
+        'title': 'Modeling Keurig Machine Savings',
+        'date_posted': '2020-07-15',
+    },
 ]
