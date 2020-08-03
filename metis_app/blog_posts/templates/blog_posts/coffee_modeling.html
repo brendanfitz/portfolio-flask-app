@@ -13,7 +13,7 @@
 </p> <h3>TL;DR</h3>
 <p>
     If you're one of the super busy types and want to get straight to the point, buying a Keurig machine will save you between $72 and $82 per month, which comes to almost TEN THOUSAND DOLLARS over ten years.
-    The super cool workbook can be found <a href="">here</a>.
+    The super cool workbook can be found <a href="{{url_for('api.excel_downloads', filename='Coffee.xlsx')}}">here</a>.
 </p>
 <!-- Description of the financial modeling setup -->
 <p>
@@ -73,5 +73,8 @@
     In our best case scenario, <em>Everday Per Year</em>, we'll save $144 a month, which will eventually become $1,733 A YEAR!
     An equal-weighted average comes out to $82 a month, while our probability-weighted average has an expected value of $72 a month.
     Any way we slice it, buying a Keurig is a great idea!
+</p>
+<p>
+    The full workbook can be found <a href="{{url_for('api.excel_downloads', filename='Coffee.xlsx')}}">here</a>.
 </p>
 {% endblock %}

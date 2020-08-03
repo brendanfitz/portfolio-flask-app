@@ -11,10 +11,11 @@ from metis_app.api.schiller_pe_ratio import scrape_schiller_pe_ratio_data
 from metis_app.ml_models.pickle_imports import aws_download
 import json
 
-ALLOWED_EXCEL_FILENAME = [
+ALLOWED_EXCEL_FILENAMES = [
     'S&P 500 Time Horizon Analysis.xlsx',
     'S&P 500 Visualizations.xlsx',
     'Workout_Log.xlsx',
+    'Coffee.xlsx',
 ]
 EXCEL_DIRECTORY = os.path.join('static', 'excels')
 
@@ -62,7 +63,7 @@ def yield_curve(year):
 
 @api.route('/excels/<filename>')
 def excel_downloads(filename):
-    if filename not in ALLOWED_EXCEL_FILENAME:
+    if filename not in ALLOWED_EXCEL_FILENAMES:
         abort(404)
     return send_from_directory(EXCEL_DIRECTORY, filename, as_attachment=True)
 
