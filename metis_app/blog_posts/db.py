@@ -114,4 +114,9 @@ blog_db = [
         'title': 'Modeling Keurig Machine Savings',
         'date_posted': '2020-07-15',
     },
+    # {
+        # 'id': 'pandas_duplicated',
+        # 'title': 'Finding and Removing Duplicate Rows with Pandas',
+        # 'date_posted': '2020-08-18'
+    # }
 ]
