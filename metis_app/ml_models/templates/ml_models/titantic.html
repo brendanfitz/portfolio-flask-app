@@ -3,12 +3,18 @@
 {% block content %}
 <div class="row justify-content-md-center">
   <div class="col-sm-8">
-    {% if prediction %}
-    <p class="text-center"><span class="font-weight-bold">{{prediction}}</span></p>
+    {% if prediction or prediction == 0 -%}
+    <p class="text-center"><span class="font-weight-bold">
+      {%- if prediction -%}
+        Congrats! You're a survivor like Beyonce
+      {%- else -%}
+        Oh no! It's not looking good for you. You're down like Leo.
+      {%- endif -%}
+    </span></p>
     <p class="text-center"><span class="font-weight-bold">Fill out the form again to see if you can survive!</span></p>
-    {% else %}
+    {%- else %}
     <p class="text-center"><span class="font-weight-bold">Will You Survive The Titantic? Fill Out the Below Form to Find Out!</span></p>
-    {% endif %}
+    {%- endif %}
     <hr>
     <form method="post">
       <div class="form-row align-items-end">

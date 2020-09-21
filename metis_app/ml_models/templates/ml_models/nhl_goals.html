@@ -4,7 +4,7 @@
 <div class="row justify-content-md-center">
   <div class="col-sm-8">
     {% if prediction %}
-    <p class="text-center"><span class="font-weight-bold">{{prediction}}</span></p>
+    <p class="text-center"><span class="font-weight-bold">This player will score {{"{:,.0f}".format(prediction)}} goals</span></p>
     <p class="text-center"><span class="font-weight-bold">Fill out the below stats for another player to see how many goals they will score next season!</span></p>
     {% else %}
     <p class="text-center"><span class="font-weight-bold">Have a favorite NHL player? Fill out the below stats for the player to see how many goals they will score next season!</span></p>

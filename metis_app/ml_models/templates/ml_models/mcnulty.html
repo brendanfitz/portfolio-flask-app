@@ -3,8 +3,8 @@
 {% block content %}
 <div class="row justify-content-md-center">
   <div class="col-sm-8">
-    {% if prediction %}
-    <p class="text-center">Your prediction for probability of default is <span class="font-weight-bold">{{prediction}}</span></p>
+    {% if prediction is not None %}
+    <p class="text-center">Your prediction for probability of default is <span class="font-weight-bold">{{"{:0.0%}".format(prediction)}}</span></p>
     {% else %}
     <p class="text-center">Fill out the form with borrower info for loan default prediction!</p>
     {% endif %}

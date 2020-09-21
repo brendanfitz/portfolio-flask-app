@@ -46,7 +46,7 @@ def models(name):
             prediction = response.json()['prediction']
         elif name == 'fletcher':
             url = DOMAIN_ADDR + 'kickstarter_pitch_outcome' 
-            response = requests.post(url, data=payload)
+            response = requests.post(url, json=payload)
             prediction = response.json()['prediction']
         elif name == 'titantic':
             url = DOMAIN_ADDR + 'titanic'
