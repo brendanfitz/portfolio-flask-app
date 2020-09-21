@@ -3,11 +3,11 @@
 {% block content %}
 <div class="row justify-content-md-center">
   <div class="col-sm-8">
-    {% if prediction is not None %}
+    {%- if prediction or prediction == 0 %}
     <p class="text-center">Your prediction for probability of default is <span class="font-weight-bold">{{"{:0.0%}".format(prediction)}}</span></p>
-    {% else %}
+    {%- else %}
     <p class="text-center">Fill out the form with borrower info for loan default prediction!</p>
-    {% endif %}
+    {%- endif %}
     <hr>
     <form method="post">
       <div class="form-row">
