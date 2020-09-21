@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+<p>
+    When data warehousing, you are typically sourcing data from a number of diverse systems, each with their own rules for processing data.
+    This creates a number of problems, especially if these systems don't come packaged with documentation.
+    Talking with other analytics team, one consistent problem that seems to cause issues is duplicated data.
+    Duplicated data can ruin joins and even cause double-counting across datasets if you're not careful.
+    Luckily pandas has the built-in <a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.duplicated.html">duplicated</a> function
+    that allows you to quickly identify and remove data.
+</p>
+
+{% endblock %}
