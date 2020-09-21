@@ -51,7 +51,7 @@ class LoanPredictorForm(FlaskForm):
     )
     term = SelectField(
         'Loan Term',
-        choices=[('36 months', '36 months'), ('60 months', '60 months'),],
+        choices=[('36', '36 months'), ('60', '60 months'),],
         default='36 months',
     )
     purpose = SelectField(
