@@ -14,10 +14,12 @@ import requests
 
 ml_models = Blueprint('ml_models', __name__, template_folder="templates/ml_models")
 
+DOMAIN_ADDR = 'http://192.168.0.162/'
+
 def payload_from_form(form):
     payload = dict()
     for field in form:
-        if field.name != 'csrf_token':
+        if field.name not in ['csrf_token', 'submit']:
             payload[field.name] = field.data
     return payload
 
@@ -35,17 +37,25 @@ def models(name):
     if request.method == 'POST':
         payload = payload_from_form(form)
         if name == 'luther':
-            url ='http://192.168.0.162/movie_roi' 
+            url = DOMAIN_ADDR + 'movie_roi' 
             response = requests.get(url, params=payload)
             prediction = response.json()['prediction']
         elif name == 'mcnulty':
-            prediction = None
+            url = DOMAIN_ADDR + 'lending_club_loan_default' 
+            response = requests.get(url, params=payload)
+            prediction = response.json()['prediction']
         elif name == 'fletcher':
-            prediction = None
+            url = DOMAIN_ADDR + 'kickstarter_pitch_outcome' 
+            response = requests.post(url, data=payload)
+            prediction = response.json()['prediction']
         elif name == 'titantic':
-            prediction = None
+            url = DOMAIN_ADDR + 'titanic'
+            response = requests.get(url, params=payload)
+            prediction = response.json()['prediction']
         elif name == 'nhl_goals':
-            prediction = None
+            url = DOMAIN_ADDR + 'nhl_player_season_scoring_total'
+            response = requests.get(url, params=payload)
+            prediction = response.json()['prediction']
         else:
             abort(404)
         return render_template(template, model=True, form=form, title=title, prediction=prediction)
