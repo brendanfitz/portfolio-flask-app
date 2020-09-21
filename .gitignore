@@ -3,3 +3,4 @@ __pycache__/*
 venv/*
 metis_app/api/static/api/data/nhl_results_*.json
 metis_app/static/pickles/*
+*\.code-workspace
