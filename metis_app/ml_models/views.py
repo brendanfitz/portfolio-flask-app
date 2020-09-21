@@ -5,9 +5,6 @@ from flask import render_template, abort, request, Blueprint
 from metis_app.ml_models.forms import (MoviePredictorForm, LoanPredictorForm,
                                        KickstarterPitchOutcomeForm, TitanticPredictorForm,
                                        NhlGoalsPredictorForm)
-from metis_app.ml_models.pickle_imports import Pickle_Imports
-from metis_app.ml_models import mcnulty_util as mu
-from metis_app.ml_models import titanic_util as tu
 from metis_app.ml_models.db import ml_db
 from statsmodels.regression.linear_model import OLSResults
 import requests
