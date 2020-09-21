@@ -72,7 +72,7 @@ class TitanticPredictorForm(FlaskForm):
         default="2nd Class",
     )
     sex = SelectField("Which Gender Are You?",
-        choices=[(0, "Male"), (1, "Female")],
+        choices=[('male', "Male"), ('female', "Female")],
         default="Male",
     )
     title = SelectField("What is your title?",
@@ -98,8 +98,8 @@ class NhlGoalsPredictorForm(FlaskForm):
     l4 = IntegerField("Goals Four Years Ago", default=18)
     l5 = IntegerField("Goals Five Years Ago", default=18)
     season_number = IntegerField("How many seasons have this player been playing?", default=5)
-    gamesPlayed = IntegerField("How many games will this player play this year?", default=82)
-    positionCode = SelectField("Forward or D?",
-        choices=[("F", "Forward"), ("D", "D")]
+    games_played = IntegerField("How many games will this player play this year?", default=82)
+    position = SelectField("Forward or D?",
+        choices=[("f", "Forward"), ("d", "D")]
     )
     submit = SubmitField("Predict!")
