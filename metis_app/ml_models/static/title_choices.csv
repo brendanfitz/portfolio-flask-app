@@ -1,18 +1,18 @@
 value,label
-Rare,the Countess
-Rare,Mlle
-Rare,Lady
-Rare,Sir
-Rare,Mme
-Rare,Jonkheer
-Rare,Don
-Miss,Ms
-Miss,Miss
-Mrs,Mrs
-Master,Master
-Army,Major
-Army,Col
-Navy,Capt
-Religious,Rev
-Medical,Dr
-Mr,Mr
+rare,the Countess
+rare,Mlle
+rare,Lady
+rare,Sir
+rare,Mme
+rare,Jonkheer
+rare,Don
+miss,Ms
+miss,Miss
+mrs,Mrs
+master,Master
+army,Major
+army,Col
+navy,Capt
+religious,Rev
+medical,Dr
+mr,Mr

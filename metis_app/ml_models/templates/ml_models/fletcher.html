@@ -3,15 +3,15 @@
 {% block content %}
 <div class="row justify-content-md-center">
   <div class="col col-lg-12">
-    {% if prediction == 1 %}
+    {%- if prediction == 1 %}
     <p class="text-center">Congrats! Our model predicts your pitch <span class="font-weight-bold">will be funded</span>!</p>
     <p class="text-center">Fill out another pitch to get another prediction!</p>
-    {% elif prediction == 0 %}
+    {%- elif prediction == 0 %}
     <p class="text-center">Sorry, our model predicts your pitch <span class="font-weight-bold">will not be funded :(</span></p>
     <p class="text-center">Fill out another pitch to get another prediction!</p>
-    {% else %}
+    {%- else %}
     <p class="text-center">Fill out the below form with your pitch and we'll predict whether it'll be funded or not!</p>
-    {% endif %}
+    {%- endif %}
     <hr>
     <form method="post">
       <div class="form-group">

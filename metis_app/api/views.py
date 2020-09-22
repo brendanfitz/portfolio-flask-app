@@ -8,7 +8,7 @@ import os
 from metis_app.api.yield_curve import get_yield_curve
 from metis_app.api.index_component_stock_weightings import scrape_index_component_stocks
 from metis_app.api.schiller_pe_ratio import scrape_schiller_pe_ratio_data
-from metis_app.ml_models.pickle_imports import aws_download
+from metis_app.ml_models.aws_util import aws_download
 import json
 
 ALLOWED_EXCEL_FILENAMES = [
