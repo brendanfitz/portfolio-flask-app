@@ -53,7 +53,7 @@ def models(name):
                 prediction = response.json()['prediction']
             elif name == 'nhl_goals':
                 url = DOMAIN_ADDR + 'nhl_player_season_scoring_total'
-                response = requests.get(url, params=payload)
+                response = requests.get(url, params=payload, timeout=DEFAULT_TIMEOUT)
                 prediction = response.json()['prediction']
             else:
                 abort(404)
