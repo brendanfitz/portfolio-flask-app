@@ -12,6 +12,7 @@ import requests
 ml_models = Blueprint('ml_models', __name__, template_folder="templates/ml_models")
 
 DOMAIN_ADDR = 'http://192.168.0.162/'
+DEFAULT_TIMEOUT = 1.5
 
 def payload_from_form(form):
     payload = dict()
@@ -32,29 +33,32 @@ def models(name):
     title = model_data['title']
 
     if request.method == 'POST':
-        payload = payload_from_form(form)
-        if name == 'luther':
-            url = DOMAIN_ADDR + 'movie_roi' 
-            response = requests.get(url, params=payload)
-            prediction = response.json()['prediction']
-        elif name == 'mcnulty':
-            url = DOMAIN_ADDR + 'lending_club_loan_default' 
-            response = requests.get(url, params=payload)
-            prediction = response.json()['prediction']
-        elif name == 'fletcher':
-            url = DOMAIN_ADDR + 'kickstarter_pitch_outcome' 
-            response = requests.post(url, json=payload)
-            prediction = response.json()['prediction']
-        elif name == 'titantic':
-            url = DOMAIN_ADDR + 'titanic'
-            response = requests.get(url, params=payload)
-            prediction = response.json()['prediction']
-        elif name == 'nhl_goals':
-            url = DOMAIN_ADDR + 'nhl_player_season_scoring_total'
-            response = requests.get(url, params=payload)
-            prediction = response.json()['prediction']
-        else:
-            abort(404)
+        try:
+            payload = payload_from_form(form)
+            if name == 'luther':
+                url = DOMAIN_ADDR + 'movie_roi' 
+                response = requests.get(url, params=payload, timeout=DEFAULT_TIMEOUT)
+                prediction = response.json()['prediction']
+            elif name == 'mcnulty':
+                url = DOMAIN_ADDR + 'lending_club_loan_default' 
+                response = requests.get(url, params=payload, timeout=DEFAULT_TIMEOUT)
+                prediction = response.json()['prediction']
+            elif name == 'fletcher':
+                url = DOMAIN_ADDR + 'kickstarter_pitch_outcome' 
+                response = requests.post(url, json=payload, timeout=DEFAULT_TIMEOUT)
+                prediction = response.json()['prediction']
+            elif name == 'titantic':
+                url = DOMAIN_ADDR + 'titanic'
+                response = requests.get(url, params=payload, timeout=DEFAULT_TIMEOUT)
+                prediction = response.json()['prediction']
+            elif name == 'nhl_goals':
+                url = DOMAIN_ADDR + 'nhl_player_season_scoring_total'
+                response = requests.get(url, params=payload)
+                prediction = response.json()['prediction']
+            else:
+                abort(404)
+        except requests.exceptions.Timeout: 
+            abort(503) # service unavailable
         return render_template(template, model=True, form=form, title=title, prediction=prediction)
 
     return render_template(template, model=True, title=title, form=form)
