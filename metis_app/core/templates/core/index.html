@@ -6,22 +6,7 @@
     <div class="card">
       <h4 class="card-header">Blogs</h4>
       <div class="card-body">
-        <div class="row">
-          <div class="col-6">
-            <ul>
-              {% for blog_data in blog_db[0:3] %}
-              <li><a href="{{url_for('blog_posts.blog', name=blog_data.id)}}">{{blog_data.title}}</a></li>
-              {% endfor %}
-            </ul>
-          </div>
-          <div class="col-6">
-            <ul>
-              {% for blog_data in blog_db[3:] %}
-              <li><a href="{{url_for('blog_posts.blog', name=blog_data.id)}}">{{blog_data.title}}</a></li>
-              {% endfor %}
-            </ul>
-          </div>
-        </div>
+        {% include "carousel.html" -%}
       </div>
       <div class="card-footer">
         <a href="{{url_for('core.site_section_list', template_name='blogs_list')}}">Click Here for More Blogs...</a>
