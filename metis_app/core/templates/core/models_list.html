@@ -1,20 +1,21 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="row">
-  <div class="container col-sm-10">
-    <div class="card">
-      <h4 class="card-header">Models</h4>
-      <div class="card-body">
-        <ul>
-          <li><a href="{{url_for('ml_models.models', name='mcnulty')}}">Lending Club Loan Default Prediction Model</a></li>
-          <li><a href="{{url_for('ml_models.models', name='nhl_goals')}}">NHL Goals Scored Prediction Model</a></li>
-          <li><a href="{{url_for('ml_models.models', name='titantic')}}">Would You Survive The Titantic?</a></li>
-          <li><a href="{{url_for('ml_models.models', name='fletcher')}}">Kickstarter Pitch Funding Outcome Prediction Model</a></li>
-          <li><a href="{{url_for('ml_models.models', name='luther')}}">Movie ROI Predictor</a></li>
-        </ul>
+<div class="jumbotron" style="padding: 1rem 2rem">
+  <h1 class="display-4">Models</h1>
+</div>
+<div class="container">
+  <div class="row d-flex">
+    {% for ml_model in ml_db %}
+    <div class="col-md-4 mb-4 d-flex align-items-stretch">
+      <div class="card flex-fill">
+        <div class="card-body">
+          <h5 class="card-title">{{ ml_model.title }}</h5>
+          <a href="{{url_for('ml_models.models', name=ml_model.id)}}" class="btn btn-primary">Go</a>
+        </div>
       </div>
     </div>
+    {% endfor %}
   </div>
 </div>
 {% endblock %}
