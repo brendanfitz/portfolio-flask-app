@@ -3,61 +3,65 @@
 {% block content %}
 <div class="row">
   <div class="col-sm-10 col-md-12">
-    <div class="card">
-      <h4 class="card-header">Blogs</h4>
-      <div class="card-body">
-        <div class="row">
-          <div class="col-6">
-            <ul>
-              {% for blog_data in blog_db[0:3] %}
-              <li><a href="{{url_for('blog_posts.blog', name=blog_data.id)}}">{{blog_data.title}}</a></li>
-              {% endfor %}
-            </ul>
-          </div>
-          <div class="col-6">
-            <ul>
-              {% for blog_data in blog_db[3:] %}
-              <li><a href="{{url_for('blog_posts.blog', name=blog_data.id)}}">{{blog_data.title}}</a></li>
-              {% endfor %}
-            </ul>
+    <div id="accordion">
+
+      <div class="card">
+        <div class="card-header" id="blogsHeading">
+          <h5 class="mb-0">
+            <button class="btn btn-light btn-lg btn-block" data-toggle="collapse" data-target="#blogsContent" aria-expanded="true" aria-controls="blogsContent">
+              Blogs
+            </button>
+          </h5>
+        </div>
+      </div>
+
+      <div id="blogsContent" class="collapse show" aria-labelledby="blogsHeading" data-parent="#accordion">
+        <div class="card-body">
+          {% include "carousels/blogs_carousel.html" -%}
+          <div class="d-flex justify-content-center my-2">
+            <a href="{{url_for('core.site_section_list', template_name='blogs_list')}}" class="btn btn-dark">All Blogs</a>
           </div>
         </div>
       </div>
-      <div class="card-footer">
-        <a href="{{url_for('core.site_section_list', template_name='blogs_list')}}">Click Here for More Blogs...</a>
+
+      <div class="card">
+        <div class="card-header" id="modelsHeading">
+          <h5 class="mb-0">
+            <button class="btn btn-light btn-lg btn-block" data-toggle="collapse" data-target="#modelsContent" aria-expanded="false" aria-controls="modelsContent">
+              Models 
+            </button>
+          </h5>
+        </div>
       </div>
-    </div>
-  </div>
-</div>
-<div class="row mt-2">
-  <div class="col-sm-10 col-md-6">
-    <div class="card">
-      <h4 class="card-header">Models</h4>
-      <div class="card-body">
-        <ul>
-          <li><a href="{{url_for('ml_models.models', name='mcnulty')}}">Lending Club Loan Default Prediction Model</a></li>
-          <li><a href="{{url_for('ml_models.models', name='nhl_goals')}}">NHL Goals Scored Prediction Model</a></li>
-          <li><a href="{{url_for('ml_models.models', name='titantic')}}">Would You Survive The Titantic?</a></li>
-        </ul>
+
+      <div id="modelsContent" class="collapse" aria-labelledby="modelsHeading" data-parent="#accordion">
+        <div class="card-body">
+          {% include "carousels/models_carousel.html" -%}
+          <div class="d-flex justify-content-center my-2">
+            <a href="{{url_for('core.site_section_list', template_name='models_list')}}" class="btn btn-dark">All Models</a>
+          </div>
+        </div>
       </div>
-      <div class="card-footer">
-        <a href="{{url_for('core.site_section_list', template_name='models_list')}}">Click Here for More Models...</a>
+
+      <div class="card">
+        <div class="card-header" id="visualsHeading">
+          <h5 class="mb-0">
+            <button class="btn btn-light btn-lg btn-block" data-toggle="collapse" data-target="#visualsContent" aria-expanded="false" aria-controls="visualsContent">
+              Visualizations
+            </button>
+          </h5>
+        </div>
       </div>
-    </div>
-  </div>
-  <div class="col-sm-10 col-md-6">
-    <div class="card">
-      <h4 class="card-header">Visuals <em>(D3.js)</em></h4>
-      <div class="card-body">
-        <ul>
-          {% for visual_data in visuals_db %}
-          <li><a href="{{url_for('visuals.visual', name=visual_data.id)}}">{{visual_data.title}}</a></li>
-          {% endfor %}
-        </ul>
+
+      <div id="visualsContent" class="collapse" aria-labelledby="visualsHeading" data-parent="#accordion">
+        <div class="card-body">
+          {% include "carousels/visuals_carousel.html" -%}
+          <div class="d-flex justify-content-center my-2">
+            <a href="{{url_for('core.site_section_list', template_name='visuals_list')}}" class="btn btn-dark">All Visuals</a>
+          </div>
+        </div>
       </div>
-      <div class="card-footer">
-        <a href="{{url_for('core.site_section_list', template_name='visuals_list')}}">Click Here for More Visuals...</a>
-      </div>
+
     </div>
   </div>
 </div>

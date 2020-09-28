@@ -1,18 +1,21 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="row">
-  <div class="container col-sm-10">
-    <div class="card">
-      <h4 class="card-header">Blogs</h4>
-      <div class="card-body">
-        <ul>
-          {% for blog_data in blog_db %}
-          <li><a href="{{url_for('blog_posts.blog', name=blog_data.id)}}">{{blog_data.title}}</a></li>
-          {% endfor %}
-        </ul>
+<div class="jumbotron" style="padding: 1rem 2rem">
+  <h1 class="display-4">Blogs</h1>
+</div>
+<div class="container">
+  <div class="row d-flex">
+    {% for blog_data in blog_db %}
+    <div class="col-md-4 mb-4 d-flex align-items-stretch">
+      <div class="card flex-fill">
+        <div class="card-body">
+          <h5 class="card-title">{{ blog_data.title }}</h5>
+          <a href="{{url_for('blog_posts.blog', name=blog_data.id)}}" class="btn btn-dark">Read</a>
+        </div>
       </div>
     </div>
+    {% endfor %}
   </div>
 </div>
 {% endblock %}
