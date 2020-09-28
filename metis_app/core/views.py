@@ -10,12 +10,11 @@ core = Blueprint('core', __name__, template_folder='templates/core')
 
 @core.route('/')
 def index():
-    blog_db_paginated = [blog_db[i:min(i+3, len(blog_db))] for i in range(0, len(blog_db), 3)]
     kwargs = dict(
         homepage=True,
         blog_db=blog_db[:6],
-        visuals_db=visuals_db[:3],
-        blog_db_paginated=blog_db_paginated,
+        visuals_db=visuals_db[:6],
+        ml_db=ml_db[:6],
     )
     return render_template('index.html', **kwargs)
 
