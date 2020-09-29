@@ -180,3 +180,17 @@ h3 + p {
 .simpletable th {
   border: none;
 }
+
+.card-gradient {
+  background: radial-gradient(circle, rgba(52,58,64,1) 0%, rgba(52,54,64,1) 17%, rgba(0,156,255,1) 100%);
+}
+
+.btn-outline-white {
+  color: #fff !important;
+  background-color: transparent !important;
+  border: 2px solid #fff !important;
+}
+
+.btn-rounded {
+  border-radius: 10em;
+}
