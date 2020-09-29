@@ -197,5 +197,5 @@ h3 + p {
 }
 
 .card-title-height {
-  height: 4em;
+  min-height: 4em;
 }
