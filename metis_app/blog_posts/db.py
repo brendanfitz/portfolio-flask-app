@@ -91,12 +91,12 @@ blog_db = [
     },
     {
         'id': 'nhldotcom-api-part1',
-        'title': 'Hacking NHL.com\'s API - Part 1: Uncovering the API Host',
+        'title': 'Hacking NHL.com\'s API Part 1: Uncovering the API Host',
         'date_posted': '2020-05-14',
     },
     {
         'id': 'nhldotcom-api-part2',
-        'title': 'Hacking NHL.com\'s API - Part 2: Deconstructing and Reconstructing the API Endpoint',
+        'title': 'Hacking NHL.com\'s API Part 2: Deconstructing & Reconstructing the API Endpoint',
         'date_posted': '2020-05-15',
     },
     {

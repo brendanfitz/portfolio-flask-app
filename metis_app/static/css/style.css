@@ -195,3 +195,7 @@ h3 + p {
 .btn-rounded {
   border-radius: 10em;
 }
+
+.card-title-height {
+  height: 4em;
+}
