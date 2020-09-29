@@ -1,3 +1,4 @@
+{%- from "create_card.html" import create_card with context -%}
 {% extends "base.html" %}
 
 {% block content %}
@@ -6,14 +7,9 @@
 </div>
 <div class="container">
   <div class="row d-flex">
-    {% for ml_model in ml_db %}
+    {% for model in ml_db %}
     <div class="col-md-4 mb-4 d-flex align-items-stretch">
-      <div class="card flex-fill">
-        <div class="card-body">
-          <h5 class="card-title">{{ ml_model.title }}</h5>
-          <a href="{{url_for('ml_models.models', name=ml_model.id)}}" class="btn btn-dark">Go</a>
-        </div>
-      </div>
+      {{ create_card('model', model.id, model.title) }}
     </div>
     {% endfor %}
   </div>
