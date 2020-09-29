@@ -2,7 +2,9 @@
 
 {%-
     set card_types = {
-        'blog': {'endpoint': 'blog_posts.blog', 'button_text': 'Read'}
+        'blog': {'endpoint': 'blog_posts.blog', 'button_text': 'Read'},
+        'model': {'endpoint': 'ml_models.models', 'button_text': 'Predict'},
+        'visual': {'endpoint': 'visuals.visual', 'button_text': 'Go'},
     }
 -%}
 {%-
@@ -12,7 +14,7 @@
     set button_text = card_types[card_type]['button_text']
 -%}
 
-<div class="card card-gradient border-dark">
+<div class="card card-gradient border-dark flex-fill">
   <div class="card-body text-center">
     <h5 class="card-title text-light font-weight-bold mb-4">{{title}}</h5>
     <a href="{{url_for(endpoint, name=endpoint_name)}}" class="btn btn-outline-white btn-rounded">
