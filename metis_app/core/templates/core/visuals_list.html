@@ -1,3 +1,4 @@
+{%- from "create_card.html" import create_card with context -%}
 {% extends "base.html" %}
 
 {% block content %}
@@ -8,12 +9,7 @@
   <div class="row d-flex">
     {% for visual in visuals_db %}
     <div class="col-md-4 mb-4 d-flex align-items-stretch">
-      <div class="card flex-fill">
-        <div class="card-body">
-          <h5 class="card-title">{{ visual.title }}</h5>
-          <a href="{{url_for('visuals.visual', name=visual.id)}}" class="btn btn-dark">Go</a>
-        </div>
-      </div>
+      {{ create_card('visual', visual.id, visual.title) }}
     </div>
     {% endfor %}
   </div>

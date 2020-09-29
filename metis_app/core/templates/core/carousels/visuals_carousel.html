@@ -1,3 +1,4 @@
+{%- from "create_card.html" import create_card with context -%}
 <div id="carouselVisuals" class="carousel slide" data-ride="carousel">
   <div class="d-flex justify-content-center mb-2">
     <a class="btn btn-dark mx-1" href="#carouselVisuals" role="button" data-slide="prev">
@@ -15,12 +16,7 @@
     <div {% if loop.first -%}class="carousel-item active"{%- else -%}class="carousel-item"{%- endif -%}>
       <div class="row d-flex justify-content-center">
         <div class="col-md-4">
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title">{{visual.title}}</h5>
-              <a href="{{url_for('visuals.visual', name=visual.id)}}" class="btn btn-dark">Read</a>
-            </div>
-          </div>
+          {{ create_card('visual', visual.id, visual.title) }}
         </div>
       </div>
     </div>
