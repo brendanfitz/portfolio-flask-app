@@ -24,52 +24,7 @@
     <link rel="shortcut icon" href="{{ url_for('static', filename='img/redhead-favicon.jpg')}}">
   </head>
   <body>
-    <nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-dark">
-      <div class="container">
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-              <a class="navbar-brand" href="{{url_for('core.index')}}">BRENDAN/FITZPATRICK</a>
-            </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Site Sections
-              </a>
-              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="{{url_for('core.site_section_list', template_name='blogs_list')}}">Blogs</a>
-                <a class="dropdown-item" href="{{url_for('core.site_section_list', template_name='models_list')}}">Models</a>
-                <a class="dropdown-item" href="{{url_for('core.site_section_list', template_name='visuals_list')}}">Visuals</a>
-              </div>
-            </li>
-          </ul>
-          <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-              <a class="nav-link" href="mailto:brendanjfitzpatrick0@gmail.com">
-                <i class="fas fa-envelope"></i>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="https://github.com/brendanfitz">
-                <i class="fab fa-github"></i>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="https://www.linkedin.com/in/brendanfitzpatrick11/">
-                <i class="fab fa-linkedin"></i>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="https://www.twitter.com/bf2398">
-                <i class="fab fa-twitter"></i>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{{url_for('core.about')}}">About</a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
+    {% include "navbar.html" %}
     <div class="container">
       {% if title %}
       <header class="masthead">
