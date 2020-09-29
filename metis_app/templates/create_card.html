@@ -1,0 +1,24 @@
+{% macro create_card(card_type, endpoint_name, title) %}
+
+{%-
+    set card_types = {
+        'blog': {'endpoint': 'blog_posts.blog', 'button_text': 'Read'}
+    }
+-%}
+{%-
+    set endpoint = card_types[card_type]['endpoint']
+-%}
+{%-
+    set button_text = card_types[card_type]['button_text']
+-%}
+
+<div class="card card-gradient border-dark">
+  <div class="card-body text-center">
+    <h5 class="card-title text-light font-weight-bold mb-4">{{title}}</h5>
+    <a href="{{url_for(endpoint, name=endpoint_name)}}" class="btn btn-outline-white btn-rounded">
+      <span class="ml-2">{{button_text}}</span>
+      <i class="fab fa-readme mx-2"></i>
+    </a>
+  </div>
+</div>
+{%- endmacro %}
