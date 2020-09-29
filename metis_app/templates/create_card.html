@@ -2,9 +2,21 @@
 
 {%-
     set card_types = {
-        'blog': {'endpoint': 'blog_posts.blog', 'button_text': 'Read'},
-        'model': {'endpoint': 'ml_models.models', 'button_text': 'Predict'},
-        'visual': {'endpoint': 'visuals.visual', 'button_text': 'Go'},
+        'blog': {
+          'endpoint': 'blog_posts.blog',
+          'button_text': 'Read',
+          'icon': 'fab fa-readme',
+        },
+        'model': {
+          'endpoint': 'ml_models.models',
+          'button_text': 'Predict',
+          'icon': 'fas fa-calculator',
+        },
+        'visual': {
+          'endpoint': 'visuals.visual',
+          'button_text': 'Visualize',
+          'icon': 'fas fa-chart-line',
+        },
     }
 -%}
 {%-
@@ -13,13 +25,16 @@
 {%-
     set button_text = card_types[card_type]['button_text']
 -%}
+{%-
+    set icon = card_types[card_type]['icon']
+-%}
 
 <div class="card card-gradient border-dark flex-fill">
   <div class="card-body text-center">
     <h5 class="card-title text-light font-weight-bold mb-4">{{title}}</h5>
-    <a href="{{url_for(endpoint, name=endpoint_name)}}" class="btn btn-outline-white btn-rounded">
+    <a href="{{url_for(endpoint, name=endpoint_name)}}" class="btn btn-outline-white btn-rounded px-3">
       <span class="ml-2">{{button_text}}</span>
-      <i class="fab fa-readme mx-2"></i>
+      <i class="{{icon}} mx-2"></i>
     </a>
   </div>
 </div>
