@@ -2,14 +2,27 @@
 
 {% block content %}
 <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="modelSelect">Select Anomaly Detection Model</label>
+          <select id="modelSelect" class="form-control">
+            <option value="DBSCAN">DBScan</option>
+            <option value="IsolationForest">IsolationForest</option>
+            <option value="PCA Z-Score">PCA P-Value</option>
+          </select>
+        </div>
+      </div>
+
+    </div>
     <div class="row">
       <div class="col-md-12">
         <div id="chart-area"></div>
       </div>
     </div>
-    <div class="row">
-      <div class="col-md-6 d-flex justify-content-center">
-        <span id="source"><em>* Data sourced from <a href="#">nba.com</a></em></span>
+    <div class="row mt-4">
+      <div class="col d-flex justify-content-center">
+        <span id="source"><em>* Data sourced from <a href="https://stats.nba.com/players/bio/?Season=2019-20&SeasonType=Regular%20Season">nba.com</a></em></span>
       </div>
     </div>
     <br>
