@@ -1,5 +1,9 @@
 visuals_db = [
     {
+        'id': 'nba-biometrics',
+        'title': 'NBA Bio-Metrics Anomaly Analysis',
+    },
+    {
         'id': 'nhl_playoff_race_dashboard',
         'title': 'NHL Playoff Race Dashboard',
     },
@@ -38,9 +42,5 @@ visuals_db = [
     {
         'id': 'nhl-player-stats-by-season',
         'title': 'NHL Player Stats By Season',
-    },
-    {
-        'id': 'nba-biometrics',
-        'title': 'NBA Bio-Metrics Anomaly Analysis',
     },
 ]
