@@ -1,9 +1,11 @@
-var margin = {top: 20, right: 20, bottom: 30, left: 40},
-    width = 960 - margin.left - margin.right,
-    height = 500 - margin.top - margin.bottom;
+var margin = {top: 15, right: 10, bottom: 22.5, left: 30},
+    width = 720 - margin.left - margin.right,
+    height = 375 - margin.top - margin.bottom;
 
-var colorColumn, dataCleaned;
-colorColumn = 'DBSCAN Results'
+var colorColumn, dataCleaned, opacity;
+
+colorColumn = 'DBSCAN Results';
+opacity = 0.65
 /* 
  * value accessor - returns the value to encode for a given data object.
  * scale - maps value to a visual display encoding, such as a pixel position.
@@ -47,8 +49,8 @@ function color(d) {
 var svg = d3.select("#chart-area")
   .append("svg")
     .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
-  .append("g")
+    .attr("height", height + margin.top + margin.bottom);
+  g = svg.append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 // add the tooltip area to the webpage
@@ -74,8 +76,9 @@ d3.csv("/visuals/static/js/data/nba_biometrics_analysis.csv", function(error, da
   yScale.domain([d3.min(data, yValue)-ybuffer, d3.max(data, yValue)+ybuffer]);
 
   // x-axis
-  svg.append("g")
+  g.append("g")
       .attr("class", "x axisNBA")
+      .style("font-size", "0.75rem")
       .attr("transform", "translate(0," + height + ")")
       .call(xAxis)
     .append("text")
@@ -86,7 +89,8 @@ d3.csv("/visuals/static/js/data/nba_biometrics_analysis.csv", function(error, da
       .text("Height (Inches)");
 
   // y-axis
-  svg.append("g")
+  g.append("g")
+      .style("font-size", "0.75rem")
       .attr("class", "y axisNBA")
       .call(yAxis)
     .append("text")
@@ -98,7 +102,7 @@ d3.csv("/visuals/static/js/data/nba_biometrics_analysis.csv", function(error, da
       .text("Weight (lbs)");
 
   // draw dots
-  svg.selectAll(".dot")
+  g.selectAll(".dot")
       .data(data)
     .enter().append("circle")
       .attr("class", "dot")
@@ -106,13 +110,14 @@ d3.csv("/visuals/static/js/data/nba_biometrics_analysis.csv", function(error, da
       .attr("cx", xMap)
       .attr("cy", yMap)
       .style("fill", function(d) { return color(d);}) 
+      .style("opacity", opacity)
       .on("mouseover", function(d) {
           tooltip.transition()
                .duration(200)
                .style("opacity", .9);
-          tooltip.html(d["Player"] + "<br/> (" + xValue(d) 
-	        + ", " + yValue(d) + ")")
-               .style("left", (d3.event.pageX + 5) + "px")
+          tooltip.html("<strong>" + d["Player"] + "</strong><br/> (" + xValue(d) 
+	        + " in, " + yValue(d) + " lbs)")
+               .style("left", (d3.event.pageX + 10) + "px")
                .style("top", (d3.event.pageY - 28) + "px");
       })
       .on("mouseout", function(d) {
@@ -122,7 +127,7 @@ d3.csv("/visuals/static/js/data/nba_biometrics_analysis.csv", function(error, da
       });
 
   // draw legend
-  var legend = svg.selectAll(".legend")
+  var legend = g.selectAll(".legend")
       .data(Object.keys(colorMap[colorColumn]))
     .enter().append("g")
       .attr("class", "legend")
@@ -131,17 +136,21 @@ d3.csv("/visuals/static/js/data/nba_biometrics_analysis.csv", function(error, da
   // draw legend colored rectangles
   legend.append("rect")
       .attr("x", width - 18)
-      .attr("y", height - 120 - 9)
+      .attr("y", height - 100 - 9)
       .attr("width", 18)
       .attr("height", 18)
-      .style("fill", function(d) { return colorMap[colorColumn][d]; });
+      .style("fill", function(d) { return colorMap[colorColumn][d]; })
+      .style("opacity", opacity)
+      .style("stroke", "rgb(0,0,0)")
+      .style("stroke-width", "1px");
 
   // draw legend text
   legend.append("text")
       .attr("x", width - 24)
-      .attr("y", height - 120)
+      .attr("y", height - 100)
       .attr("dy", ".35em")
       .style("text-anchor", "end")
+      .style("font-size", "0.75rem")
       .text(function(d) { return d;})
   
   dataCleaned = data;
