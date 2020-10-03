@@ -23,7 +23,7 @@ var xValue = function(d) { return d['Height (Inches)']; }, // data -> value
 var yValue = function(d) { return d["Weight"]; }, // data -> value
     yScale = d3.scaleLinear().range([height, 0]), // value -> display
     yMap = function(d) { return yScale(yValue(d)); }, // data -> display
-    yAxis = d3.axisLeft(yScale);
+    yAxis = d3.axisLeft(yScale).tickSizeOuter(0);
 
 var colorMap = {
     'DBSCAN Results': {
@@ -79,11 +79,13 @@ d3.csv("/visuals/static/js/data/nba_biometrics_analysis.csv").then(function(data
       .attr("class", "x axisNBA")
       .style("font-size", "0.75rem")
       .attr("transform", "translate(0," + height + ")")
-      .call(xAxis)
-    .append("text")
+      .call(xAxis);
+  // x-axis label
+  g.append("text")
       .attr("class", "label")
       .attr("x", width)
-      .attr("y", -6)
+      .attr("y", height - 10)
+      .style("font-size", "0.75rem")
       .style("text-anchor", "end")
       .text("Height (Inches)");
 
@@ -92,11 +94,14 @@ d3.csv("/visuals/static/js/data/nba_biometrics_analysis.csv").then(function(data
       .style("font-size", "0.75rem")
       .attr("class", "y axisNBA")
       .call(yAxis)
-    .append("text")
+  // y-axis label
+  g.append("text")
       .attr("class", "label")
       .attr("transform", "rotate(-90)")
+      .attr("x", 5)
       .attr("y", 6)
       .attr("dy", ".71em")
+      .style("font-size", "0.75rem")
       .style("text-anchor", "end")
       .text("Weight (lbs)");
 
@@ -158,7 +163,6 @@ d3.csv("/visuals/static/js/data/nba_biometrics_analysis.csv").then(function(data
 
 $('#modelSelect').on('change', function() {
   colorColumn = this.value + ' Results';
-  console.log(colorColumn);
   changeColor(dataCleaned);
 })
 
