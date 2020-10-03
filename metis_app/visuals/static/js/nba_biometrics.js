@@ -15,15 +15,15 @@ opacity = 0.65
 
 // setup x 
 var xValue = function(d) { return d['Height (Inches)']; }, // data -> value
-    xScale = d3.scale.linear().range([0, width]), // value -> display
+    xScale = d3.scaleLinear().range([0, width]), // value -> display
     xMap = function(d) { return xScale(xValue(d)); }, // data -> display
-    xAxis = d3.svg.axis().scale(xScale).orient("bottom");
+    xAxis = d3.axisBottom(xScale);
 
 // setup y
 var yValue = function(d) { return d["Weight"]; }, // data -> value
-    yScale = d3.scale.linear().range([height, 0]), // value -> display
+    yScale = d3.scaleLinear().range([height, 0]), // value -> display
     yMap = function(d) { return yScale(yValue(d)); }, // data -> display
-    yAxis = d3.svg.axis().scale(yScale).orient("left");
+    yAxis = d3.axisLeft(yScale);
 
 var colorMap = {
     'DBSCAN Results': {
@@ -59,10 +59,9 @@ var tooltip = d3.select("body").append("div")
     .style("opacity", 0);
 
 // load data
-d3.csv("/visuals/static/js/data/nba_biometrics_analysis.csv", function(error, data) {
+d3.csv("/visuals/static/js/data/nba_biometrics_analysis.csv").then(function(data) {
 
   // change string (from CSV) into number format
-
   data.forEach(function(d) {
     d["Height (Inches)"] = +d["Height (Inches)"];
     d["Weight"] = +d["Weight"];
@@ -117,8 +116,9 @@ d3.csv("/visuals/static/js/data/nba_biometrics_analysis.csv", function(error, da
                .style("opacity", .9);
           tooltip.html("<strong>" + d["Player"] + "</strong><br/> (" + xValue(d) 
 	        + " in, " + yValue(d) + " lbs)")
+               .style("font-size", "0.75rem")
                .style("left", (d3.event.pageX + 10) + "px")
-               .style("top", (d3.event.pageY - 28) + "px");
+               .style("top", (d3.event.pageY - 15) + "px");
       })
       .on("mouseout", function(d) {
           tooltip.transition()
