@@ -1,5 +1,9 @@
 visuals_db = [
     {
+        'id': 'nba-biometrics',
+        'title': 'NBA Bio-Metrics Anomaly Analysis',
+    },
+    {
         'id': 'nhl_playoff_race_dashboard',
         'title': 'NHL Playoff Race Dashboard',
     },

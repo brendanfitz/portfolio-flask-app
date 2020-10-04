@@ -200,6 +200,24 @@ h3 + p {
   min-height: 4em;
 }
 
+.axisNBA path,
+.axisNBA line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.dot {
+  stroke: #000;
+}
+
+.tooltip {
+  position: absolute;
+  width: 200px;
+  height: 28px;
+  pointer-events: none;
+}
+
 a.dropdown-item:hover {
   background-color: #138496;
 }

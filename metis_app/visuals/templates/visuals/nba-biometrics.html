@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-10">
+        <div id="chart-area"></div>
+      </div>
+      <div class="col-md-2">
+        <div class="form-group">
+          <label for="modelSelect" class="font-weight-bold" style="font-size: 0.75rem">Anomaly Detection Model</label>
+          <select id="modelSelect" class="form-control" style="font-size: 0.75rem">
+            <option value="DBSCAN">DBScan</option>
+            <option value="IsolationForest">IsolationForest</option>
+            <option value="PCA Z-Score">PCA P-Value</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="row mt-4">
+      <div class="col d-flex justify-content-center">
+        <span id="source"><em>* Data sourced from <a href="https://stats.nba.com/players/bio/?Season=2019-20&SeasonType=Regular%20Season">nba.com</a></em></span>
+      </div>
+    </div>
+    <br>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.16.0/d3.min.js"></script>
+<script src="{{ url_for('visuals.static', filename='js/nba_biometrics.js') }}"></script>
+
+{% endblock %}
