@@ -41,15 +41,8 @@
         </div>
         {% endif %}
       </header>
-      {% if blog or model -%}
-      <div class="row">
-        <div class="container col-md-8">
-      {% endif %}
         {% block content -%}
-        {% endblock %}
-      {% if blog or model -%}
-        </div>
-      </div>{% endif %}
+        {%- endblock %}
     </div>
     <br>
     <script src="{{ url_for('static', filename='js/prism.js') }}"></script>

@@ -1,6 +1,6 @@
-{% extends "base.html" %}
+{% extends "blogs_base.html" %}
 
-{% block content %}
+{% block blog_content %}
 <p>
   If I were to be honest with myself, I'd have to admit I'm a bit type-A.
   This can be both a blessing and a curse. For example, a blessing is that my apartment is always clean.
@@ -29,6 +29,4 @@
 <p>
   <a href="{{url_for('api.excel_downloads', filename='Workout_Log.xlsx')}}">Click here to download my workout log excel</a>
 </p>
-
-
 {% endblock %}
