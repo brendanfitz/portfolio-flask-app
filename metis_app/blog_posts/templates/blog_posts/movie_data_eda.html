@@ -1,7 +1,6 @@
-{% extends "base.html" %}
+{% extends "blogs_base.html" %}
 
-{% block content %}
-
+{% block blog_content %}
 <p>Before starting, standard data import and cleaning.</p>
 <pre><code class="language-py">{% include "include_docs/movie_data_eda/code1.py" %}</code></pre>
 <p>Our data is the top 100 movies by box office gross from 2008 - 2018</p>
@@ -20,5 +19,4 @@
 <p>If you want to make money in movies, make horror films.</p>
 <pre class="language-python"><code>{% include "include_docs/movie_data_eda/code4.py" %}</code></pre>
 <img src="{{url_for('blog_posts.static', filename='genre_roi.png')}}" class="img-thumbnail img-fluid mx-auto d-block pic-margins">
-
 {% endblock %}
