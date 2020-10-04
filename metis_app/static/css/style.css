@@ -217,3 +217,7 @@ h3 + p {
   height: 28px;
   pointer-events: none;
 }
+
+a.dropdown-item:hover {
+  background-color: #138496;
+}
