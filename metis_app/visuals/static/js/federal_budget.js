@@ -20,13 +20,11 @@ add_record = function(obj, d, key) {
 }
 
 d3.csv("static/js/data/Mandatory or Disc Budget Outlay Allocations (2020).csv").then(function(data) {
-  console.log(data);
   data.forEach(function(d) { add_record(dorm_data, d, 'Discretionary or Mandatory'); });
   pieChart1.wrangleData(dorm_data);
 })
 
 d3.csv("static/js/data/Function Budget Outlay Allocations (2020).csv").then(function(data) {
-  console.log(data);
   data.forEach(function(d) {
     if ((d['Discretionary or Mandatory'] == 'Mandatory') && (+d.Allocation > 0)) {
       add_record(mandatory_data, d, 'Function');

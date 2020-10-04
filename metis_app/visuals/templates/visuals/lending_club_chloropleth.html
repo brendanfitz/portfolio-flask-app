@@ -1,5 +1,12 @@
 {% extends "base.html" %}
 
+{% block viz_headers %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/d3-tip.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/jquery-ui.min.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/jquery-ui.structure.min.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/jquery-ui.theme.min.css') }}">
+{% endblock %}
+
 {% block content %}
   <div id="map-chart-area"></div>
   <script src="https://d3js.org/d3.v4.min.js"></script>
