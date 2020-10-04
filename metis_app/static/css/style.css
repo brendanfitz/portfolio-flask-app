@@ -199,3 +199,7 @@ h3 + p {
 .card-title-height {
   min-height: 4em;
 }
+
+a.dropdown-item:hover {
+  background-color: #138496;
+}
