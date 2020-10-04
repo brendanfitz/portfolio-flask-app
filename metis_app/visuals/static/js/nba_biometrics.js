@@ -5,7 +5,7 @@ var margin = {top: 15, right: 10, bottom: 22.5, left: 30},
 var colorColumn, dataCleaned, opacity;
 
 colorColumn = 'DBSCAN Results';
-opacity = 0.65
+opacity = 0.70
 /* 
  * value accessor - returns the value to encode for a given data object.
  * scale - maps value to a visual display encoding, such as a pixel position.
