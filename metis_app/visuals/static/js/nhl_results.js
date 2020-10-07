@@ -1,9 +1,32 @@
-/*
-*    main.js
-*    Mastering Data Visualization with D3.js
-*    6.7 - Adding a jQuery UI slider
-*/
+/* Utility functions */
+function addDays(date, days) {
+    const copy = new Date(Number(date))
+    copy.setDate(date.getDate() + days)
+    return copy
+}
 
+function pad(s, maxlength) {
+  var pad_length = maxlength - s.length;
+  var padded_str = '&nbsp;'.repeat(pad_length) + s;
+  return padded_str;
+}
+
+function dateDiff(start_date, end_date)   {
+    //Get 1 day in milliseconds
+    var one_day=1000*60*60*24;
+
+    const diff_ms = Math.abs(end_date - start_date);
+    const diffDays = Math.round(diff_ms / one_day);
+    return diffDays;
+}
+
+function step(){
+    // At the end of our data, loop back
+    time = (time < maxTime - 1) ? time+1 : 0;
+    update(formattedData[time]);
+}
+
+/* Plot configuration */
 var margin = { left:80, right:20, top:50, bottom:100 };
 var height = 500 - margin.top - margin.bottom,
     width = 800 - margin.left - margin.right;
@@ -16,24 +39,11 @@ var g = d3.select("#chart-area")
         .attr("transform", "translate(" + margin.left +
             ", " + margin.top + ")");
 
-var time;
-var teamData = {};
-var interval;
-var formattedData;
-var maxTime;
-var formatDate = d3.timeFormat("%Y-%m-%d")
-var baseDate = new Date("2019-10-2");
-function addDays(date, days) {
-  const copy = new Date(Number(date))
-  copy.setDate(date.getDate() + days)
-  return copy
-}
+var time, teamData, interval, formattedData, maxTime, formatDate, minDate, maxDate;
 
-function pad(s, maxlength) {
-  var pad_length = maxlength - s.length;
-  var padded_str = '&nbsp;'.repeat(pad_length) + s;
-  return padded_str;
-}
+teamData = {};
+formatDate = d3.timeFormat("%Y-%m-%d");
+
 // Tooltip
 var tip = d3.tip().attr('class', 'd3-tip')
     .html(function(d) {
@@ -103,103 +113,92 @@ d3.json("/api/nhl_results").then(function(data){
     maxTime = data.length;
     // Clean data
     formattedData = data.map(function(date){
-        return date["teams"].filter(function(team){
-            return team.points;
-        }).map(function(team){
+        return date["teams"].map(function(team){
             team.games_played = +team.games_played;
             team.points = +team.points;
             return team;
         })
+    });
+
+    var dates = data.map(function(date) {
+        return new Date(date['date']);
     })
+    minDate=new Date(Math.min.apply(null,dates));
+    maxDate=new Date(Math.max.apply(null,dates));
 
     // First run of the visualization
+})
+.then(create_controls)
+.then(function() {
     time = maxTime - 1;
     update(formattedData[time]);
+});
 
-})
-
-$("#play-button")
-    .on("click", function(){
-        var button = $(this);
-        if (button.text() == "Play"){
-            button.text("Pause");
-            interval = setInterval(step, 150);
+function create_controls() {
+    $("#play-button")
+        .on("click", function(){
+            var button = $(this);
+            if (button.text() == "Play"){
+                button.text("Pause");
+                interval = setInterval(step, 150);
+            }
+            else {
+                button.text("Play");
+                clearInterval(interval);
+            }
+        })
+    
+    $("#reset-button")
+        .on("click", function(){
+            time = 0;
+            update(formattedData[time]);
+        })
+    
+    $("#current-button")
+        .on("click", function(){
+            time = maxTime - 1;
+            update(formattedData[time]);
+        })
+    
+    $("#conference-select")
+        .on("change", function(){
+            update(formattedData[time]);
+        })
+    
+    $("#division-select")
+        .on("change", function(){
+            update(formattedData[time]);
+        })
+    
+    $("#wildcard-select")
+        .on("change", function(){
+            update(formattedData[time]);
+        })
+    
+    $("#team-select")
+        .on("change", function(){
+            update(formattedData[time]);
+        })
+    
+    $("#eastern-conference-wildcard-ref")
+        .on("change", function(){
+            update(formattedData[time]);
+        })
+    
+    $("#western-conference-wildcard-ref")
+        .on("change", function(){
+            update(formattedData[time]);
+        })
+    
+    $("#date-slider").slider({
+        min: 0,
+        max:  dateDiff(maxDate, minDate),
+        step: 1,
+        slide: function(event, ui){
+            time = ui.value;
+            update(formattedData[time]);
         }
-        else {
-            button.text("Play");
-            clearInterval(interval);
-        }
     })
-
-$("#reset-button")
-    .on("click", function(){
-        time = 0;
-        update(formattedData[time]);
-    })
-
-$("#current-button")
-    .on("click", function(){
-        time = maxTime - 1;
-        update(formattedData[time]);
-    })
-
-$("#conference-select")
-    .on("change", function(){
-        update(formattedData[time]);
-    })
-
-$("#division-select")
-    .on("change", function(){
-        update(formattedData[time]);
-    })
-
-$("#wildcard-select")
-    .on("change", function(){
-        update(formattedData[time]);
-    })
-
-$("#team-select")
-    .on("change", function(){
-        update(formattedData[time]);
-    })
-
-$("#eastern-conference-wildcard-ref")
-    .on("change", function(){
-        update(formattedData[time]);
-    })
-
-$("#western-conference-wildcard-ref")
-    .on("change", function(){
-        update(formattedData[time]);
-    })
-
-function dateCalc()   {
-    seasonEnd = new Date("2020-4-4");
-    date1 = new Date();
-    // check for end of season
-    if (date1 > seasonEnd) {
-      date1 = seasonEnd;
-    }
-    date2 = baseDate;
-    const diffTime = Math.abs(date2 - date1);
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) - 1;
-    return diffDays;
-}
-
-$("#date-slider").slider({
-    min: 0,
-    max:  dateCalc(),
-    step: 1,
-    slide: function(event, ui){
-        time = ui.value;
-        update(formattedData[time]);
-    }
-})
-
-function step(){
-    // At the end of our data, loop back
-    time = (time < maxTime - 1) ? time+1 : 0;
-    update(formattedData[time]);
 }
 
 function update(data) {
@@ -299,8 +298,8 @@ function update(data) {
     }
 
     // Update the time label
-    timeLabel.text(formatDate(addDays(baseDate, time)));
-    $("#game_date")[0].innerHTML = formatDate(addDays(baseDate, time));
-    //$("#game_date")[0].innerHTML = +(time);
+    var dateString = formatDate(addDays(minDate, time));
+    timeLabel.text(dateString);
+    $("#game_date")[0].innerHTML = dateString;
     $("#date-slider").slider("value", +(time))
 }
