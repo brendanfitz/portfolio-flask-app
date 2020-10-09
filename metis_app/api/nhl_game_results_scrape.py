@@ -129,8 +129,9 @@ def create_df_wildcard(df_full):
     df = df_full.copy()
     team_data_filename = os.path.join(
         'metis_app',
+        'api',
         'static',
-        'js',
+        'api',
         'data',
         'nhl_team_data.csv'
     )
@@ -162,7 +163,7 @@ def add_wild_contender(df_full):
     team_data_filename = os.path.join(
         'metis_app',
         'static',
-        'js',
+        'api',
         'data',
         'nhl_team_data.csv'
     )
