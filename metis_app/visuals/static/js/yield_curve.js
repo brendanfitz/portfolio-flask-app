@@ -3,8 +3,18 @@
 */
 
 var margin = { left:80, right:100, top:50, bottom:100 },
-    height = 500 - margin.top - margin.bottom,
-    width = 800 - margin.left - margin.right;
+    height_wo_margins = 500,
+    width_wo_margins = 1000,
+    height = height_wo_margins - margin.top - margin.bottom,
+    width = width_wo_margins - margin.left - margin.right;
+
+var aspect_ratio_adjustment = 0.85;
+
+for (const side in margin) {
+    margin[side] = margin[side] * aspect_ratio_adjustment;
+}
+height = height_wo_margins * aspect_ratio_adjustment - margin.top - margin.bottom;
+width = width_wo_margins * aspect_ratio_adjustment - margin.left - margin.right;
 
 var svg = d3.select("#chart-area")
     .append("svg")
@@ -38,11 +48,11 @@ var xLabel = g.append("text")
 var yLabel = g.append("text")
     .attr("class", "y axisLabel")
     .attr("transform", "rotate(-90)")
-    .attr("y", -60)
-    .attr("x", -170)
+    .attr("y", -40)
+    .attr("x", -140)
     .attr("font-size", "20px")
     .attr("text-anchor", "middle")
-    .text("Yield")
+    .text("Yield (%)")
 
 // Scales
 treasurys_ord = [
