@@ -10,6 +10,7 @@ from metis_app.api.index_component_stock_weightings import scrape_index_componen
 from metis_app.api.schiller_pe_ratio import scrape_schiller_pe_ratio_data
 from metis_app.ml_models.aws_util import aws_download
 import json
+from pandas import read_csv
 
 ALLOWED_EXCEL_FILENAMES = [
     'S&P 500 Time Horizon Analysis.xlsx',
@@ -26,6 +27,7 @@ def nhl_results():
     basedir = os.path.join('metis_app', 'api', 'static', 'api', 'data')
     season_end = dt.date(2020, 4, 4)
 
+    """ if data is greater than season end return AWS file """
     if dt.date.today() > season_end:
         filename = f"nhl_results_{season_end}.json"
         if not os.path.isfile(filename):
@@ -40,11 +42,13 @@ def nhl_results():
         today = dt.datetime.today().strftime('%Y%m%d')
         filename = os.path.join(basedir, f"nhl_results_{today}.json")
 
+        """ if NHL site is scraped and the data has been saved in a file, load the file """
         if os.path.isfile(filename):
             with open(filename, 'r') as f:
                 print(filename)
                 data = json.load(f)
         else:
+            """ if not either of the first two scrape the NHL API """
             if not os.path.isdir(basedir):
                 os.makedirs(basedir)
 
@@ -53,6 +57,21 @@ def nhl_results():
             with open(filename, 'w') as f:
                 json.dump(data, f)
 
+    return jsonify(data)
+
+@api.route('/nhl-team-data')
+def nhl_team_data():
+    filename = os.path.join(
+        'metis_app',
+        'api',
+        'static',
+        'api',
+        'data',
+        'nhl_team_data.csv'
+    )
+    data = (read_csv(filename)
+        .to_json(orient='records')
+    )
     return jsonify(data)
 
 @api.route('/yield_curve/<year>')

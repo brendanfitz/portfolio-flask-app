@@ -62,7 +62,7 @@ var y = d3.scaleLinear()
     .range([height, 0])
     .domain([0, 100]);
 
-d3.csv("/static/js/data/nhl_team_data.csv").then(function(data){
+d3.csv("/api/nhl-team-data").then(function(data){
   data.forEach((item, i) => {
     teamData[item['team']] = {
       color: item['color'],

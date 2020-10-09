@@ -36,7 +36,7 @@ var svg = d3.select("#map-chart-area")
 svg.call(tip);
 
 // Load in my states data!
-d3.csv("/static/js/data/statesdata.csv", function(data) {
+d3.csv("/visuals/static/js/data/statesdata.csv", function(data) {
 	var dataArray = [];
 	for (var d = 0; d < data.length; d++) {
 		dataArray.push(parseFloat(data[d].default_rate));
@@ -46,7 +46,7 @@ d3.csv("/static/js/data/statesdata.csv", function(data) {
 	var ramp = d3.scaleLinear().domain([minVal,maxVal]).range([lowColor,highColor])
 
   // Load GeoJSON data and merge with states data
-  d3.json("/static/js/data/us-states.json", function(json) {
+  d3.json("/visuals/static/js/data/us-states.json", function(json) {
 
     // Loop through each state data value in the .csv file
     for (var i = 0; i < data.length; i++) {

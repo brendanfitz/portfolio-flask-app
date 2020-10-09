@@ -10,17 +10,18 @@
 {% block content %}
 <!-- Bootstrap grid setup -->
 <div class="container">
-    <div id="selections" class="row">
-        <div class="col-md-12 d-flex justify-content-center">
-            <div id="slider-div">
-                <label class="d-flex justify-content-center"><span id="dateLabel"></span></label>
-                <div id="date-slider"></div>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-      <div class="col-md-12">
+    <div class="row justify-content-center">
+      <div class="col-md-8">
         <div id="chart-area"></div>
+      </div>
+      <div id="selections" class="col-md-2 d-flex justify-content-center">
+          <div id="slider-div">
+            <label class="d-flex justify-content-between">
+                <span class="font-weight-bold" style="font-size: 0.75rem">Date:</span>
+                <span id="dateLabel" style="font-size: 0.75rem"></span>
+            </label>
+            <div id="date-slider"></div>
+          </div>
       </div>
     </div>
     <div class="row">
