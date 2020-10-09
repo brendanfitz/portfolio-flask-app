@@ -21,7 +21,7 @@ colors = {
   ravenclaw: "#0e1a40"
 }
 
-d3.json('/static/js/data/house_words.json', function(data) {
+d3.json('/visuals/static/js/data/house_words.json', function(data) {
 
   frequency_lists = {};
 
