@@ -5,9 +5,7 @@ from metis_app.api.nhl_game_results_scrape import nhl_scrape
 from flask import jsonify
 import datetime as dt
 import os
-from metis_app.api.yield_curve import get_yield_curve
-from metis_app.api.index_component_stock_weightings import scrape_index_component_stocks
-from metis_app.api.schiller_pe_ratio import scrape_schiller_pe_ratio_data
+from metis_app.api import get_yield_curve, StockIndexScraper, scrape_schiller_pe_ratio_data
 from metis_app.ml_models.aws_util import aws_download
 import json
 from pandas import read_csv
@@ -89,10 +87,10 @@ def excel_downloads(filename):
 @api.route('/index_component_stocks/<stock_index_name>')
 def index_component_stocks(stock_index_name):
     try:
-        data = scrape_index_component_stocks(stock_index_name, from_s3=True)
+        scraper = StockIndexScraper(stock_index_name, from_s3=True)
     except ValueError:
         abort(404)
-    return jsonify(data)
+    return jsonify(scraper.data)
 
 @api.route('/schiller_pe_ratio')
 def schiller_pe_ratio():
