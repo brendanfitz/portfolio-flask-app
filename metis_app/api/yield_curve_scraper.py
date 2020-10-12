@@ -62,7 +62,5 @@ class YieldCurveScraper(object):
 
     @staticmethod
     def treasury_map(scraped_name, ns):
-        scraped_name_clean = scraped_name.replace('{' + ns + '}', '')
-        if YieldCurveScraper.tmap.get(scraped_name_clean):
-            return YieldCurveScraper.tmap[scraped_name_clean]
-        return scraped_name_clean
+        clean_name = scraped_name.replace('{' + ns + '}', '')
+        return YieldCurveScraper.tmap.get(clean_name, clean_name)
