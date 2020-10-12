@@ -86,9 +86,12 @@ def excel_downloads(filename):
         abort(404)
     return send_from_directory(EXCEL_DIRECTORY, filename, as_attachment=True)
 
-@api.route('/index_component_stocks/<index>')
-def index_component_stocks(index):
-    data = scrape_index_component_stocks(index)
+@api.route('/index_component_stocks/<stock_index_name>')
+def index_component_stocks(stock_index_name):
+    try:
+        data = scrape_index_component_stocks(stock_index_name, from_s3=True)
+    except ValueError:
+        abort(404)
     return jsonify(data)
 
 @api.route('/schiller_pe_ratio')
