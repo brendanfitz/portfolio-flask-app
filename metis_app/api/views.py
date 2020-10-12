@@ -5,7 +5,7 @@ from metis_app.api.nhl_game_results_scrape import nhl_scrape
 from flask import jsonify
 import datetime as dt
 import os
-from metis_app.api import get_yield_curve, StockIndexScraper, scrape_schiller_pe_ratio_data
+from metis_app.api import YieldCurveScraper, StockIndexScraper, scrape_schiller_pe_ratio_data
 from metis_app.ml_models.aws_util import aws_download
 import json
 from pandas import read_csv
@@ -74,8 +74,8 @@ def nhl_team_data():
 
 @api.route('/yield_curve/<year>')
 def yield_curve(year):
-    data = get_yield_curve(year)
-    return jsonify(data)
+    scraper = YieldCurveScraper(year)
+    return jsonify(scraper.data)
 
 
 @api.route('/excels/<filename>')
