@@ -1,3 +1,4 @@
+from metis_app.api.s3_downloader import S3Downloader
 from metis_app.api.yield_curve_scraper import YieldCurveScraper
 from metis_app.api.stock_index_scraper import StockIndexScraper 
 from metis_app.api.schiller_pe_ratio_scraper import SchillerPERatioScraper

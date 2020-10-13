@@ -12,7 +12,7 @@ import pandas as pd
 import requests
 from datetime import date
 from bs4 import BeautifulSoup
-from metis_app.ml_models.aws_util import aws_download
+from metis_app.api import S3Downloader
 
 class NhlGameResultsScraper(object):
 
@@ -38,7 +38,7 @@ class NhlGameResultsScraper(object):
         if date.today() > cls.SEASON_END:
             filename = f"nhl_results_{cls.SEASON_END}.json"
             if not os.path.isfile(filename):
-                aws_download(filename, local_directory=cls.BASEDIR)
+                S3Downloader(cls.BASEDIR).download(filename)
 
             filename = os.path.join(cls.BASEDIR, filename)
             with open(filename, 'r') as f:
