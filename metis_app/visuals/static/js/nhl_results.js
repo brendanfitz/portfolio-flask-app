@@ -62,7 +62,8 @@ var y = d3.scaleLinear()
     .range([height, 0])
     .domain([0, 100]);
 
-d3.csv("/api/nhl-team-data").then(function(data){
+d3.json("/api/nhl-team-data").then(function(data){
+  console.log(data);
   data.forEach((item, i) => {
     teamData[item['team']] = {
       color: item['color'],
@@ -71,6 +72,7 @@ d3.csv("/api/nhl-team-data").then(function(data){
     };
   });
 })
+
 
 // Labels
 var xLabel = g.append("text")

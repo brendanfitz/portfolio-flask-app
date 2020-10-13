@@ -5,14 +5,13 @@ LOCAL_DIRECTORY = 'metis_app/static/'
 AWS_ACCESS_KEY_ID = os.environ.get('METIS_APP_AWS_ACCESS_KEY_ID')
 AWS_SECRET_KEY = os.environ.get('METIS_APP_AWS_SECRET_KEY')
 
-
 if not os.path.exists(LOCAL_DIRECTORY):
     os.mkdir(LOCAL_DIRECTORY)
 
-def aws_download(object_name, filename=None,
-    bucket_name='metis-projects',
-    bucket_directory='pickles',
-    local_directory='metis_app/static/pickles'):
+def aws_download(object_name, local_directory, filename=None,
+        bucket_name='metis-projects',
+        bucket_directory=None,
+    ):
 
     if bucket_directory:
         object_path = bucket_directory + '/' + object_name
