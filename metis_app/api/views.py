@@ -8,7 +8,7 @@ from metis_app.api import (
     NhlGameResultsScraper,
     YieldCurveScraper,
     StockIndexScraper,
-    scrape_schiller_pe_ratio_data,
+    SchillerPERatioScraper,
 )
 import json
 from pandas import read_csv
@@ -58,5 +58,5 @@ def index_component_stocks(stock_index_name):
 
 @api.route('/schiller_pe_ratio')
 def schiller_pe_ratio():
-    data = scrape_schiller_pe_ratio_data()
-    return jsonify(data)
+    scraper = SchillerPERatioScraper()
+    return jsonify(scraper.data)

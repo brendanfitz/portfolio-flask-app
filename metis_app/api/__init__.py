@@ -1,4 +1,4 @@
 from metis_app.api.yield_curve_scraper import YieldCurveScraper
 from metis_app.api.stock_index_scraper import StockIndexScraper 
-from metis_app.api.schiller_pe_ratio import scrape_schiller_pe_ratio_data
+from metis_app.api.schiller_pe_ratio_scraper import SchillerPERatioScraper
 from metis_app.api.nhl_game_results_scraper import NhlGameResultsScraper
