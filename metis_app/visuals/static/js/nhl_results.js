@@ -63,7 +63,6 @@ var y = d3.scaleLinear()
     .domain([0, 100]);
 
 d3.json("/api/nhl-team-data").then(function(data){
-  console.log(data);
   data.forEach((item, i) => {
     teamData[item['team']] = {
       color: item['color'],
