@@ -179,8 +179,7 @@ class NhlGameResultsScraper(object):
             records.append(record)
         return records
     
-    @staticmethod
-    def create_df_wildcard(df_full):
+    def create_df_wildcard(self, df_full):
         df = df_full.copy()
         df = df.join(self.team_data, how='left', on='team')
         by, ascending = ['date', 'division', 'points'], [True, True, False]
