@@ -7,7 +7,7 @@ import os
 from metis_app.api import (
     NhlGameResultsScraper,
     YieldCurveScraper,
-    StockIndexScraper,
+    StockIndexDataLoader,
     SchillerPERatioScraper,
 )
 import json
@@ -51,9 +51,12 @@ def excel_downloads(filename):
 @api.route('/index_component_stocks/<stock_index_name>')
 def index_component_stocks(stock_index_name):
     try:
-        scraper = StockIndexScraper(stock_index_name, from_s3=True)
+        scraper = StockIndexDataLoader(stock_index_name, from_s3=False)
     except ValueError:
-        abort(404)
+        try:
+            scraper = StockIndexDataLoader(stock_index_name, from_s3=True)
+        except:
+            abort(404)
     return jsonify(scraper.data)
 
 @api.route('/schiller_pe_ratio')
