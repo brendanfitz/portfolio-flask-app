@@ -119,4 +119,9 @@ blog_db = [
         # 'title': 'Finding and Removing Duplicate Rows with Pandas',
         # 'date_posted': '2020-08-18'
     # }
+    {
+        'id': 'free-throw-binomials',
+        'title': 'Modeling Free Throws with the Binomial Distribution',
+        'date_posted': '2020-12-29',
+    }
 ]
