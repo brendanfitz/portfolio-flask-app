@@ -118,10 +118,15 @@ blog_db = [
         # 'id': 'pandas_duplicated',
         # 'title': 'Finding and Removing Duplicate Rows with Pandas',
         # 'date_posted': '2020-08-18'
-    # }
+    # },
     {
         'id': 'free-throw-binomials',
         'title': 'Modeling Free Throws with the Binomial Distribution',
         'date_posted': '2020-12-29',
-    }
+    },
+    {
+        'id': 'damian-lillard-bubble-ttest',
+        'title': 'Damian Lillard\'s NBA Bubble Performance T-Test',
+        'date_posted': '2021-01-07',
+    },
 ]
