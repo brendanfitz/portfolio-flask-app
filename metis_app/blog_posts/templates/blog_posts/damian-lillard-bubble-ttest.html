@@ -1,0 +1,82 @@
+{% extends "blogs_base.html" %}
+
+{% block blog_content %}
+<p>
+    Damian Lillard destroyed it in the bubble.
+</p>
+<p>
+    As the unanimously voted seeding games Bubble MVP,
+    Lillard averaged 33 points, 8 assists, and 4 rebounds over the seeding games and the playoffs.
+    He also lead the Blazers to a playoff spots with a win in the playoff game over Memphis, overcoming a three and a half game deficit entering the bubble.
+</p>
+<p>
+    While some of players claimed the bubble was a difficult experience (except for <a href="https://www.youtube.com/watch?v=r9rJN3EHPpI&ab_channel=ThunderNation">Steven Adams</a> <span>&#128514;&#128514;&#128514;</span>)
+    Lillard claimed that the bubble was "way easier" to him personally since there were less distractions.
+    See the clip below.
+</p>
+<div class="d-flex justify-content-center">
+  <blockquote class="twitter-tweet"><p lang="en" dir="ltr">Dame says NBA games were &quot;way easier&quot; in the bubble. <br><br>(via <a href="https://twitter.com/Dame_Lillard?ref_src=twsrc%5Etfw">@Dame_Lillard</a>, <a href="https://twitter.com/fatjoe?ref_src=twsrc%5Etfw">@fatjoe</a>) <a href="https://t.co/3aDxPvLKtl">pic.twitter.com/3aDxPvLKtl</a></p>&mdash; ESPN (@espn) <a href="https://twitter.com/espn/status/1333967599877632003?ref_src=twsrc%5Etfw">December 2, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+</div>
+<p>
+    Having personally completed a specialization in Statistics from Duke, I wanted to exercise my hypothesis testing skills,
+    and this seemed like the perfect opportunity to do so.
+</p>
+<p>
+    Duke's stat's department has written an awesome R package called <a href="https://github.com/StatsWithR/statsr">statsr</a>.
+    This package has functions for almost every statistical test.
+    I decided I'd recreate the single mean, hypothesis test under both the theoretical and simulation methods in a python class.
+</p>
+<p>
+    We'll compare only his seeding game performance in the bubble and not the playoff games,
+    the reasoning being that the playoffs are a different beast altogether and they faced the Lakers aka the future champs.
+    Let's look at the distribution of games in the regular season pre-bubble and in-bubble.
+</p>
+<img src="{{url_for('blog_posts.static', filename='lillard-game-scoring-distribution.png')}}" class="img-thumbnail img-fluid mx-auto d-block pic-margins">
+<div class='d-flex justify-content-center'>
+  <div class='col-md-8'>
+    {% include "include_docs/damian-lillard-bubble-ttest/lillard_summary_stats.html" %}
+  </div>
+</div>
+<p>
+    We can see that his regular season game scoring distribution ranges from 10-60 and has a mean of 28.9,
+    while his regular season bubble average points total was 37.6.
+    His points have a standard deviation of 11.8 points with a right skew - unsurprising given points cannot be negative.
+    Our an effect size for pre-bubble vs buble is 8.7, rather large considering the median point differential for an NBA games is usually around 8 or 9.
+</p>
+<p>
+    Let's run our first single mean, one-sided hypothesis using the theoretical method.
+    I linked the class <a href="https://github.com/brendanfitz/side-projects/blob/master/Sports/hypothesis_testers.py">here</a>, as it's very lengthy if you're curious.
+    The below visual shows the results of the test and the relevant summary statistics.
+</p>
+<img src="{{url_for('blog_posts.static', filename='lillard-bubble-hypothesis-test.png')}}" class="img-thumbnail img-fluid mx-auto d-block pic-margins">
+<div class='d-flex justify-content-center'>
+  <div class='col-md-8'>
+    {% include "include_docs/damian-lillard-bubble-ttest/lillard_first_htest.html" %}
+  </div>
+</div>
+<p>
+    As we talked about above, our effect size was 8.7 pts, while our standard error was 5.3.
+    This gives us a t-statistic of 1.64 with a corresponding p-value of 0.144.
+    While this is a small p-value, it is well above the industry standard alpha of 0.05.
+</p>
+<p>
+    Now, one might be tempted to write off Lillard's claim and say it was a statistically insignificant streak.
+    But, we being no ordinary statisticians, want to look deeper at what's going on.
+    After all, an effect size of 8.7 points is not insignificant in an NBA game.
+    We can see that clearly we don't have many samples for the seeding bubble games (only 8 games).
+    Since we have a small sample size and skewed distribution, we should be using the simulation method of hypothesis testing.
+</p>
+<p>
+    We can do so using the <code>simulation</code> class method in our hypothesis testing python class.
+    By doing so, we find obtain a p-value of 0.032.
+    The below shows the distribution of the simulated sample differences between the two simulation means.
+</p>
+<img src="{{url_for('blog_posts.static', filename='lillard-bubble-hypothesis-test-simulation.png')}}" class="img-thumbnail img-fluid mx-auto d-block pic-margins">
+<p>
+    The below visual is centered around zero, as we would expect no difference between playing in the bubble or not.
+    The actual sample test stat is at the red line, and we can see very few simulated samples above it.
+    Thus, under appropriate an sample sizing using the simulation method, we find that Lillard's performance was statistically significant.
+    We can therefore agree with Lillard, that for him, the bubble was a very productive environemnt.
+</p>
+
+{% endblock %}
