@@ -1,10 +1,10 @@
 import requests
 import json
-from os import environ
+from os import environ, path
 import pandas as pd
 import boto3
-import psycopg2
-from metis_app.api import cc
+import sqlite3
+from metis_app.api import S3Downloader
 
 class StockIndexDataLoader(object):
     
@@ -30,9 +30,15 @@ class StockIndexDataLoader(object):
         return data
     
     def load_from_db(self):
-        conn = psycopg2.connect(**cc)
+        db_dir = 'metis_app/api/static/api/data'
+        db_filename = 'visuals.db'
+        db_filepath = path.join(db_dir, db_filename)
+        s3 = S3Downloader(db_dir)
+        s3.download(db_filename, db_filename)
+
+        conn = sqlite3.connect(db_filepath)
         
-        sql = ("SELECT * FROM visuals.index_component_stocks "
+        sql = ("SELECT * FROM index_component_stocks "
                f"WHERE stock_index_name= '{self.stock_index_name}'")
 
         df = (pd.read_sql(sql, conn)
