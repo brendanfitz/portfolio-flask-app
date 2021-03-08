@@ -4,7 +4,7 @@ from os import environ, path
 import pandas as pd
 import boto3
 import sqlite3
-from metis_app.api import S3Downloader
+from portfolio.api import S3Downloader
 
 class StockIndexDataLoader(object):
     
@@ -30,7 +30,7 @@ class StockIndexDataLoader(object):
         return data
     
     def load_from_db(self):
-        db_dir = 'metis_app/api/static/api/data'
+        db_dir = 'portfolio/api/static/api/data'
         db_filename = 'visuals.db'
         db_filepath = path.join(db_dir, db_filename)
         s3 = S3Downloader(db_dir)
@@ -52,8 +52,8 @@ class StockIndexDataLoader(object):
     
     def load_from_s3(self):
         aws_config = {
-            'aws_access_key_id': environ.get('METIS_APP_AWS_ACCESS_KEY_ID'),
-            'aws_secret_access_key': environ.get('METIS_APP_AWS_SECRET_KEY'),
+            'aws_access_key_id': environ.get('PORTFOLIO_AWS_ACCESS_KEY_ID'),
+            'aws_secret_access_key': environ.get('PORTFOLIO_AWS_SECRET_KEY'),
         }
         client = boto3.client('s3', **aws_config)
     

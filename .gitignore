@@ -1,7 +1,7 @@
 __pycache__/*
 *.pyc
 venv/*
-metis_app/api/static/api/data/nhl_results_*.json
-metis_app/api/static/api/data/visuals.db
-metis_app/static/pickles/*
+portfolio/api/static/api/data/nhl_results_*.json
+portfolio/api/static/api/data/visuals.db
+portfolio/static/pickles/*
 *\.code-workspace

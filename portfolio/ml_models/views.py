@@ -2,10 +2,10 @@
 import numpy as np
 import pandas as pd
 from flask import render_template, abort, request, Blueprint
-from metis_app.ml_models.forms import (MoviePredictorForm, LoanPredictorForm,
+from portfolio.ml_models.forms import (MoviePredictorForm, LoanPredictorForm,
                                        KickstarterPitchOutcomeForm, TitanticPredictorForm,
                                        NhlGoalsPredictorForm)
-from metis_app.ml_models.db import ml_db
+from portfolio.ml_models.db import ml_db
 from statsmodels.regression.linear_model import OLSResults
 import requests
 

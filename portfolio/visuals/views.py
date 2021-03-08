@@ -1,6 +1,6 @@
 # visuals/views.py
 from flask import render_template, abort, request, Blueprint
-from metis_app.visuals.db import visuals_db
+from portfolio.visuals.db import visuals_db
 from datetime import datetime, timedelta
 
 kwargs = dict(

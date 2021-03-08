@@ -4,7 +4,7 @@ from flask.json import jsonify
 from flask import jsonify
 import datetime as dt
 import os
-from metis_app.api import (
+from portfolio.api import (
     NhlGameResultsScraper,
     YieldCurveScraper,
     StockIndexDataLoader,

@@ -1,16 +1,16 @@
-# metis_app/__init__.py
+# portfolio/__init__.py
 from flask import Flask
-from metis_app.config import Config
+from portfolio.config import Config
 
 app = Flask(__name__)
 app.config.from_object(Config)
 
-from metis_app.core.views import core
-from metis_app.blog_posts.views import blog_posts
-from metis_app.ml_models.views import ml_models
-from metis_app.visuals.views import visuals
-from metis_app.api.views import api
-from metis_app.error_pages.handlers import error_pages
+from portfolio.core.views import core
+from portfolio.blog_posts.views import blog_posts
+from portfolio.ml_models.views import ml_models
+from portfolio.visuals.views import visuals
+from portfolio.api.views import api
+from portfolio.error_pages.handlers import error_pages
 
 app.register_blueprint(core)
 app.register_blueprint(blog_posts, url_prefix='/blogs')

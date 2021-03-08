@@ -1,8 +1,8 @@
 # core/views.py
 from flask import render_template, abort, request, Blueprint
-from metis_app.blog_posts.db import blog_db
-from metis_app.visuals.db import visuals_db
-from metis_app.ml_models.db import ml_db
+from portfolio.blog_posts.db import blog_db
+from portfolio.visuals.db import visuals_db
+from portfolio.ml_models.db import ml_db
 
 blog_db.sort(reverse=True, key=lambda x: x['date_posted'])
 

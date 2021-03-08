@@ -1,5 +1,5 @@
 from flask import render_template, abort, request, Blueprint
-from metis_app.blog_posts.db import blog_db
+from portfolio.blog_posts.db import blog_db
 from datetime import datetime
 
 kwargs = dict(

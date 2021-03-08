@@ -12,13 +12,13 @@ import pandas as pd
 import requests
 from datetime import date
 from bs4 import BeautifulSoup
-from metis_app.api import S3Downloader
+from portfolio.api import S3Downloader
 
 class NhlGameResultsScraper(object):
 
     url = 'https://www.hockey-reference.com/leagues/NHL_2020_games.html'
     SEASON_END = date(2020, 4, 4)
-    BASEDIR = os.path.join('metis_app', 'api', 'static', 'api', 'data')
+    BASEDIR = os.path.join('portfolio', 'api', 'static', 'api', 'data')
     TEAM_DATA_FILENAME = os.path.join(
         BASEDIR,
         'nhl_team_data.csv'

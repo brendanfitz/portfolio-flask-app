@@ -2,7 +2,7 @@ import pandas as pd
 from os import path
 import sqlite3
 
-DB_NAME = 'metis_app/api/static/api/data/visuals.db'
+DB_NAME = 'portfolio/api/static/api/data/visuals.db'
 
 def csv_to_sqlite3(filename, tablename):
     filename = path.join(path.expanduser('~'), 'Downloads', filename)

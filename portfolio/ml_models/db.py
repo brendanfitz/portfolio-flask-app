@@ -1,4 +1,4 @@
-from metis_app.ml_models.forms import (MoviePredictorForm, LoanPredictorForm,
+from portfolio.ml_models.forms import (MoviePredictorForm, LoanPredictorForm,
                                        KickstarterPitchOutcomeForm, TitanticPredictorForm,
                                        NhlGoalsPredictorForm)
 

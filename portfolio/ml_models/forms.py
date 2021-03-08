@@ -8,7 +8,7 @@ import pandas as pd
 
 def choices_list(filename):
     filepath = os.path.join(
-        'metis_app',
+        'portfolio',
         'ml_models',
         'static',
         filename,

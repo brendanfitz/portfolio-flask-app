@@ -4,8 +4,8 @@ import boto3
 class S3Downloader(object):
     BUCKET_NAME = 'metis-projects'
     AWS_CREDS = dict(
-        aws_access_key_id=environ.get('METIS_APP_AWS_ACCESS_KEY_ID'),
-        aws_secret_access_key=environ.get('METIS_APP_AWS_SECRET_KEY'),
+        aws_access_key_id=environ.get('PORTFOLIO_AWS_ACCESS_KEY_ID'),
+        aws_secret_access_key=environ.get('PORTFOLIO_AWS_SECRET_KEY'),
     )
     
     def __init__(self, local_dir):
