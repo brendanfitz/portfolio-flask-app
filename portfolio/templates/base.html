@@ -17,6 +17,15 @@
     {% block viz_headers %}{% endblock %}
     <!-- Favicon -->
     <link rel="shortcut icon" href="{{ url_for('static', filename='img/redhead-favicon.jpg')}}">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-KKGZXZLLH1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+    
+      gtag('config', 'G-KKGZXZLLH1');
+    </script>
   </head>
   <body>
     {% include "navbar.html" %}
