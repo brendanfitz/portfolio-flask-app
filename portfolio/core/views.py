@@ -15,6 +15,7 @@ def index():
         blog_db=blog_db[:6],
         visuals_db=visuals_db[:6],
         ml_db=ml_db[:6],
+        title="Homepage",
     )
     return render_template('index.html', **kwargs)
 
@@ -32,6 +33,7 @@ def site_section_list(template_name):
         blog_db=blog_db,
         visuals_db=visuals_db,
         ml_db=ml_db,
+        title=template_name.replace('_', ' ').title()
     )
     template = '{}.html'.format(template_name)
     return render_template(template, **kwargs)
