@@ -22,4 +22,7 @@ app.register_blueprint(error_pages)
 
 @app.context_processor
 def inject_gid():
-    return dict(gid=environ.get('GA_MEASUREMENT_ID'))
+    return dict(
+        gtm_ga4_id=environ.get('GA4_MEASUREMENT_ID'),
+        gtm_ua_id=environ.get('UA_TRACKING_ID'),
+    )
