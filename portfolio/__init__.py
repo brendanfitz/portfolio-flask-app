@@ -25,4 +25,5 @@ def inject_gid():
     return dict(
         gtm_ga4_id=environ.get('GA4_MEASUREMENT_ID'),
         gtm_ua_id=environ.get('UA_TRACKING_ID'),
+        gtm_id=environ.get('GTM_ID'),
     )
