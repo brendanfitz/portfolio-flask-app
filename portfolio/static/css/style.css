@@ -221,3 +221,7 @@ h3 + p {
 a.dropdown-item:hover {
   background-color: #138496;
 }
+
+#ncaa-data-table {
+  overflow-x: scroll;
+}

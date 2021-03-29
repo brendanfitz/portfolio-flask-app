@@ -129,4 +129,9 @@ blog_db = [
         'title': 'Damian Lillard\'s NBA Bubble Performance T-Test',
         'date_posted': '2021-01-07',
     },
+    {
+        'id': 'ncaa-tournament-seed-matchup-bayesian-models',
+        'title': 'NCAA Tournament Seed Matchup Bayesian Modeling',
+        'date_posted': '2021-03-10',
+    },
 ]
