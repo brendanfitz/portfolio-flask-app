@@ -1,0 +1,122 @@
+{% extends 'blogs_base.html' %}
+
+{%- set posterior_distribution_images = [
+    '01v16_posterior_distribution.png',
+    '02v15_posterior_distribution.png',
+    '03v14_posterior_distribution.png',
+    '04v13_posterior_distribution.png',
+    '05v12_posterior_distribution.png',
+    '06v11_posterior_distribution.png',
+    '07v10_posterior_distribution.png',
+    '08v09_posterior_distribution.png'
+] -%}
+
+{% block blog_content %}
+<p>
+    We're coming up to that time of year where the NCAA tournament is almost upon us.
+</p>
+<p>
+    Filling out your brackets can be an overwhelming process, even when you have watched a lot of college hoops over the year.
+    For the first round especially, it's tough to evaluate 64 teams separately.
+    Luckily, we have our good friend statistics to help us out!
+    In this blog, we'll use a historical game results from 1985 (the first year the tournament had 64 teams) to 2019 (our last year of data) to create distributions for a binomial model probability of winning for the higher ranked team.
+</p>
+<p>
+    Our strategy will be to use Bayesian modeling to determine a higher seed's probability of winning.
+    This will allow even the most passive fan to get some good <span class="font-weight-bold">W</span>'s in their bracket.
+    We'll use the <a href="https://en.wikipedia.org/wiki/Beta-binomial_distribution">beta-binomial distribution</a> using a Bayesian conjugate update to dervive our final beta distributions of binomial win probabilities.
+    We're going to gloss over the mechanics behind the distribution for the sake of time (and to avoid losing all readers!) but it's a greater introduction to Bayesian statistics if you're interested.
+</p>
+<p>
+    The reason we're using distributions and not soley assuming the historical win rates is that historical win rates aren't necessarily a proper indicator for future win rates.
+    By using the beta-binomial conjugate family we can create a confidence interval for this metric.
+    Over time the win rate will change but should always be within this interval if we do our job right.
+</p>
+<p>
+    First, we'll need some good ole data to work with.
+    Since this is a smaller project, rather than using my personal favorite scraping tool, Scrapy, I used <a href="https://docs.python.org/3/library/urllib.html">urllib</a> and <a href="https://docs.python.org/3/library/xml.etree.elementtree.html">lxml</a>.
+    You can find my spider <a href="https://github.com/brendanfitz/sports-analysis/blob/main/sports/basketball/ncaa/ncaa_tourney_games_spider.py">here</a> where I scraped <a href="https://www.sports-reference.com/">sports-reference.com</a>.
+</p>
+<p>
+    This gave us a dataset looking like this.
+</p>
+<!-- Data Preview Snippet -->
+<div class='d-flex justify-content-center'>
+  <div id="ncaa-data-table" class='col'>
+    {% include "include_docs/ncaa-tournament-seed-matchup-bayesian-models/ncaa-data.html" %}
+  </div>
+</div>
+<p>
+    Next, w'ell do some data checks to make sure everything is good and then some data cleaning too.
+    These checks ensure we have the proper number of games and there are no ties.
+</p>
+<!-- Data Cleaning Snippets -->
+<pre><code class="language-py">{% include "include_docs/ncaa-tournament-seed-matchup-bayesian-models/data-checks.py" %}</code></pre>
+<p>
+    Then we'll take this data and filter for only the first round matchups using the below code.
+</p>
+<pre><code class="language-py">{% include "include_docs/ncaa-tournament-seed-matchup-bayesian-models/first-rounds.py" %}</code></pre>
+<p>
+    The models used are instances of the <code>BayesBetaBinomial</code> class I wrote to calculate prior and posterior distributions, which you can find <a href="https://github.com/brendanfitz/sports-analysis/blob/main/sports/basketball/ncaa/bayes_beta_binomial.py">here</a>.
+    Now that we have our models, let's can clean this up and summarize it into the data frame shown below to dive into the results a bit.
+</p>
+<div class='d-flex justify-content-center'>
+    {% include "include_docs/ncaa-tournament-seed-matchup-bayesian-models/first_round_matchups.html" %}
+</div>
+<p>
+    Clearly, the higher the seed, the higher the expected win percentage as shown by the <code>Higher Seed Win Pct Posterior Mean</code> metric.
+    We can also see that our confidence interval gets larger as the seeds become closer, meaning we have less certainty of the true win probability for 8v9 matchups compared to 1v16 matchups.
+    This pretty little visual shows the results between matchups even more clearly.
+</p>
+<div class='d-flex justify-content-center'>
+  <div class='col'>
+    <img src="{{url_for('blog_posts.static', filename='NCAA First Round Posterior Distribution Ridgeplot.png')}}" class="img-thumbnail img-fluid mx-auto d-block pic-margins">
+  </div>
+</div>
+<p>
+    1v16 matchups have a 98.7% probability that the 1-seed will win. The extreme value here is not surprising given there's only been 1 time in history the 16-seed has won (UMBC over Baltimore in 2018).
+    2-seeds have a 93.6% chance of winning, while 3-seeds dropped down to only 84.7%.
+    5 through 7 seeds all seem to be in the mid to low 60s, while 8v9 is a coin flip.
+    A more detailed plot of each posterior can be found below.
+</p>
+<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+  <ol class="carousel-indicators">
+    {% for img in posterior_distribution_images %}
+    <li data-target="#carouselExampleIndicators" data-slide-to="{{loop.index0}}"{% if loop.first %}class="active bg-dark"{% else %}class="bg-dark"{% endif %}></li>
+    {% endfor %}
+  </ol>
+  <div class="carousel-inner">
+    {% for img in posterior_distribution_images %}
+    <div class={%- if loop.first -%}"carousel-item active"{%- else -%}"carousel-item"{% endif %}>
+      <img class="d-block w-100 pic-margins" src="{{ url_for('blog_posts.static', filename='ncaa-first-round-posterior-distributions/' + img) }}">
+    </div>
+    {% endfor %}
+  </div>
+  <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+    <span class="carousel-control-prev-icon bg-dark" aria-hidden="true"></span>
+    <span class="sr-only">Previous</span>
+  </a>
+  <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+    <span class="carousel-control-next-icon bg-dark" aria-hidden="true"></span>
+    <span class="sr-only">Next</span>
+  </a>
+</div>
+<p>
+    So what are our takeaways?
+    Clearly, it's best to have all 1-seeds, 2-seeds and arguably 3-seeds winning all four games respectively in the first round.
+    4-seeds are closer to 75%, so you'd want to dig into those matchups for an upset or two.
+    Finally, 5-8 seeds all have lower than a 65% chance or less of winning, so that's where we really want to focus our research.
+</p>
+<p>
+    Good luck with your brackets!
+    Hopefully this helps in your selections.
+    The full analysis can be found in my sport analysis repo <a href="https://github.com/brendanfitz/sports-analysis/tree/main/sports/basketball/ncaa">here</a>.
+    If you want any other seed matchup distributions, feel free to contact me!
+</p>
+<p>
+    Thanks for reading!
+</p>
+
+
+
+{% endblock %}
