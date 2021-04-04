@@ -6,7 +6,7 @@ ml_db = [
     {
         'id': 'luther',
         'title': 'Movie ROI Prediction Model',
-        'form': MoviePredictorForm,
+        'form_name': 'MoviePredictorForm',
         'pickles': [
             'luther_model.pkl',
             'budget_poly.pkl',
@@ -19,7 +19,7 @@ ml_db = [
     {
         'id': 'mcnulty',
         'title': 'Lending Club Loan Default Prediction Model',
-        'form': LoanPredictorForm,
+        'form_name': 'LoanPredictorForm',
         'pickles': [
             'rf.pkl',
         ]
@@ -27,7 +27,7 @@ ml_db = [
     {
         'id': 'fletcher',
         'title': 'Kickstarter Pitch Funding Outcome Prediction Model',
-        'form': KickstarterPitchOutcomeForm,
+        'form_name': 'KickstarterPitchOutcomeForm',
         'pickles': [
             'kickstarter_vectorizer.pkl',
             'kickstarter_model.pkl',
@@ -36,7 +36,7 @@ ml_db = [
     {
         'id': 'titantic',
         'title': 'Will You Survive The Titantic?',
-        'form': TitanticPredictorForm,
+        'form_name': 'TitanticPredictorForm',
         'pickles': [
             'titantic_model.pkl',
         ]
@@ -44,7 +44,7 @@ ml_db = [
     {
         'id': 'nhl_goals',
         'title': 'NHL Goals Scored Auotregressive Prediction Model',
-        'form': NhlGoalsPredictorForm,
+        'form_name': 'NhlGoalsPredictorForm',
         'pickles': [
             'nhl_goals_regression_model.pkl',
         ]

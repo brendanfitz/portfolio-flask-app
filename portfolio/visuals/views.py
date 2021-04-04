@@ -2,6 +2,9 @@
 from flask import render_template, abort, request, Blueprint
 from portfolio.visuals.db import visuals_db
 from datetime import datetime, timedelta
+from portfolio.db import db
+
+c = db['visuals']
 
 kwargs = dict(
     template_folder='templates/visuals',
@@ -11,10 +14,11 @@ visuals = Blueprint('visuals', __name__, **kwargs)
 
 @visuals.route('/<name>')
 def visual(name):
-    if name not in [x['id'] for x in visuals_db]:
+    visual = c.find_one({'id': name})
+
+    if visual is None:
         abort(404)
 
-    visual_data = next(filter(lambda x: name == x['id'], visuals_db))
-    title = visual_data['title']
+    title = visual['title']
     template = '{}.html'.format(name)
     return render_template(template, title=title, viz_page=True)
