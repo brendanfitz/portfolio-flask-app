@@ -1,6 +1,8 @@
 from flask import render_template, abort, request, Blueprint
-from portfolio.blog_posts.db import blog_db
+from portfolio.db import db
 from datetime import datetime
+
+c = db['blogs']
 
 kwargs = dict(
     template_folder='templates/blog_posts',
@@ -10,12 +12,13 @@ blog_posts = Blueprint('blog_posts', __name__, **kwargs)
 
 @blog_posts.route('/<name>')
 def blog(name):
-    if name not in [x['id'] for x in blog_db]:
+    blog = c.find_one({'id': name})
+
+    if blog is None:
         abort(404)
 
-    blog_data = next(filter(lambda x: name == x['id'], blog_db))
-    title = blog_data['title']
-    date = (datetime.strptime(blog_data['date_posted'], '%Y-%m-%d')
+    title = blog['title']
+    date = (datetime.strptime(blog['date_posted'], '%Y-%m-%d')
         .strftime('%B %d, %Y')
     )
     template = '{}.html'.format(name)

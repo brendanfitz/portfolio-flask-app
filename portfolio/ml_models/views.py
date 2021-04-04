@@ -5,9 +5,11 @@ from flask import render_template, abort, request, Blueprint
 from portfolio.ml_models.forms import (MoviePredictorForm, LoanPredictorForm,
                                        KickstarterPitchOutcomeForm, TitanticPredictorForm,
                                        NhlGoalsPredictorForm)
-from portfolio.ml_models.db import ml_db
+from portfolio.db import db
 from statsmodels.regression.linear_model import OLSResults
 import requests
+
+c = db['ml_models']
 
 ml_models = Blueprint('ml_models', __name__, template_folder="templates/ml_models")
 
@@ -23,14 +25,15 @@ def payload_from_form(form):
 
 @ml_models.route('/<name>', methods=['GET', 'POST'])
 def models(name):
+    ml_model = c.find_one({'id': name})
+
     template = '{}.html'.format(name)
 
-    if name not in [x['id'] for x in ml_db]:
+    if ml_model is None:
         abort(404)
 
-    model_data = next(filter(lambda x: name == x['id'], ml_db))
-    form = model_data['form']()
-    title = model_data['title']
+    form = globals()[ml_model['form_name']]()
+    title = ml_model['title']
 
     if request.method == 'POST':
         try:
