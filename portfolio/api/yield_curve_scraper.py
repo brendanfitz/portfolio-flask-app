@@ -8,12 +8,15 @@ import pandas as pd
 
 
 class YieldCurveScraper(object):
+    # There is an error most likely caused by some xml changes per the below link
+    # https://home.treasury.gov/developer-notice-xml-changes
     tmap = {
         'Id': 'ID',
         'NEW_DATE': 'Date',
         'BC_1MONTH': '1 Month',
         'BC_2MONTH': '2 Month',
         'BC_3MONTH': '3 Month',
+        'BC_4MONTH': '4 Month',
         'BC_6MONTH': '6 Month',
         'BC_1YEAR': '1 Year',
         'BC_2YEAR': '2 Year',
@@ -25,14 +28,14 @@ class YieldCurveScraper(object):
         'BC_30YEAR': '30 Year',
     }
 
-    def __init__(self, year):
-        self.year = year
+    def __init__(self, month):
+        self.month= month
         self.url = self.create_url()
         self.data = self.get_yield_curve()
     
     def create_url(self):
-        base = "https://data.treasury.gov/feed.svc/DailyTreasuryYieldCurveRateData"
-        qstr = '?$filter=year(NEW_DATE)%20eq%20{}'.format(self.year)
+        base = 'https://home.treasury.gov/resource-center/data-chart-center/interest-rates/pages/xml'
+        qstr = f'?data=daily_treasury_yield_curve&field_tdr_date_value_month={self.month}'
         url = base + qstr
         return url
     
@@ -45,7 +48,7 @@ class YieldCurveScraper(object):
               'm': 'http://schemas.microsoft.com/ado/2007/08/dataservices/metadata',
               'd': 'http://schemas.microsoft.com/ado/2007/08/dataservices'}
     
-        data = list()
+        self.data = list()
         for entry in root.findall('ns:entry', ns):
             content = (entry.find('ns:content', ns)
              .find('m:properties', ns)
@@ -56,9 +59,9 @@ class YieldCurveScraper(object):
                 if treasury_name != 'BC_30YEARDISPLAY':
                     percent_yield = child.text
                     row[treasury_name] = percent_yield
-            data.append(row)
+            self.data.append(row)
     
-        return data
+        return self.data
 
     @staticmethod
     def treasury_map(scraped_name, ns):

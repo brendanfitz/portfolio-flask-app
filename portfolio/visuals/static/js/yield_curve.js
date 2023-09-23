@@ -60,7 +60,7 @@ treasurys_ord = [
   "2 Year", "3 Year", "5 Year", "7 Year", "10 Year", "20 Year", "30 Year"
 ]
 var x = d3.scaleBand().domain(treasurys_ord).rangeRound([0, width]).padding(0.1),
-    y = d3.scaleLinear().domain([0, 3]).rangeRound([height, 0]);
+    y = d3.scaleLinear().domain([0, 6]).rangeRound([height, 0]);
 
 // X-axis
 var xAxisCall = d3.axisBottom()
@@ -79,7 +79,7 @@ var yAxis = g.append("g")
 
 var formattedData = {};
 
-d3.json("/api/yield_curve/2020").then(function(data){
+d3.json("/api/yield_curve/202309").then(function(data){
     // Prepare and clean data
     data.forEach((itemObj, i) => {
       var entryList = [];
