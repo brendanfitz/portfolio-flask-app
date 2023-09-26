@@ -1,0 +1,7 @@
+{% extends "blogs_base.html" %}
+
+{% block blog_content %}
+{% autoescape false %}
+{{ wp_blog_content }}
+{% endautoescape %}
+{% endblock %}
