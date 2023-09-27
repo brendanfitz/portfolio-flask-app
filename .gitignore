@@ -1,6 +1,7 @@
 __pycache__/*
 *.pyc
 venv/*
+env/*
 portfolio/api/static/api/data/nhl_results_*.json
 portfolio/api/static/api/data/visuals.db
 portfolio/static/pickles/*
