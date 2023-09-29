@@ -17,6 +17,7 @@ def clean_post(post):
     post['date_posted']= (datetime.strptime(post['date_posted'], '%Y-%m-%dT%H:%M:%S')
         .strftime(WordPressAPI.BLOG_DATE_FMT)
     )
+    post['content'] = html.unescape(post['content']['rendered'])
     return post
 
 def upsert_posts(posts):

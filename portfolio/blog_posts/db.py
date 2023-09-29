@@ -135,7 +135,7 @@ blog_db = [
         'date_posted': '2021-03-10',
     },
     {
-        'id': 'housing-rates-and-prices-analysis',
+        'id': 'rates-and-prices-an-analysis-of-the-current-housing-market',
         'title': 'Rates and Prices – An Analysis of the Current Housing Market',
         'date_posted': '2023-09-09',
         'wp_post_id': 129
