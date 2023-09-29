@@ -1,10 +1,9 @@
 from flask import render_template, abort, request, Blueprint
-from portfolio.db import db
+from portfolio import db
 from datetime import datetime
 import requests
 from portfolio.utils import WordPressAPI
-
-c = db['blogs']
+from portfolio import dbs
 
 wp = WordPressAPI()
 
@@ -17,7 +16,7 @@ blog_date_fmt = '%B %d, %Y'
 
 @blog_posts.route('/<name>')
 def blog(name):
-    blog = c.find_one({'id': name})
+    blog = dbs.blogs.find_one({'id': name})
 
     if blog is None:
         abort(404)

@@ -2,6 +2,9 @@
 from flask import Flask
 from portfolio.config import Config
 from os import environ
+from portfolio.db import Databases
+
+dbs = Databases()
 
 app = Flask(__name__)
 app.config.from_object(Config)
