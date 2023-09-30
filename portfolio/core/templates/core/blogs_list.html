@@ -8,9 +8,9 @@
 <hr class="mt-0">
 <div class="container">
   <div class="row d-flex">
-    {% for blog in blog_db %}
+    {% for post in posts %}
     <div class="col-md-4 mb-4 d-flex align-items-stretch">
-      {{ create_card('blog', blog.id, blog.title) }}
+      {{ create_card('blog', post.id, post.title) }}
     </div>
     {% endfor %}
   </div>
