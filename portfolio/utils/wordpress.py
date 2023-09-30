@@ -7,7 +7,8 @@ class WordPressAPI:
         'slug': 'id', 
         'title': 'title', 
         'date': 'date_posted', 
-        'modified': 'date_modified'
+        'modified': 'date_modified',
+        'content': 'content'
     }
     HEADERS = {
         'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:55.0) Gecko/20100101 Firefox/55.0',

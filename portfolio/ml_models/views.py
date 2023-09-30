@@ -5,11 +5,9 @@ from flask import render_template, abort, request, Blueprint
 from portfolio.ml_models.forms import (MoviePredictorForm, LoanPredictorForm,
                                        KickstarterPitchOutcomeForm, TitanticPredictorForm,
                                        NhlGoalsPredictorForm)
-from portfolio.db import db
+from portfolio import dbs
 from statsmodels.regression.linear_model import OLSResults
 import requests
-
-c = db['ml_models']
 
 ml_models = Blueprint('ml_models', __name__, template_folder="templates/ml_models")
 
@@ -25,7 +23,7 @@ def payload_from_form(form):
 
 @ml_models.route('/<name>', methods=['GET', 'POST'])
 def models(name):
-    ml_model = c.find_one({'id': name})
+    ml_model = dbs.ml_models.find_one({'id': name})
 
     template = '{}.html'.format(name)
 

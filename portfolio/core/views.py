@@ -1,10 +1,6 @@
 # core/views.py
 from flask import render_template, abort, request, Blueprint
-from portfolio.blog_posts.db import blog_db
-from portfolio.visuals.db import visuals_db
-from portfolio.ml_models.db import ml_db
-
-blog_db.sort(reverse=True, key=lambda x: x['date_posted'])
+from portfolio import dbs
 
 core = Blueprint('core', __name__, template_folder='templates/core')
 
@@ -12,9 +8,9 @@ core = Blueprint('core', __name__, template_folder='templates/core')
 def index():
     kwargs = dict(
         homepage=True,
-        blog_db=blog_db[:6],
-        visuals_db=visuals_db[:6],
-        ml_db=ml_db[:6],
+        blog_db=list(dbs.blogs.find({}, {'id': 1, 'title': 1}).sort("date_posted", -1).limit(6)),
+        visuals_db=list(dbs.visuals.find({}, {'id': 1, 'title': 1}).limit(6)),
+        ml_db=list(dbs.ml_models.find({}, {'id': 1, 'title': 1}).limit(6)),
         title="Homepage",
     )
     return render_template('index.html', **kwargs)
@@ -30,9 +26,9 @@ def site_section_list(template_name):
 
     kwargs = dict(
         homepage=True,
-        blog_db=blog_db,
-        visuals_db=visuals_db,
-        ml_db=ml_db,
+        blog_db=list(dbs.blogs.find({}, {'id': 1, 'title': 1}).sort("date_posted", -1)),
+        visuals_db=list(dbs.visuals.find({}, {'id': 1, 'title': 1})),
+        ml_db=list(dbs.ml_models.find({}, {'id': 1, 'title': 1})),
         title=template_name.replace('_', ' ').title()
     )
     template = '{}.html'.format(template_name)
