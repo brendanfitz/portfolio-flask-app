@@ -34,7 +34,7 @@ soupsieve==2.5
 statsmodels==0.14.0
 threadpoolctl==3.2.0
 tzdata==2023.3
-urllib3==1.26.16
+urllib3==1.26.17
 webencodings==0.5.1
 Werkzeug==2.3.7
 WTForms==3.0.1
