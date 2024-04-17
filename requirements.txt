@@ -22,7 +22,7 @@ packaging==23.1
 pandas==2.1.1
 patsy==0.5.3
 psycopg2==2.9.7
-pymongo==4.5.0
+pymongo==4.6.3
 python-dateutil==2.8.2
 pytz==2023.3.post1
 requests==2.31.0
