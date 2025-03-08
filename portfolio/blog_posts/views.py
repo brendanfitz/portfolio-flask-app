@@ -29,9 +29,6 @@ def blog(name):
     if blog.get('wp_post_id') is not None:
         wp_post_id = str(blog['wp_post_id'])
 
-        response = requests.get(wp.POSTS_URL + wp_post_id, headers=wp.HEADERS, verify=True)
-        data = response.json()
-
         wp_blog_content = blog['content']
 
         template = 'wp_blog_base.html'
