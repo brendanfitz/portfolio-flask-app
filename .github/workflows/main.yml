@@ -29,3 +29,5 @@ jobs:
       # Run pytest
       - name: Run tests
         run: pytest
+        env:
+          MONGODB_URI: ${{ secrets.MONGODB_URI }}
