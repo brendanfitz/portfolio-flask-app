@@ -3,7 +3,7 @@ name: CI
 on:
   pull_request:
     branches:
-      - main
+      - master
 
 jobs:
   test:
@@ -29,3 +29,19 @@ jobs:
       # Run pytest
       - name: Run tests
         run: pytest
+        env:
+          MONGODB_URI: ${{ secrets.MONGODB_URI }}
+          blog_postgres_dbname: ${{ secrets.BLOG_POSTGRES_DBNAME }}
+          blog_postgres_host: ${{ secrets.BLOG_POSTGRES_HOST }}
+          blog_postgres_password: ${{ secrets.BLOG_POSTGRES_PASSWORD }}
+          blog_postgres_user: ${{ secrets.BLOG_POSTGRES_USER }}
+          GA4_MEASUREMENT_ID: ${{ secrets.GA4_MEASUREMENT_ID }}
+          GA_MEASUREMENT_ID: ${{ secrets.GA_MEASUREMENT_ID }}
+          GTM_ID: ${{ secrets.GTM_ID }}
+          METIS_APP_AWS_ACCESS_KEY_ID: ${{ secrets.METIS_APP_AWS_ACCESS_KEY_ID }}
+          PORTFOLIO_AWS_ACCESS_KEY_ID: ${{ secrets.PORTFOLIO_AWS_ACCESS_KEY_ID }}
+          PORTFOLIO_AWS_SECRET_KEY: ${{ secrets.PORTFOLIO_AWS_SECRET_KEY }}
+          UA_TRACKING_ID: ${{ secrets.UA_TRACKING_ID }}
+          WP_URL: ${{ secrets.WP_URL }}
+          WP_USER: ${{ secrets.WP_USER }}
+          WP_PW: ${{ secrets.WP_PW }}
