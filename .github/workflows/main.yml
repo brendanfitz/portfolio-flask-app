@@ -31,10 +31,10 @@ jobs:
         run: pytest
         env:
           MONGODB_URI: ${{ secrets.MONGODB_URI }}
-          BLOG_POSTGRES_DBNAME: ${{ secrets.blog_postgres_dbname }}
-          BLOG_POSTGRES_HOST: ${{ secrets.blog_postgres_host }}
-          BLOG_POSTGRES_PASSWORD: ${{ secrets.blog_postgres_password }}
-          BLOG_POSTGRES_USER: ${{ secrets.blog_postgres_user }}
+          BLOG_POSTGRES_DBNAME: ${{ secrets.BLOG_POSTGRES_DBNAME }}
+          BLOG_POSTGRES_HOST: ${{ secrets.BLOG_POSTGRES_HOST }}
+          BLOG_POSTGRES_PASSWORD: ${{ secrets.BLOG_POSTGRES_PASSWORD }}
+          BLOG_POSTGRES_USER: ${{ secrets.BLOG_POSTGRES_USER }}
           GA4_MEASUREMENT_ID: ${{ secrets.GA4_MEASUREMENT_ID }}
           GA_MEASUREMENT_ID: ${{ secrets.GA_MEASUREMENT_ID }}
           GTM_ID: ${{ secrets.GTM_ID }}
