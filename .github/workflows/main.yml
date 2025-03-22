@@ -31,3 +31,18 @@ jobs:
         run: pytest
         env:
           MONGODB_URI: ${{ secrets.MONGODB_URI }}
+          BLOG_POSTGRES_DBNAME : ${{ secrets.blog_postgres_dbname }}
+          BLOG_POSTGRES_HOST : ${{ secrets.blog_postgres_host }}
+          BLOG_POSTGRES_PASSWORD: ${{ secrets.blog_postgres_password }}
+          BLOG_POSTGRES_USER: ${{ secrets.blog_postgres_user }}
+          GA4_MEASUREMENT_ID: ${{ secrets.GA4_MEASUREMENT_ID }}
+          GA_MEASUREMENT_ID: ${{ secrets.GA_MEASUREMENT_ID }}
+          GTM_ID: ${{ secrets.GTM_ID }}
+          METIS_APP_AWS_ACCESS_KEY_ID: ${{ secrets.METIS_APP_AWS_ACCESS_KEY_ID }}
+          MONGODB_URI: ${{ secrets.MONGODB_URI }}
+          PORTFOLIO_AWS_ACCESS_KEY_ID: ${{ secrets.PORTFOLIO_AWS_ACCESS_KEY_ID }}
+          PORTFOLIO_AWS_SECRET_KEY: ${{ secrets.PORTFOLIO_AWS_SECRET_KEY }}
+          UA_TRACKING_ID: ${{ secrets.UA_TRACKING_ID }}
+          WP_URL: ${{ secrets.WP_URL }}
+          WP_USER: ${{ secrets.WP_USER }}
+          WP_PW: ${{ secrets.WP_PW }}
